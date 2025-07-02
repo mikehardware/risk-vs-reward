@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Instructions - RISK vs. REWARD</title>
+  <link rel="stylesheet" href="css/gameshow.css">
+</head>
+<body>
+     <h1 class="game-name">
+      <span class="risk">RISK</span> vs. <span class="reward">REWARD</span>
+    </h1>
+    <div class="container">
+    <p class="game-description">
+      is the game show where the 
+      <span class="contestant">contestant</span> decides how much each question is worth. At the end, 
+      your winnings could range from a penny to a million dollars – it's all up to you!
+    </p>
+
+    <h2>How to Play</h2>
+    <ol>
+      <li>Select one of the sets of questions for your game by using the "Select Question Set" pulldown below.</li>
+      <li>Start by clicking the "Start Playing RISK vs. REWARD" button below to begin.</li>      
+      <li>Select a "Question Category" from the pulldown for your question. The question and possible answers will appear. Read the question and possible answers carefully.</li>
+      <li>Click and drag the 'RISK vs. REWARD' slider to adjust your question's values and see your updated potential winnings. Aim high, but be careful — the greater the REWARD, the greater the RISK!</li>
+      <li>Use the arrow keys for finer slider control. (Up/Right increases values, Down/Left decreases values.)</li>
+      <li>Select your answer by clicking on the circle next to the answer you want to choose.</li>
+      <li>Select the "Lock in Answer" button to reveal the results.</li>
+      <li>You have only 120 seconds to use the slider to set your values, answer the question, and lock in your answer. If the timer expires, whatever you had selected is used.</li>
+      <li>After seeing the results, you can "Go to Next Question" or "Use the Do-Over" (available for the first six questions to try again).</li>
+      <li>At the end of the 12 questions, the final results will be displayed, showing your winnings. (Sorry, this is for fun only, there are no real prizes!)</li>
+      <li>Ready for another round? Click 'Start New Game' to return here and play again!</li>
+    </ol>
+
+    <!-- Set Selection -->
+    <label for="question-set">Select Question Set:</label>
+    <select id="question-set">
+      <option value="Set 1">Set 1</option>
+      <option value="Set 2">Set 2</option>
+      <option value="Set 3">Set 3</option>
+      <option value="Set 4">Set 4</option>
+      <option value="Set 5">Set 5</option>
+      <option value="Set 6 Easier">Set 6 Easier</option>
+      <option value="Set 7 Easier">Set 7 Easier</option>
+      <option value="Set 8 Easier">Set 8 Easier</option>
+    </select>
+
+    <div>
+      <button id="start-game">Start Playing RISK vs. REWARD</button>
+      <button id="view-pitch">View the Pitch</button>
+    </div>
+  </div>
+
+  <script src="/js/gameInstructions.js"></script>
+
+  <script>
+    // When the game page is loaded, set the background color to match the first question's color
+    document.body.style.backgroundColor = '#87ceeb';  // This is the color that matches the first question's background
+    document.body.style.color = '#000';  // Adjust text color for readability (black text)
+  </script>
+  
+</body>
+</html>

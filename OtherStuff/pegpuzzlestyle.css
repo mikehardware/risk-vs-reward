@@ -1,0 +1,66 @@
+body {
+  background: #fef9f1;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+h1 {
+  margin-top: 20px;
+  color: #222;
+}
+
+.instructions {
+  margin: 10px auto;
+  font-size: 15px;
+  width: 75%;
+  color: #333;
+  line-height: 1.5;
+}
+
+.controls {
+  margin: 15px 0;
+}
+#board {
+  position: relative;
+  width: 400px;
+  height: 360px;
+  margin: 20px auto;
+}
+
+.hole {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ddd;
+  border: 2px solid #999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #444;
+  transition: box-shadow 0.2s;
+  user-select: none;
+}
+
+.peg {
+  background: #c0392b;
+  color: white;
+}
+
+.hole.selected {
+  box-shadow: 0 0 0 3px #2980b9;
+}
+
+.hole.valid-target {
+  box-shadow: 0 0 0 3px #27ae60;
+}
+
+#message {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #333;
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eddie Lawhorn</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    header {
+      background-color: #2b6cb0; /* Blue accent */
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    nav {
+      background-color: #4a90e2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0.5rem 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0.5rem 1rem;
+      font-weight: bold;
+      display: inline-block; /* Ensures all items follow the same layout */
+      vertical-align: middle; /* Aligns text vertically in the menu bar */
+      padding: 0.5rem 1rem; /* Matches spacing for consistency */
+   }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      display: block; /* turn off flex for this section */
+      padding-top: 20px;
+    }
+
+    .author-photo {
+      width: 200px;
+      height: auto;
+  float: left;
+  margin: 10px 20px 20px 10px; /* top, right, bottom, left */
+  border-radius: 8px;
+  border: 2px solid #444;
+}
+
+.bio {
+  padding-right: 20px; /* Adds space between text and right edge */
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #777;
+}
+  
+/* Style for the dropdown button */
+.dropdown {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dropbtn {
+  background-color: transparent;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  display: inline-block; /* Ensures all items follow the same layout */
+  vertical-align: middle; /* Aligns text vertically in the menu bar */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 8px 12px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+  <header>Eddie Lawhorn</header>
+  <div id="menu-placeholder"></div>
+
+  <div class="container">
+    <img src="EddieLawhorn.jpeg" alt="Photo of Eddie Lawhorn" class="author-photo" />
+    <div class="bio">
+      <h2>Welcome!</h2>
+      <p><strong>Hi, I'm Eddie Lawhorn</strong> — a self-described "professional nerd" and aspiring writer based in Huntsville, Alabama. I've written a mystery novel titled <em>Mike Hardware, Private Eye: The Case of the Vexatious Executive</em>.</p>
+      <p>Along the way, I’ve had a few quirky adventures: I won the <strong>Detective</strong> category of the Bulwer-Lytton Fiction Contest in 1990, and the <strong>Children’s Literature</strong> category the following year. That sounds great until you realize that contest is to find the worst possible opening sentence for a hypothetical novel, making me officially one of the worst writers on the planet. I’ve also competed in the <strong>O. Henry Pun-Off World Championship</strong>, and I once walked away with <strong>$50,000</strong> on <strong>Who Wants to Be a Millionaire</strong>.</p>
+      <p>You can email me at <strong>eddie[dot]lawhorn<span style="display:none;">REMOVE</span>[dot]author[at]gmail[dot]com</strong></p>
+    </div>
+  </div>
+  <footer>
+    &copy; 2025 Eddie Lawhorn. All rights reserved.
+  </footer>
+
+  <script>
+    fetch('menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-placeholder').innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>

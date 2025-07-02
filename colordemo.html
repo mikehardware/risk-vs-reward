@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Change Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background-color 0.5s, color 0.5s, background-image 0.5s;
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .slider-container {
+      width: 80%;
+      margin-bottom: 1rem;
+    }
+
+    input[type=range] {
+      width: 100%;
+      appearance: none;
+      height: 12px;
+      border-radius: 6px;
+      background: #ccc;
+      outline: none;
+      transition: background 0.3s;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #000;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    #timer {
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="startBtn">Start Question</button>
+  <h1 id="valueDisplay">Reward: $533.67</h1>
+  <div class="slider-container">
+    <input type="range" min="0.01" max="1000000" step="0.01" value="533.67" id="rewardSlider">
+  </div>
+  <div id="timer">Countdown: 100</div>
+  <canvas id="confetti-canvas"></canvas>
+
+  <audio id="ding" src="https://actions.google.com/sounds/v1/cartoon/concussive_ding.ogg"></audio>
+  <audio id="buzzer" src="buzzer-or-wrong-answer-20582.mp3"></audio>
+  <audio id="tick" src="watch-ticking-69213.mp3"></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const slider = document.getElementById('rewardSlider');
+    const display = document.getElementById('valueDisplay');
+    const ding = document.getElementById('ding');
+    const buzzer = document.getElementById('buzzer');
+    const tick = document.getElementById('tick');
+    const timerDisplay = document.getElementById('timer');
+    const startBtn = document.getElementById('startBtn');
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+
+    let timeLeft = 100;
+    let countdown;
+
+    startBtn.addEventListener('click', () => {
+      timeLeft = 100;
+      timerDisplay.textContent = `Countdown: ${timeLeft}`;
+
+      clearInterval(countdown);
+      tick.pause();
+      tick.currentTime = 0;
+
+      countdown = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Countdown: ${timeLeft}`;
+
+        if (timeLeft === 30) {
+          tick.volume = 0.3;
+          tick.loop = true;
+          tick.play().catch(() => {});
+        } else if (timeLeft === 10) {
+          tick.volume = 0.7;
+        } else if (timeLeft === 0) {
+          clearInterval(countdown);
+          timerDisplay.textContent = "TIME'S UP!";
+          tick.pause();
+          tick.currentTime = 0;
+          buzzer.play();
+        }
+      }, 1000);
+    });
+
+    slider.addEventListener('input', () => {
+      const value = parseFloat(slider.value);
+      display.textContent = `Reward: $${value.toFixed(2)}`;
+
+      let bgColor = '#87ceeb';
+      let textColor = '#000';
+
+      if (value < 100) bgColor = '#001f3f';
+      else if (value < 533.67) bgColor = '#003366';
+      else if (value < 2000) bgColor = '#87ceeb';
+      else if (value < 10000) bgColor = '#7fffd4';
+      else if (value < 25000) bgColor = '#ffff66';
+      else if (value < 100000) bgColor = '#ff9933';
+      else if (value < 400000) bgColor = '#ff3300';
+      else if (value < 999999) bgColor = '#b22222';
+      else {
+        bgColor = 'url("9d28fe21thumbnail.jpeg.webp")';
+        document.body.style.backgroundImage = bgColor;
+        document.body.style.backgroundColor = '';
+        document.body.style.color = '#fff';
+        textColor = '#fff';
+        ding.play();
+        confetti({
+          particleCount: 300,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#ffd700', '#ffffff', '#ff8c00']
+        });
+        return;
+      }
+
+      document.body.style.backgroundColor = bgColor;
+      document.body.style.backgroundImage = '';
+
+      if (value >= 100 && value <= 25000) {
+            textColor = '#000';
+      } else {
+        textColor = '#fff';
+      }
+
+      document.body.style.color = textColor;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Input - Weight Control</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ffffff;
+      color: #333;
+    }
+    header, footer {
+      background-color: #2b6cb0;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 1.5rem;
+    }
+    h2 {
+      color: #2b6cb0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.4rem;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f4f8;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    .graph-placeholder {
+      border: 2px dashed #ccc;
+      padding: 1rem;
+      text-align: center;
+      color: #777;
+      font-style: italic;
+    }
+  </style>
+
+<!-- Add this inside the <head> of dailyinput.html -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+  <header>
+    Daily Input - Weight Control
+  </header>
+
+
+
+    
+  <!-- 🔽 Paste the Exercise Input Form here -->
+  <!-- [HTML snippet from previous message] -->
+  <div id="exercise-entry" class="exercise-section">
+    <div id="content">
+    <h2>Exercise Points Calculator</h2>
+    
+    <label for="exercise-date">Date:</label>
+    <input type="date" id="exercise-date" name="exercise-date" />
+  
+    <label for="distance">Distance:</label>
+    <input type="number" id="distance" step="0.01" /> <span id="distance-units">miles</span>
+  
+    <label for="minutes">Time – Minutes:</label>
+    <input type="number" id="minutes" min="0" />
+  
+    <label for="seconds">Time – Seconds:</label>
+    <input type="number" id="seconds" min="0" max="59" />
+  
+    <label for="incline">Incline (%):</label>
+    <select id="incline">
+      <script>
+        // Populate incline dropdown from 0 to 20 in 0.5 increments
+        for (let i = 0; i <= 40; i++) {
+          const val = (i * 0.5).toFixed(1);
+          document.write(`<option value="${val}">${val}</option>`);
+        }
+      </script>
+    </select>
+  
+    <label for="elevation">Elevation (feet):</label>
+    <input type="number" id="elevation" value="587" />
+  
+    <label for="gender">Gender:</label>
+    <select id="gender">
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+  
+    <label for="units">Units:</label>
+    <select id="units">
+      <option value="English">English (miles/MPH)</option>
+      <option value="Metric">Metric (km/KPH)</option>
+    </select>
+  
+    <br><br>
+    <button onclick="calculateExercisePoints()">Calculate Points</button>
+  
+    <h3>Final Exercise Points: <span id="final-points">—</span></h3>
+  
+    <!-- Optional debug section -->
+    <details>
+      <summary>Show Calculation Details</summary>
+      <p>Speed: <span id="debug-speed"></span> MPH/KPH</p>
+      <p>Base Points: <span id="debug-base"></span></p>
+      <p>Incline Multiplier: <span id="debug-incline-mult"></span></p>
+      <p>Elevation Multiplier: <span id="debug-elev-mult"></span></p>
+      <p>Adjusted Points: <span id="debug-final"></span></p>
+    </details>
+  </div>
+  
+    <!-- JavaScript goes at the bottom before </body> -->
+
+    <!-- Section 3: Graph Placeholder -->
+    <div class="section">
+      <h2>Progress Graphs</h2>
+      <h3>Exercise Points Over Time</h3>
+      <canvas id="exerciseGraph" width="800" height="400"></canvas>
+    </div>
+    <script>
+      // Example of loading exercise data
+      // Replace this with your actual loading logic
+      const exerciseData = JSON.parse(localStorage.getItem("exerciseData")) || [];
+    
+      // Extract labels and data
+      const labels = exerciseData.map(entry => entry.date); // e.g., "2025-04-09"
+      const dataPoints = exerciseData.map(entry => entry.points); // your computed points
+    
+      const ctx = document.getElementById('exerciseGraph').getContext('2d');
+    
+      const exerciseChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Exercise Points',
+            data: dataPoints,
+            borderWidth: 2,
+            fill: false,
+            tension: 0.3,
+            borderColor: '#0077cc',
+            pointBackgroundColor: '#0077cc'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Exercise Points'
+              }
+            }
+          }
+        }
+      });
+    </script>
+  </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Eddie Lawhorn. All rights reserved.
+  </footer>
+
+  <script>
+    function calculateExercisePoints() {
+      const distance = parseFloat(document.getElementById("distance").value);
+      const minutes = parseFloat(document.getElementById("minutes").value) || 0;
+      const seconds = parseFloat(document.getElementById("seconds").value) || 0;
+      const incline = parseFloat(document.getElementById("incline").value);
+      const elevation = parseFloat(document.getElementById("elevation").value);
+      const gender = document.getElementById("gender").value;
+      const units = document.getElementById("units").value;
+    
+      if (isNaN(distance) || (minutes === 0 && seconds === 0)) {
+        alert("Please enter a distance and time.");
+        return;
+      }
+    
+      // Convert time to hours
+      const totalHours = minutes / 60 + seconds / 3600;
+    
+      // Convert distance/speed if Metric
+      const unitFactor = units === "Metric" ? 0.621371 : 1;
+      const distMiles = distance * unitFactor;
+      const speedMPH = distMiles / totalHours;
+    
+      // Calculate Base Points
+      let basePoints = 0;
+      if (distMiles < 1.05) {
+        if (speedMPH < 3.5) {
+          basePoints = (400 * distMiles * speedMPH) / 441;
+        } else if (speedMPH < 7.5) {
+          basePoints = ((200 * distMiles * speedMPH) - (500 * distMiles)) / 63;
+        } else {
+          basePoints = (10 / 3) * ((distMiles * speedMPH) / 1.575);
+        }
+      } else {
+        if (speedMPH < 3.5) {
+          basePoints = (10 / 3) * ((speedMPH * (2 * distMiles - 1.1)) / 3.5);
+        } else if (speedMPH < 7.5) {
+          basePoints = ((10 / 3) * distMiles * speedMPH) - (5 * distMiles) - ((1 / 6) * speedMPH) - (37 / 12);
+        } else {
+          basePoints = ((20 / 9) * distMiles * speedMPH) + ((10 / 3) * distMiles) - ((1 / 9) * speedMPH) - (7 / 2);
+        }
+      }
+    
+      // Incline multiplier
+      const inclineTable = {
+        0.0: 1.0000, 0.5: 1.0100, 1.0: 1.0200, 1.5: 1.0300, 2.0: 1.0400,
+        2.5: 1.0500, 3.0: 1.0600, 3.5: 1.0700, 4.0: 1.0800, 4.5: 1.0900,
+        5.0: 1.1000, 5.5: 1.1300, 6.0: 1.1600, 6.5: 1.1900, 7.0: 1.2200,
+        7.5: 1.2500, 8.0: 1.2800, 8.5: 1.3100, 9.0: 1.3400, 9.5: 1.3700,
+        10.0: 1.4000, 10.5: 1.4600, 11.0: 1.5200, 11.5: 1.5800, 12.0: 1.6400,
+        12.5: 1.7000, 13.0: 1.7600, 13.5: 1.8200, 14.0: 1.8800, 14.5: 1.9400,
+        15.0: 2.0000, 15.5: 2.1000, 16.0: 2.2000, 16.5: 2.3000, 17.0: 2.4000,
+        17.5: 2.5000, 18.0: 2.6000, 18.5: 2.7000, 19.0: 2.8000, 19.5: 2.9000,
+        20.0: 3.0000
+      };
+      const inclineMult = inclineTable[incline] || 1.0;
+    
+      // Elevation multiplier
+      const elevationBaseline = 13.3017123288;
+      const elevationSlope = -0.0006849315;
+      const elevationIntercept = 13.3017123288;
+      const M3 = (elevation * elevationSlope) + elevationIntercept;
+      const elevationMult = 1 + ((elevationBaseline - M3) / elevationBaseline);
+    
+      // Final calculation
+      let adjustedPoints = basePoints * inclineMult * elevationMult;
+    
+      if (gender === "Female") {
+        adjustedPoints *= 1.25;
+      }
+    
+      // Update output
+      document.getElementById("final-points").innerText = adjustedPoints.toFixed(4);
+      document.getElementById("debug-speed").innerText = speedMPH.toFixed(4);
+      document.getElementById("debug-base").innerText = basePoints.toFixed(4);
+      document.getElementById("debug-incline-mult").innerText = inclineMult.toFixed(4);
+      document.getElementById("debug-elev-mult").innerText = elevationMult.toFixed(10);
+      document.getElementById("debug-final").innerText = adjustedPoints.toFixed(4);
+    }
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let weightData = [];
+//let exerciseData = [];
+
+function saveToLocal() {
+  localStorage.setItem("trackerData", JSON.stringify({
+    weights: weightData,
+    exercises: exerciseData
+  }));
+}
+
+function calculateMovingAverage(data, days) {
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    let total = 0;
+    let count = 0;
+
+    for (let j = i; j >= 0 && count < days; j--) {
+      const currentDate = new Date(data[i].date);
+      const compareDate = new Date(data[j].date);
+      const diffDays = (currentDate - compareDate) / (1000 * 60 * 60 * 24);
+
+      if (diffDays <= days - 1) {
+        total += data[j].weight;
+        count++;
+      }
+    }
+
+    result.push(count > 0 ? (total / count) : null);
+  }
+
+  return result;
+}
+
+function submitWeight() {
+  const weightDate = document.getElementById("weight-date").value;
+  const weight = parseFloat(document.getElementById("weight").value);
+  const notes = document.getElementById("weight-notes").value;
+
+  if (!weightDate || isNaN(weight)) {
+    alert("Please enter both a date and a valid weight.");
+    return;
+  }
+
+  const existing = weightData.find(w => w.date === weightDate);
+  if (existing) {
+    existing.weight = weight;
+    existing.notes = notes;
+  } else {
+    weightData.push({ date: weightDate, weight, notes });
+  }
+
+  weightData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  weightChart.data.labels = weightData.map(w => w.date);
+  weightChart.data.datasets[0].data = weightData.map(w => w.weight);
+  weightChart.data.datasets[1].data = calculateMovingAverage(weightData, 20);
+  weightChart.update();
+
+  saveToLocal();
+
+  const summary = `${weight} lbs on ${weightDate}` + (notes ? ` (${notes})` : '');
+  document.getElementById("weight-confirm").innerText = summary;
+}
+
+function calculateExercisePoints() {
+  const distance = parseFloat(document.getElementById("distance").value);
+  const minutes = parseFloat(document.getElementById("minutes").value) || 0;
+  const seconds = parseFloat(document.getElementById("seconds").value) || 0;
+  const incline = parseFloat(document.getElementById("incline").value);
+  const elevation = parseFloat(document.getElementById("elevation").value);
+  const gender = document.getElementById("gender").value;
+  const units = document.getElementById("units").value;
+
+  if (isNaN(distance) || (minutes === 0 && seconds === 0)) {
+    alert("Please enter a distance and time.");
+    return;
+  }
+
+  const totalHours = minutes / 60 + seconds / 3600;
+  const unitFactor = units === "Metric" ? 0.621371 : 1;
+  const distMiles = distance * unitFactor;
+  const speedMPH = distMiles / totalHours;
+
+  let basePoints = 0;
+  if (distMiles < 1.05) {
+    if (speedMPH < 3.5) {
+      basePoints = (400 * distMiles * speedMPH) / 441;
+    } else if (speedMPH < 7.5) {
+      basePoints = ((200 * distMiles * speedMPH) - (500 * distMiles)) / 63;
+    } else {
+      basePoints = (10 / 3) * ((distMiles * speedMPH) / 1.575);
+    }
+  } else {
+    if (speedMPH < 3.5) {
+      basePoints = (10 / 3) * ((speedMPH * (2 * distMiles - 1.1)) / 3.5);
+    } else if (speedMPH < 7.5) {
+      basePoints = ((10 / 3) * distMiles * speedMPH) - (5 * distMiles) - ((1 / 6) * speedMPH) - (37 / 12);
+    } else {
+      basePoints = ((20 / 9) * distMiles * speedMPH) + ((10 / 3) * distMiles) - ((1 / 9) * speedMPH) - (7 / 2);
+    }
+  }
+
+  const inclineTable = {
+    0.0: 1.0000, 0.5: 1.0100, 1.0: 1.0200, 1.5: 1.0300, 2.0: 1.0400,
+    2.5: 1.0500, 3.0: 1.0600, 3.5: 1.0700, 4.0: 1.0800, 4.5: 1.0900,
+    5.0: 1.1000, 5.5: 1.1300, 6.0: 1.1600, 6.5: 1.1900, 7.0: 1.2200,
+    7.5: 1.2500, 8.0: 1.2800, 8.5: 1.3100, 9.0: 1.3400, 9.5: 1.3700,
+    10.0: 1.4000, 10.5: 1.4600, 11.0: 1.5200, 11.5: 1.5800, 12.0: 1.6400,
+    12.5: 1.7000, 13.0: 1.7600, 13.5: 1.8200, 14.0: 1.8800, 14.5: 1.9400,
+    15.0: 2.0000, 15.5: 2.1000, 16.0: 2.2000, 16.5: 2.3000, 17.0: 2.4000,
+    17.5: 2.5000, 18.0: 2.6000, 18.5: 2.7000, 19.0: 2.8000, 19.5: 2.9000,
+    20.0: 3.0000
+  };
+  const inclineMult = inclineTable[incline] || 1.0;
+
+  const elevationBaseline = 13.3017123288;
+  const elevationSlope = -0.0006849315;
+  const elevationIntercept = 13.3017123288;
+  const M3 = (elevation * elevationSlope) + elevationIntercept;
+  const elevationMult = 1 + ((elevationBaseline - M3) / elevationBaseline);
+
+  let adjustedPoints = basePoints * inclineMult * elevationMult;
+  if (gender === "Female") {
+    adjustedPoints *= 1.25;
+  }
+
+  document.getElementById("final-points").innerText = adjustedPoints.toFixed(4);
+  document.getElementById("debug-speed").innerText = speedMPH.toFixed(4);
+  document.getElementById("debug-base").innerText = basePoints.toFixed(4);
+  document.getElementById("debug-incline-mult").innerText = inclineMult.toFixed(4);
+  document.getElementById("debug-elev-mult").innerText = elevationMult.toFixed(10);
+  document.getElementById("debug-final").innerText = adjustedPoints.toFixed(4);
+
+  // Save exercise entry
+  const exerciseDate = document.getElementById("exercise-date").value;
+  const entry = {
+    date: exerciseDate,
+    distance,
+    minutes,
+    seconds,
+    incline,
+    elevation,
+    gender,
+    units,
+    points: adjustedPoints
+  };
+
+  const found = exerciseData.find(e => e.date === exerciseDate);
+  if (found) {
+    Object.assign(found, entry);
+  } else {
+    exerciseData.push(entry);
+  }
+
+  saveToLocal();
+}
+
+const ctx = document.getElementById('weightChart').getContext('2d');
+const weightChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: 'Weight (lbs)',
+        data: [],
+        fill: false,
+        tension: 0.3,
+        borderColor: 'blue',
+        borderWidth: 2,
+        pointRadius: 4
+      },
+      {
+        label: '20-Day Moving Average',
+        data: [],
+        fill: false,
+        tension: 0.3,
+        borderColor: 'orange',
+        borderDash: [5, 5],
+        borderWidth: 2,
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { title: { display: true, text: 'Date' }},
+      y: { title: { display: true, text: 'Weight (lbs)' }, beginAtZero: false }
+    }
+  }
+});
+
+window.onload = function () {
+  const saved = JSON.parse(localStorage.getItem("trackerData"));
+  if (saved) {
+    weightData = saved.weights || [];
+    exerciseData = saved.exercises || [];
+
+    weightData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    weightChart.data.labels = weightData.map(w => w.date);
+    weightChart.data.datasets[0].data = weightData.map(w => w.weight);
+    weightChart.data.datasets[1].data = calculateMovingAverage(weightData, 20);
+    weightChart.update();
+  }
+};
+</script>
+</body>
+</html>

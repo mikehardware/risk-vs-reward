@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books - Eddie Lawhorn</title>
+  <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body>
+  <header>Eddie Lawhorn</header>
+  <div id="menu-placeholder"></div>
+
+  <div class="container">
+   <img src="BookCover.png" alt="Book Cover for Mike Hardware, P.I." class="book-cover-image" />
+   <div>
+    <h2><em>Mike Hardware, P.I. The Case of the Vexatious Executive</em></h2>
+    <h4>(Mystery Series)</h4>
+    <p>Shy, polite, and chronically insecure, Mike Hardware decides to reinvent himself as a private detective after being unceremoniously fired from his job. Never mind that he suffers from prosopagnosia — face blindness — which makes identifying suspects a bit... tricky.</p>
+    <p>Fortunately, Mike isn’t going it alone. He’s joined by Kaye Sparks, his sharply observant assistant with a knack for meticulous note-taking, and Mr. Diogi, Mike’s demanding partner with a nose for clues.</p>
+    <p>Their first case? Solve the murder of Mike’s former boss’s ex-husband. Things get even more complicated when the boss herself, the formidable Mrs. Perriman, becomes the prime suspect — and demands that Mike find the real killer, or else.</p>
+    <p>It’s a race against time (and one very vexatious executive) as Mike and his team dig through secrets, suspects, and surprises in their first big case.</p>
+    <p><em>Coming soon!</em></p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Eddie Lawhorn. All rights reserved.
+  </footer>
+
+  <script>
+    fetch('../menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-placeholder').innerHTML = data;
+      });
+  </script>
+
+  </body>
+</html>

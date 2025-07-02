@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Load Lodash from a CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RISK vs. REWARD</title>
+  <link rel="stylesheet" href="css/gameshow.css" />
+
+  <link rel="preload" as="image" href="images/empty-save-texture-room-light.jpg">
+
+</head>
+<body>
+  <div class="hidden">This text should be hidden</div>
+  <div class="container">
+    <h1 class="title game-name"><span class="risk">RISK</span><span class="vs"> vs. </span><span class="reward">REWARD</span></h1>
+    <div id="game-area">
+      <div id="category-select">
+        <label for="category"> </label>
+        <select id="category">
+          <option value="">-- Select a Category --</option>
+        </select>
+      </div>
+
+      <div id="question-box" class="hidden">
+        <div id="question-header">
+          <span id="question-number">Question: 1</span>
+          <span id="category-label">Category: TBD</span>
+        </div>
+
+        <div id="question-text">Question will appear here.</div>
+
+        <div id="answers">
+          <label><input type="radio" name="answer" value="A" /> A) <span id="choiceA"></span></label>
+          <label><input type="radio" name="answer" value="B" /> B) <span id="choiceB"></span></label>
+          <label><input type="radio" name="answer" value="C" /> C) <span id="choiceC"></span></label>
+          <label><input type="radio" name="answer" value="D" /> D) <span id="choiceD"></span></label>
+        </div>
+
+        <div id="slider-section">
+          <div class="slider-labels">
+            <span class="risk-label">–$<span id="slider-risk">0.00</span> RISK</span>
+            <span class="reward-label">REWARD $<span id="slider-reward">0.00</span></span>
+          </div>
+          <input
+            type="range"
+            id="riskSlider"
+            min="0"
+            max="30000"
+            value="0"
+            tabindex="0"
+          />
+        </div>
+
+        <!-- Timer Display -->
+        <div id="timer-container" class="hidden">
+        <p id="timer">Countdown: 100</p>  <!-- Timer will be updated here -->
+        </div>
+
+        <!-- Confetti Canvas -->
+        <canvas id="confetti-canvas"></canvas>
+
+        <div id="risk-reward-columns" class="outcome-container">
+          <div class="column risk-column" id="risk-column">
+            <h3><strong>If you miss...</strong></h3>
+            <p><span class="label">Current Bank:</span> <span id="risk-current-bank" class="money-align">$533.67</span></p>
+            <p><span class="label">Minus RISK:</span> <span id="risk-minus" class="money-align">–$0.00</span></p>
+            <p>
+            <strong><span class="label">New Bank:</span> 
+            <span id="risk-new" class="money-align">$533.67</span></strong>
+            </p>
+            <hr class="separator"> <!-- Adds the small gray bar -->
+            <p><span class="label">The Least You Can Win:</span> <span id="risk-least" class="money-align">$0.01</span></p>
+            <p><span class="label">The Most You Can Win:</span> <span id="risk-most" class="money-align">$215,443.47</span></p>
+          </div>
+          
+          <div class="column reward-column" id="reward-column">
+            <h3><strong>If you are correct...</strong></h3>
+            <p><span class="label">Current Bank:</span> <span id="reward-current-bank" class="money-align">$533.67</span></p>
+            <p><span class="label">Plus REWARD:</span> <span id="reward-plus" class="money-align">$0.00</span></p>
+            <p>
+            <strong><span class="label">New Bank:</span> 
+            <span id="reward-new" class="money-align">$533.67</span></strong>
+            </p>
+            <hr class="separator"> <!-- Adds the small gray bar -->
+            <p><span class="label">The Least You Can Win:</span> <span id="reward-least" class="money-align">$0.05</span></p>
+            <p><span class="label">The Most You Can Win:</span> <span id="reward-most" class="money-align">$1,000,000.00</span></p>
+          </div>
+        </div>
+        
+        <div id="result-box" class="hidden">
+        <p id="result-message"></p>
+    
+        <div class="button-container">
+           <button id="lock-button">Lock in Answer</button>
+           <button id="do-over-button">Use the Do-Over</button>
+           <button id="next-question">Go to the Next Question</button>
+           <button id="begin-new-game" style="display: none;">Start New Game</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticking Sound -->
+<audio id="tick" src="sounds/watch-ticking-69213.mp3" preload="auto"></audio>
+
+<!-- Buzzer Sound -->
+<audio id="buzzer" src="sounds/buzzer-or-wrong-answer-20582.mp3" preload="auto"></audio>
+
+<!-- Fanfare Sound -->
+<audio id="fanfare" src="sounds/fanfare.mp3" preload="auto"></audio>
+
+<!-- Include the script for confetti and timer -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script type="module" src="/js/gameshow.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      document.body.style.backgroundColor = '#87ceeb'; // Sets sky blue background when the page loads
+  });
+  
+</script>
+</body>
+</html>

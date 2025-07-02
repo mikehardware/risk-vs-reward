@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weight Control - Eddie Lawhorn</title>
+  <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body class="weight-page">
+  <header>Eddie Lawhorn</header>
+  <div id="menu-placeholder"></div>
+
+  <div class="container">
+    <h2>Weight Control</h2>
+    <p>Welcome! This section is home to my personal weight control system—a mix of tracking, motivation, and some unique twists I’ve developed over time. I’m keeping things private for now while I refine it, but eventually, I hope others might find it useful too.</p>
+
+    <div id="login-area" class="login-box">
+      <p><strong>Private Area – Login Required</strong></p>
+      <input type="password" id="password" placeholder="Enter password" />
+      <button onclick="checkPassword()">Log In</button>
+      <p id="login-error" style="color: red; display: none;">Incorrect password. Please try again.</p>
+    </div>
+
+    <div id="private-content" class="hidden">
+      <hr />
+      <h3>Early Draft – Read My Weight Control Writeup</h3>
+      <p>This is the beginning of a longer write-up I’m working on. When the time is right, I’ll share the full journey.</p>
+       </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Eddie Lawhorn. All rights reserved.
+  </footer>
+
+  <script>
+    function checkPassword() {
+      const correctPassword = "ETL-rt1box249"; // Replace with your actual password
+      const enteredPassword = document.getElementById("password").value;
+
+      if (enteredPassword === correctPassword) {
+        document.getElementById("login-area").style.display = "none";
+        document.getElementById("private-content").classList.remove("hidden");
+      } else {
+        document.getElementById("login-error").style.display = "block";
+      }
+    }
+  </script>
+
+  <script>
+    fetch('../menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-placeholder').innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>

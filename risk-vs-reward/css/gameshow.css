@@ -1,0 +1,484 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #87ceeb;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 20px;
+  display: block;
+  justify-content: center;
+  max-width: 750px; /* Adjust width to control layout */
+  margin: 0 auto; /* Centers the container */
+  text-align: left; /* Keeps paragraphs readable */
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5em;
+}
+
+/* Gray box for the "RISK vs. REWARD" title */
+.game-name {
+  margin: 15px auto !important; /* Adds space from the top */
+  background-color: #ddd !important; /* Gray box */
+  padding: 10px !important;
+  border-radius: 5px; /* Optional rounded corners */
+  text-align: center !important; /* Aligns text inside the box */
+  display: block !important; /* Ensures proper centering */
+  border: 2px solid #000 !important; /* Black border */
+  width: fit-content !important; /* Ensures it only takes up as much space as needed */
+  margin-bottom: 1px; /* Shrinks the gap */
+}
+
+/* Gray box for RISK and REWARD values */
+.risk-label, .reward-label {
+  background-color: #ddd; /* Light gray */
+  padding: 5px;
+  border-radius: 5px; /* Optional */
+  display: inline-block;
+  font-weight: bold; /* Keep the bold styling */
+  border: 2px solid #000; /* Black border */
+}
+
+/* RISK text with smudgy text-shadow */
+.risk {
+  color: red;
+  text-shadow: none; /* Soft shadow for readability */
+}
+
+/* REWARD text with smudgy text-shadow */
+.reward {
+  color: green;
+  text-shadow: none; /* Same smudgy effect */
+}
+
+#game-area .question, #game-area .answer {
+  text-align: left; /* Aligns text to the left */
+  margin: 0 20px; /* Optional: Adds some horizontal padding */
+}
+
+.vs {
+  color: black;
+  text-shadow: none;
+}
+
+#category-select {
+  text-align: center; /* Aligns internal text */
+  margin: 0 auto; /* Centers the element */
+  display: block; /* Ensures it can be centered */
+  margin-top: 20px; /* Keeps spacing consistent */
+  margin-bottom: 20px; /* Keeps spacing consistent */
+}
+
+#question-box {
+  background-color: transparent; /* Transparent background */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#question-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#question-number {
+  margin-right: 20px; /* Adds space after "Question: 1" */
+}
+
+#category-label {
+  margin-left: 0px; /* Optional: Adjusts space before "Category:" if needed */
+}
+
+#question-text {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+#riskSlider {
+  width: 100%;
+  max-width: 870px;  /* Prevents it from getting too long */
+  height: 1.5rem;
+  margin: 15px auto;
+  display: block;
+  cursor: pointer;
+}
+
+#answers label {
+  display: block;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+#slider-section {
+  margin: 20px 0;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+}
+
+/* Base slider styles */
+input[type=range] {
+  -webkit-appearance: none; /* Removes default styling in Chrome/Safari */
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* WebKit (Chrome, Safari) – wrapped to avoid Firefox errors */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+}
+
+/* Firefox */
+input[type=range]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #000;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+input[type=range]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+
+
+.button-container {
+  display: flex; /* Enables side-by-side layout */
+  justify-content: space-between; /* Adds equal spacing */
+  gap: 10px; /* Optional: Adds uniform spacing between buttons */
+  margin: 20px 0; /* Adds top and bottom margin for breathing room */
+  flex-wrap: wrap; /* Allows wrapping if needed */
+}
+
+.button-container button {
+  padding: 10px 20px; /* Adjusts button size for consistency */
+  border-radius: 5px; /* Optional: Rounded corners */
+  font-weight: bold; /* Makes text stand out */
+}
+
+/* Styling for RISK value numbers */
+.risk-label {
+  font-weight: bold;
+  color: red;
+  text-shadow: 0 0 20px #777777 !important; /* Smudgy shadow for improved readability */
+}
+
+/* Styling for REWARD value numbers */
+.reward-label {
+  font-weight: bold;
+  color: green;
+  text-shadow: 0 0 20px #777777 !important; /* Same effect for consistency */
+}
+
+.outcome-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 30px;
+}
+
+.column {
+  flex: 1;
+  padding: 10px;
+  background: #333;
+  border-radius: 8px;
+}
+
+.column p {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+}
+
+.money-right {
+  text-align: right; /* Aligns the text to the right side of the column */
+}
+
+.money-align {
+  text-align: right; /* Aligns dollar amounts to the right */
+  display: inline-block; /* Ensures proper inline alignment */
+  width: 100px; /* Adjust width for consistent alignment */
+}
+
+p strong {
+  display: flex;
+  justify-content: space-between; /* Ensures "New Bank:" stays left and the number aligns right */
+  width: 100%; /* Expands the container properly */
+}
+
+strong span.money-align {
+  text-align: right;
+  font-weight: bold; /* Keeps bold styling */
+  width: 100px; /* Ensures consistent spacing */
+}
+
+.label {
+  float: left; /* Keeps labels (e.g., "New Bank:") left-aligned */
+  margin-right: 10px; /* Adds spacing between the label and value */
+}
+
+.separator {
+  border: 0; /* Removes default borders */
+  border-top: 1px solid #000; /* Creates a thin, black line */
+  margin: 10px 0; /* Adds spacing above and below */
+  width: 100%; /* Ensures full width for the line */
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 1.1em;
+}
+
+.hidden {
+  display: none;
+}
+
+.risk {
+  font-weight: bold;
+  font-style: italic;
+  color: red;
+}
+
+.reward {
+  font-weight: bold;
+  font-style: italic;
+  color: green;
+}
+
+.contestant {
+  text-decoration: underline;
+}
+
+.game-description {
+  text-align: center;
+  margin-top: 0px;
+  font-size: 1.2em;
+}
+
+/* Timer and Confetti Styles */
+#timer-container {
+  display: flex;
+  font-size: 1.0rem;
+  font-weight: bold;
+  margin-top: 5px;
+  color: #fff; /* White text */
+  justify-content: center; /* Horizontally center */
+  align-items: center;    /* Vertically center (if needed) */
+  width: 100%;            /* Ensure it spans the full width */
+  margin: 0 auto;         /* Centering the container itself */
+  text-align: center;     /* Center-align the content inside */
+}
+
+#timer {
+  text-align: center;
+}
+
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Makes sure it doesn't block UI elements */
+  z-index: 9999;  /* Ensure it's above other content but behind the game */
+  display: none; /* Initially hidden */
+}
+
+#content {
+  padding-left: 20px; /* or margin-left */
+}
+
+#begin-new-game {
+    display: block;
+    margin-top: 20px; /* Ensures space between existing buttons */
+    text-align: center;
+    width: 200px;
+    height: 50px;
+    position: relative; /* Avoids floating elsewhere */
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button styling */
+.dropbtn {
+  background-color: inherit;
+  color: #000;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Make nav bar horizontal and clean */
+nav {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Style all nav links */
+nav a, .dropbtn {
+  color: #000;
+  text-decoration: none;
+  padding: 8px 12px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+#result-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Hide the dropdown items by default */
+.dropdown-content {
+  display: none;
+  opacity: 0;    /* Makes it invisible */
+  visibility: hidden; /* Ensures it doesn’t interfere with layout */
+  transition: opacity 0.3s ease; /* Smooth fade-in effect */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  min-width: 220px;
+  z-index: 1000;
+}
+
+/* Style dropdown links */
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+  color: #000;
+  text-decoration: none;
+}
+
+/* Hover style for dropdown links */
+.dropdown-content a:hover {
+  background-color: #eee;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: block; /* Makes it visible */
+  opacity: 1;     /* Fully visible */
+  visibility: visible; /* Ensures it shows up */
+}
+
+/* Background color classes */
+.bg-light-blue {
+  background-color: #87ceeb;
+}
+
+.bg-dark-blue {
+  background-color: #003366;
+}
+
+.bg-yellow {
+  background-color: #ffff66; /* A light, vibrant yellow */
+}
+
+.bg-red {
+  background-color: #b22222;
+}
+
+/* Text color classes */
+.text-black {
+  color: #000;
+}
+
+.text-white {
+  color: #fff;
+}
+
+/* Add these styles to your CSS file */
+/* Container for both columns */
+#risk-reward-columns {
+  display: flex;              /* Align columns side-by-side */
+  justify-content: space-between; /* Add spacing between columns */
+  width: 100%;                /* Ensure container spans the full width */
+}
+
+/* Risk column */
+.risk-column {
+  flex: 1;                    /* Equal width with reward column */
+  border: 2px solid #000;     /* Black border */
+  border-radius: 10px;        /* Rounded corners */
+  background-color: lightcoral; /* Light red for "risk" */
+  padding: 10px;              /* Add padding for aesthetics */
+  margin: 10px;               /* Adds spacing outside the border */
+  box-sizing: border-box;     /* Ensure padding and border don't affect layout */
+  opacity: 0;                 /* Hidden by default */
+  pointer-events: none;       /* Disable interactions when hidden */
+  transition: opacity 0.3s ease; /* Smooth fade-in/out effect */
+}
+
+/* Reward column */
+.reward-column {
+  flex: 1;                    /* Equal width with risk column */
+  border: 2px solid #000;     /* Black border */
+  border-radius: 10px;        /* Rounded corners */
+  background-color: lightgreen; /* Light green for "reward" */
+  padding: 10px;              /* Add padding for aesthetics */
+  margin: 10px;               /* Adds spacing outside the border */
+  box-sizing: border-box;     /* Ensure padding and border don't affect layout */
+  opacity: 0;                 /* Hidden by default */
+  pointer-events: none;       /* Disable interactions when hidden */
+  transition: opacity 0.3s ease; /* Smooth fade-in/out effect */
+}
+
+/* Default hidden state */
+.risk-column, .reward-column {
+  opacity: 0;                 /* Completely invisible */
+  pointer-events: none;       /* Prevent interactions */
+  transition: opacity 0.3s ease; /* Smooth fade-in/out effect */
+}
+
+/* Make visible when needed */
+.risk-column.visible, .reward-column.visible {
+  opacity: 1;                 /* Fully visible */
+  pointer-events: auto;       /* Enable interactions */
+}
+

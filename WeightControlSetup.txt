@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weight Control Setup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2a5d9f;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .inline {
+      display: flex;
+      gap: 10px;
+    }
+    .inline input {
+      flex: 1;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #2a5d9f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1c3e6e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weight Control - Setup</h1>
+  <form>
+    <label for="units">Units</label>
+    <select id="units" name="units">
+      <option value="english">English (pounds & miles)</option>
+      <option value="metric">Metric (kg & km)</option>
+    </select>
+
+    <label for="start-date">Starting Date</label>
+    <input type="date" id="start-date" name="start-date" />
+
+    <label for="start-weight">Starting Weight</label>
+    <input type="number" step="0.1" id="start-weight" name="start-weight" />
+
+    <label for="goal-weight">Goal Weight</label>
+    <input type="number" step="0.1" id="goal-weight" name="goal-weight" />
+
+    <label>Height</label>
+    <div class="inline">
+      <input type="number" id="height-feet" name="height-feet" placeholder="Feet" />
+      <input type="number" id="height-inches" name="height-inches" placeholder="Inches" />
+    </div>
+
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label for="birthdate">Birth Date</label>
+    <input type="date" id="birthdate" name="birthdate" />
+
+    <label for="hips">Hips (inches)</label>
+    <input type="number" step="0.1" id="hips" name="hips" />
+
+    <label for="waist">Waist (inches)</label>
+    <input type="number" step="0.1" id="waist" name="waist" />
+
+    <label for="elevation">Elevation (feet)</label>
+    <input type="number" id="elevation" name="elevation" />
+
+    <button type="submit">Save Setup Info</button>
+  </form>
+</body>
+</html>

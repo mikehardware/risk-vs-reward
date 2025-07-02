@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Peg Puzzle</title>
+  <link rel="stylesheet" href="pegpuzzlestyle.css" />
+</head>
+<body>
+  <h1>Peg Puzzle</h1>
+  <div class="instructions">
+    <strong>How to Play:</strong><br/>
+    Click a red peg to select it. If that peg can jump, valid destination holes will highlight in green. Click a green hole to perform the jump. Keep jumping until no valid moves remain. Try to finish with just one peg!
+  </div>
+  <div class="controls">
+    <label for="start-hole">Empty Starting Hole:</label>
+    <select id="start-hole"></select>
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="resetGame()">Restart</button>
+  </div>
+  <div id="board"></div>
+  <div id="message"></div>
+  <script src="pegpuzzlescript.js"></script>
+</body>
+</html>

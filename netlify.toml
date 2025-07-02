@@ -1,0 +1,3 @@
+[build]
+  publish = "."                      # Serve from current folder
+  functions = "netlify/functions"    # Point to your backend logic

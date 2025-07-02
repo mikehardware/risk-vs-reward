@@ -1,0 +1,289 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #87ceeb; /* Sky blue for consistency */
+  color: #333;
+}
+
+header {
+  background-color: #2b6cb0; /* Blue accent */
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+nav {
+  background-color: #4a90e2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0.5rem 1rem;
+  font-weight: bold;
+  display: inline-block; /* Ensures all items follow the same layout */
+  vertical-align: middle; /* Aligns text vertically in the menu bar */
+  padding: 0.5rem 1rem; /* Matches spacing for consistency */
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: flex; /* Use flexbox for side-by-side layout */
+  align-items: flex-start; /* Align items at the top */
+  gap: 20px; /* Add spacing between the image and text */
+  max-width: 1200px; /* Optional: Limit the container width */
+  margin: 0 auto; /* Center the container on the page */
+  padding: 20px; /* Add space around the container */
+}
+
+.container > img {
+  flex-shrink: 0; /* Prevents the image from resizing */
+}
+  
+.container > div {
+  flex-grow: 1; /* Ensures the text takes up the remaining space */
+  display: block; /* Ensures the text flows vertically */
+}
+
+.blog-page .container {
+    display: block; /* Ensures vertical stacking for blog posts */
+    padding: 20px;
+    max-width: 800px; /* Optional: Limit width for readability */
+    margin: 0 auto;
+  }
+  
+  .post {
+    margin-bottom: 20px; /* Adds spacing between blog posts */
+  }
+
+  .weight-page .container {
+    display: block; /* Ensures vertical stacking for Weight Control page */
+    padding: 20px; /* Adds space inside the container */
+    max-width: 800px; /* Optional: Limits width for readability */
+    margin: 0 auto; /* Centers the container on the page */
+  }
+  
+  .login-box {
+    margin-bottom: 20px; /* Adds spacing below the login box */
+  }
+  
+  .hidden {
+    margin-top: 20px; /* Adds spacing above hidden content */
+  } 
+  
+.book-cover-image {
+  width: 200px; /* Adjust width for consistency */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px; /* Optional: Rounded corners */
+  border: 2px solid #444; /* Optional: Add a border for styling */
+}
+
+.author-photo {
+  width: 200px;
+  height: auto;
+float: left;
+margin: 10px 20px 20px 10px; /* top, right, bottom, left */
+border-radius: 8px;
+border: 2px solid #444;
+}
+
+.bio {
+padding-right: 20px; /* Adds space between text and right edge */
+}
+
+@media (max-width: 768px) {
+.container {
+flex-direction: column;
+align-items: center;
+}
+}
+
+footer {
+text-align: center;
+padding: 1rem;
+font-size: 0.9rem;
+color: #777;
+}
+
+/* Style for the dropdown button */
+.dropdown {
+display: inline-block;
+vertical-align: middle;
+}
+
+.dropbtn {
+background-color: transparent;
+color: white;
+padding: 0.5rem 1rem;
+font-weight: bold;
+text-decoration: none;
+border: none;
+cursor: pointer;
+display: inline-block; /* Ensures all items follow the same layout */
+vertical-align: middle; /* Aligns text vertically in the menu bar */
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f1f1f1;
+min-width: 160px;
+box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+z-index: 1;
+}
+
+.dropdown-content a {
+color: black;
+padding: 8px 12px;
+text-decoration: none;
+display: block;
+}
+
+.dropdown-content a:hover {
+background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+.dropdown:hover .dropbtn {
+text-decoration: underline;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0.5rem 1rem;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0.5rem 1rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+#pitch-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: black;
+  background-color: #87ceeb;
+  padding: 10px 20px; /* Increased padding for better spacing */
+  border-bottom: 2px solid #000;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+#pitch-header .subheading {
+  margin-left: 20px; /* or try padding-left */
+  max-width: 95%;
+  text-align: left;
+  font-size: 1.4rem;
+  border-bottom: none !important; /* Remove bottom border */
+  padding-bottom: 0 !important; /* Remove bottom padding */
+}
+
+#pitch-header a {
+  color: white;
+}
+
+#pitch-header a:hover {
+  color: #f0f0f0; /* or whatever subtle hover contrast you like */
+}
+
+#pitch-header nav {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 5px 5px !important; /* vertical and horizontal spacing */
+  padding: 5px 0;
+}
+
+#pitch-header nav a {
+  color: white;
+  padding: 4px 8px;
+  display: inline-block;
+  font-weight: normal;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+#pitch-header nav a:hover {
+  color: #f0f0f0;
+  text-decoration: underline;
+}
+
+
+#pitch-content {
+  margin-top: 140px; /* Increased from 100px to ensure enough space */
+  padding-top: 20px; /* Additional spacing for fine-tuning */
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#floating-nav {
+  position: fixed;
+  left: 10px;
+  top: 120px; /* Adjust height if needed */
+  width: 123px; /* Ensures it doesn't take up too much space */
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensures it stays above other elements */
+}
+
+.section {
+  padding: 20px !important;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(20px); /* Slight downward shift */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth effect */
+  min-height: 300px; /* Ensures sections are tall enough */
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.section.visible {
+  opacity: 1; /* Fully visible */
+  transform: translateY(0); /* Moves to normal position */
+}
+
+#faq-development {
+  min-height: 300px; /* Ensures FAQ doesn't collapse */
+}
+
+a {
+  font-size: 18px; /* Bigger text */
+  font-weight: bold; /* Makes it stand out */
+}
+
+.view-link {
+  color: blue; 
+  text-decoration: underline;
+}
+
+.download-link {
+  color: darkred; 
+  font-weight: bold;
+}
+
+html {
+  scroll-padding-top: 140px; /* Matches the header height */
+}
