@@ -480,7 +480,10 @@ function resetForDoOver() {
   // Reset the bank value to the state before answering the question
   newBank = previousBankValue;  // previousBankValue stored when the question is first shown
   currentBank = previousBankValue;  // Reset currentBank to previousBankValue
-  cumulativeSliderTotal = cumulativeSliderTotal - tempSliderValue;  // Adjust cumulative total  
+  console.log("resetForDoOver - cumulativeSliderTotal:", cumulativeSliderTotal);
+  console.log("resetForDoOver - tempSliderValue:", tempSliderValue);
+  cumulativeSliderTotal = cumulativeSliderTotal - tempSliderValue;  // Adjust cumulative total 
+  console.log("resetForDoOver - cumulativeSliderTotal after adjustment:", cumulativeSliderTotal);  
   doOverUsed = true;
 
   // Reset the slider to the default position (min position, which is 0)
