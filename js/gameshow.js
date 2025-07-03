@@ -210,7 +210,7 @@ function updateBackgroundColor(value) {
   // 4) If you’re at-or-above the last stop, use the image and bail
   const topStop = colorStops[colorStops.length - 1];
   if (roundedValue >= topStop.value) {
-    document.body.style.backgroundImage = 'url("empty-save-texture-room-light.jpg")';
+    document.body.style.backgroundImage = 'url("images/empty-save-texture-room-light.jpg")';
     document.body.style.color = "#000";
     return;
   }
