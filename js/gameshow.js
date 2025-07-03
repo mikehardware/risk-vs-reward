@@ -637,6 +637,7 @@ lockButton.addEventListener("click", async () => {
     // Update global game state
     currentBank = newBank;
     cumulativeSliderTotal += lockedV;
+    tempSliderValue = lockedV;  // Store the current slider value for potential Do Over
 
     // Shut down inputs and timers
     clearInterval(countdown);
