@@ -791,26 +791,26 @@ async function updateSliderValues(sliderValue) {
     if (displayedBankAfterReward > displayedNewBankIfCorrect) correctedReward -= 0.01;
     else if (displayedBankAfterReward < displayedNewBankIfCorrect) correctedReward += 0.01;
 
-    document.getElementById('slider-risk').textContent = correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2 });
-    document.getElementById('risk-minus').textContent = `$${correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+    document.getElementById('slider-risk').textContent = correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  });
+    document.getElementById('risk-minus').textContent = `$${correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
 
-    document.getElementById('slider-reward').textContent = correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2 });
-    document.getElementById('reward-plus').textContent = `$${correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+    document.getElementById('slider-reward').textContent = correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  });
+    document.getElementById('reward-plus').textContent = `$${correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
 
-    document.getElementById('risk-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-    document.getElementById('reward-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-    document.getElementById('risk-new').textContent = `$${sliderData.newBankIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-    document.getElementById('reward-new').textContent = `$${sliderData.newBankIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+    document.getElementById('risk-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    document.getElementById('reward-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    document.getElementById('risk-new').textContent = `$${sliderData.newBankIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    document.getElementById('reward-new').textContent = `$${sliderData.newBankIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
 
     const riskLeast = document.getElementById('risk-least');
     const rewardLeast = document.getElementById('reward-least');
     const riskMost = document.getElementById('risk-most');
     const rewardMost = document.getElementById('reward-most');
 
-    riskLeast.textContent = `$${sliderData.leastIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-    rewardLeast.textContent = `$${sliderData.leastIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-    riskMost.textContent = `$${sliderData.mostIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
-    rewardMost.textContent = `$${sliderData.mostIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2 })}`;
+    riskLeast.textContent = `$${sliderData.leastIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    rewardLeast.textContent = `$${sliderData.leastIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    riskMost.textContent = `$${sliderData.mostIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    rewardMost.textContent = `$${sliderData.mostIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
 
     if (currentQuestionIndex + 1 === 12) {
       const rewardLeastLabel = rewardLeast?.parentElement?.querySelector('.label');
