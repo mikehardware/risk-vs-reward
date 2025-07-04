@@ -151,7 +151,6 @@ function initializeGame() {
 
 // Function to update the background color smoothly
 function updateBackgroundColor(value) {
-  console.log("updateBackgroundColor triggered");
   // 1) Your color stops
   const colorStops = [
     { value: 0.01, color: "#321525" },
@@ -238,11 +237,8 @@ function updateBackgroundColor(value) {
   }
 
   const timer = document.getElementById("timer-container");
-  console.log("timer:", timer);
-  console.log("textColor value:", textColor);
   if (timer) {
     timer.style.color = textColor;
-    console.log("Timer color set to:", textColor);
   }
 
   const rrCols = document.getElementById("risk-reward-columns");
@@ -345,17 +341,14 @@ function handleTimeUp() {
 
 // Helper function to reset and start the timer
 function resetAndStartTimer() {
-  console.log("resetAndStartTimer triggered");
+
 
   // Declare and initialize timerContainer first
   const timerContainer = document.getElementById("timer-container");
   timerContainer.style.display = 'block'; // Make the timer container visible
 
   timerDisplay.style.display = 'inline'; // Ensure timer text is visible
-  console.log("textColor value:", textColor);
   timerContainer.style.color = textColor; // Match timer's text color
-  console.log("resetAndStartTimer - Timer color set to:", textColor);
-
 
   timeLeft = 120; // Reset the time for each new question
   timerDisplay.textContent = `Countdown: ${timeLeft}`;
@@ -480,10 +473,7 @@ function resetForDoOver() {
   // Reset the bank value to the state before answering the question
   newBank = previousBankValue;  // previousBankValue stored when the question is first shown
   currentBank = previousBankValue;  // Reset currentBank to previousBankValue
-  console.log("resetForDoOver - cumulativeSliderTotal:", cumulativeSliderTotal);
-  console.log("resetForDoOver - tempSliderValue:", tempSliderValue);
   cumulativeSliderTotal = cumulativeSliderTotal - tempSliderValue;  // Adjust cumulative total 
-  console.log("resetForDoOver - cumulativeSliderTotal after adjustment:", cumulativeSliderTotal);  
   doOverUsed = true;
 
   // Reset the slider to the default position (min position, which is 0)
@@ -665,9 +655,7 @@ function fmtMoney(num) {
       document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);   //LINE 660
       document.getElementById("reward-plus").textContent = fmtMoney(displayedReward);
       document.getElementById("reward-new").textContent = fmtMoney(newBankIfCorrect);
-      console.log("🧪 leastIfCorrect raw:", leastIfCorrect);
       document.getElementById("reward-least").textContent = fmtMoney(leastIfCorrect);
-      console.log("🧪 mostIfCorrect raw:", mostIfCorrect);
       document.getElementById("reward-most").textContent = fmtMoney(mostIfCorrect);
       document.querySelector("#reward-column h3").textContent = "You’re right!";
       if (newBank >= 1_000_000 - 0.005) {
@@ -680,9 +668,7 @@ function fmtMoney(num) {
       document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
       document.getElementById("risk-minus").textContent = fmtMoney(displayedRisk);
       document.getElementById("risk-new").textContent = fmtMoney(newBankIfWrong);
-      console.log("🧪 leastIfWrong raw:", leastIfWrong);
       document.getElementById("risk-least").textContent = fmtMoney(leastIfWrong);
-      console.log("🧪 mostIfWrong raw:", mostIfWrong);
       document.getElementById("risk-most").textContent = fmtMoney(mostIfWrong);
       document.querySelector("#risk-column h3").textContent = "You missed…";
     }
@@ -775,7 +761,6 @@ async function updateSliderValues(sliderValue) {
     if (!response.ok) throw new Error("Function call failed");
 
     const sliderData = await response.json();
-    console.log("🧪 sliderData returned:", sliderData);
 
     const displayedRisk = Number(sliderData.risk.toFixed(2));    //LINE 770
     const displayedReward = Number(sliderData.reward.toFixed(2));
