@@ -143,7 +143,6 @@ exports.handler = async function(event) {
     }
 
     const data = JSON.parse(event.body);
-    console.log("✅ Parsed data:", data);
 
     const {
       sliderValue,
