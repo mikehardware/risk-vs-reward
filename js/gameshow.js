@@ -586,6 +586,7 @@ function enableNextQuestionButton() {
 
 }
 
+// This function is called when the "Lock in Answer" button is clicked
 lockButton.addEventListener("click", async () => {
   const slider = document.getElementById("riskSlider");
   const lockedV = Number(slider.value);
@@ -647,6 +648,13 @@ function fmtMoney(num) {
     maximumFractionDigits: 2
   });
 }
+
+    if (currentQuestionIndex + 1 === 12) {
+      const rewardLeastLabel = rewardLeast?.parentElement?.querySelector('.label');
+      const riskLeastLabel = riskLeast?.parentElement?.querySelector('.label');
+      if (rewardLeastLabel) rewardLeastLabel.textContent = "You Won:";
+      if (riskLeastLabel) riskLeastLabel.textContent = "You Won:";
+    }
 
     // Populate the result panel
     if (isCorrect) {
