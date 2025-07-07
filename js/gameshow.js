@@ -590,6 +590,7 @@ function enableNextQuestionButton() {
 lockButton.addEventListener("click", async () => {
   const slider = document.getElementById("riskSlider");
   const lockedV = Number(slider.value);
+  lockButton.disabled = true;
 
   try {
     // Call your backend to get the calculations
@@ -736,8 +737,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 2) Build your throttle/debounce wrappers *here*, using that helper
-  const throttledUpdateSliderValues = throttle(handleSliderValue, 200);
-  const debouncedUpdateSliderValues = debounce(handleSliderValue, 200);
+  const throttledUpdateSliderValues = throttle(handleSliderValue, 250);
+  const debouncedUpdateSliderValues = debounce(handleSliderValue, 250);
 
   // 3) Wire up *one* input listener that extracts the numeric value
   const riskSlider = document.getElementById("riskSlider");
