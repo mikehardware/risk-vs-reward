@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KTDWRMK38J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KTDWRMK38J');
+</script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Instructions - RISK vs. REWARD</title>
@@ -46,8 +56,12 @@
     </select>
 
     <div>
-      <button id="start-game">Start Playing RISK vs. REWARD</button>
-      <button id="view-pitch">View the Pitch</button>
+      <button id="start-game" onclick="gtag('event', 'start_game');">
+        Start Playing RISK vs. REWARD
+      </button>
+      <button id="view-pitch" onclick="gtag('event', 'view_pitch_info');">
+        View the Pitch
+      </button>
     </div>
   </div>
 

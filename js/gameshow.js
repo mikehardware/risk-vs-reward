@@ -655,13 +655,19 @@ function fmtMoney(num) {
       const riskLeastLabel = riskLeast?.parentElement?.querySelector('.label');
       if (rewardLeastLabel) rewardLeastLabel.textContent = "You Won:";
       if (riskLeastLabel) riskLeastLabel.textContent = "You Won:";
+
+      // Send final lock-in event to Google Analytics
+      gtag('event', 'final_lock_in', {
+        question_set: selectedSet,       // pulled from localStorage
+        earned_amount: newBank           // amount won
+      });
     }
 
     // Populate the result panel
     if (isCorrect) {
       document.getElementById("reward-column").classList.add("visible");
       document.getElementById("risk-column").classList.remove("visible");
-      document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);   //LINE 660
+      document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank); 
       document.getElementById("reward-plus").textContent = fmtMoney(displayedReward);
       document.getElementById("reward-new").textContent = fmtMoney(newBankIfCorrect);
       document.getElementById("reward-least").textContent = fmtMoney(leastIfCorrect);
