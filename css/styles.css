@@ -359,3 +359,7 @@ a.current {
   text-decoration: underline;
   color: #004f99;
 }
+
+.post-page .container {
+  display: block;
+}
