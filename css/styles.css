@@ -287,3 +287,75 @@ a {
 html {
   scroll-padding-top: 140px; /* Matches the header height */
 }
+
+.container {
+  display: flex;
+  gap: 2rem;
+}
+
+.sidebar-nav {
+  width: 250px;
+  padding: 1rem;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ccc;
+}
+
+.sidebar-nav a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sidebar-nav a:hover {
+  text-decoration: underline;
+  color: #0077cc;
+}
+
+.sidebar-nav summary {
+  font-weight: bold;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.sidebar-nav ul {
+  margin-left: 1rem;
+  list-style-type: disc;
+}
+
+.blog-index {
+  flex: 1;
+  padding: 1rem;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+a.current {
+  font-weight: bold;
+  color: #005fa3;
+}
+
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar-nav {
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  font-weight: bold;
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+  color: #004f99;
+}
