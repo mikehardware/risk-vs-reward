@@ -25,7 +25,7 @@ let selectedCategory = localStorage.getItem('selectedCategory') || ''; // Defaul
 let currentQuestion = null; // Declare globally
 
 // DOM Elements
-const categorySelect = document.getElementById("category"); // Uncomment this line
+//const categorySelect = document.getElementById("category"); // Uncomment this line
 
 let currentQuestionIndex = 0; // This tracks the index of the current question
 let risk;
