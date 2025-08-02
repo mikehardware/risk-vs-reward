@@ -67,7 +67,7 @@ categories.forEach(category => {
   // Optional styling using textColor
   button.style.color = textColor;
 
-  categorySelect.appendChild(button);
+  buttonContainer.appendChild(button); // ✅ Make sure it targets the inner container
 });
 
 const questionBox = document.getElementById("question-box");
