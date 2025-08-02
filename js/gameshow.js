@@ -534,9 +534,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize currentQuestionIndex to 0 (starting with the first question)
   const selectedSet = localStorage.getItem('selectedSet') || 'set1';
   const categories = questionSets[selectedSet].categories;
-  
+
   document.body.classList.add('bg-light-blue', 'text-black'); // Set the starting background and text color
-  //}
   // Retrieve the selected set from localStorage (default to 'set1' if not found)
 
   // Get the selected set of questions
@@ -552,35 +551,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // No need for dropdown setup or change event
 
-  });
+}); // 👈 This is the key: clean closure of the arrow function and the listener
 
 
-  // Event listener for the category selection
-  function handleCategorySelection(category) {
-    selectedCategory = category;
 
-    if (!selectedCategory) {
-      console.error("Category selection is empty!");
-      return;
-    }
+// Event listener for the category selection
+function handleCategorySelection(category) {
+  selectedCategory = category;
 
-    // Save the selected category to localStorage for persistence
-    localStorage.setItem('selectedCategory', selectedCategory);
+  if (!selectedCategory) {
+    console.error("Category selection is empty!");
+    return;
+  }
 
-    // Reset game states if needed (uncomment these lines if you want to reset gameplay)
-    // Reset text for the next question
-    document.getElementById('risk-column').querySelector('h3').textContent = "If you miss...";  // Reset to original
-    document.getElementById('reward-column').querySelector('h3').textContent = "If you are correct...";  // Reset to original
+  // Save the selected category to localStorage for persistence
+  localStorage.setItem('selectedCategory', selectedCategory);
 
-    // **Show game elements after category selection**
-    document.getElementById('question-box').style.display = 'block'; // Make the question box visible
-    document.getElementById('timer-container').style.display = 'block'; // Show the timer
-    document.getElementById('risk-column').classList.add('visible'); // Default to showing "If you miss..." box
-    document.getElementById('reward-column').classList.remove('visible'); // Ensure "If you are correct..." box is hidden
+  // Reset game states if needed (uncomment these lines if you want to reset gameplay)
+  // Reset text for the next question
+  document.getElementById('risk-column').querySelector('h3').textContent = "If you miss...";  // Reset to original
+  document.getElementById('reward-column').querySelector('h3').textContent = "If you are correct...";  // Reset to original
 
-    // Load the first question for the newly selected category
-    loadQuestion();
-  });
+  // **Show game elements after category selection**
+  document.getElementById('question-box').style.display = 'block'; // Make the question box visible
+  document.getElementById('timer-container').style.display = 'block'; // Show the timer
+  document.getElementById('risk-column').classList.add('visible'); // Default to showing "If you miss..." box
+  document.getElementById('reward-column').classList.remove('visible'); // Ensure "If you are correct..." box is hidden
+
+  // Load the first question for the newly selected category
+  loadQuestion();
+};
 
 
 // Function to show the next question button
@@ -654,15 +654,15 @@ lockButton.addEventListener("click", async () => {
 
     updateBackgroundColor(currentBank);
 
-function fmtMoney(num) {
-  const rounded = Math.round((+num + Number.EPSILON) * 100) / 100;
-  return rounded.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-}
+    function fmtMoney(num) {
+      const rounded = Math.round((+num + Number.EPSILON) * 100) / 100;
+      return rounded.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
 
     if (currentQuestionIndex + 1 === 12) {
       const rewardLeastLabel = rewardLeast?.parentElement?.querySelector('.label');
@@ -681,7 +681,7 @@ function fmtMoney(num) {
     if (isCorrect) {
       document.getElementById("reward-column").classList.add("visible");
       document.getElementById("risk-column").classList.remove("visible");
-      document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank); 
+      document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
       document.getElementById("reward-plus").textContent = fmtMoney(displayedReward);
       document.getElementById("reward-new").textContent = fmtMoney(newBankIfCorrect);
       document.getElementById("reward-least").textContent = fmtMoney(leastIfCorrect);
@@ -809,26 +809,26 @@ async function updateSliderValues(sliderValue) {
     if (displayedBankAfterReward > displayedNewBankIfCorrect) correctedReward -= 0.01;
     else if (displayedBankAfterReward < displayedNewBankIfCorrect) correctedReward += 0.01;
 
-    document.getElementById('slider-risk').textContent = correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  });
-    document.getElementById('risk-minus').textContent = `$${correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    document.getElementById('slider-risk').textContent = correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('risk-minus').textContent = `$${correctedRisk.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-    document.getElementById('slider-reward').textContent = correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  });
-    document.getElementById('reward-plus').textContent = `$${correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    document.getElementById('slider-reward').textContent = correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('reward-plus').textContent = `$${correctedReward.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-    document.getElementById('risk-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
-    document.getElementById('reward-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
-    document.getElementById('risk-new').textContent = `$${sliderData.newBankIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
-    document.getElementById('reward-new').textContent = `$${sliderData.newBankIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    document.getElementById('risk-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById('reward-current-bank').textContent = `$${displayedCurrentBank.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById('risk-new').textContent = `$${sliderData.newBankIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById('reward-new').textContent = `$${sliderData.newBankIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
     const riskLeast = document.getElementById('risk-least');
     const rewardLeast = document.getElementById('reward-least');
     const riskMost = document.getElementById('risk-most');
     const rewardMost = document.getElementById('reward-most');
 
-    riskLeast.textContent = `$${sliderData.leastIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
-    rewardLeast.textContent = `$${sliderData.leastIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
-    riskMost.textContent = `$${sliderData.mostIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
-    rewardMost.textContent = `$${sliderData.mostIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2  })}`;
+    riskLeast.textContent = `$${sliderData.leastIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    rewardLeast.textContent = `$${sliderData.leastIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    riskMost.textContent = `$${sliderData.mostIfWrong.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    rewardMost.textContent = `$${sliderData.mostIfCorrect.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
     if (currentQuestionIndex + 1 === 12) {
       const rewardLeastLabel = rewardLeast?.parentElement?.querySelector('.label');
