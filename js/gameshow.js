@@ -549,6 +549,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dynamically populate category buttons
   populateCategoryButtons(categories);
 
+  window.scrollTo({
+  top: 0,
+  behavior: 'smooth'
+});
+
   // No need for dropdown setup or change event
 
 }); // 👈 This is the key: clean closure of the arrow function and the listener
