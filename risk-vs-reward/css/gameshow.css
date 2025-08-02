@@ -88,10 +88,6 @@ body {
   margin-right: 20px; /* Adds space after "Question: 1" */
 }
 
-#category-label {
-  margin-left: 0px; /* Optional: Adjusts space before "Category:" if needed */
-}
-
 #question-text {
   font-size: 1.2em;
   margin-bottom: 15px;

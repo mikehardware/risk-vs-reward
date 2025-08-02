@@ -139,15 +139,14 @@ function interpolateColor(color1, color2, factor) {
 }
 
 function showCategoryButtons() {
-  const categoryButtonContainer = document.getElementById('category-select');
-  categoryButtonContainer.style.visibility = 'visible';
-  updateBackgroundColor(currentBank);
+  document.getElementById('category-select').style.display = 'block'; // Show buttons
+  document.getElementById('game-area').style.display = 'none'; // Hide entire game area
+  updateBackgroundColor(currentBank); // Optional: adjust theming
 }
 
-
 function hideCategoryButtons() {
-  const categoryButtonContainer = document.getElementById('category-select');
-  categoryButtonContainer.style.visibility = 'hidden';
+  document.getElementById('category-select').style.display = 'none'; // Hide buttons
+  document.getElementById('game-area').style.display = 'block'; // Reveal game play area
 }
 
 function initializeGame() {
@@ -563,6 +562,15 @@ function handleCategorySelection(category) {
     console.error("Category selection is empty!");
     return;
   }
+
+  // 🔄 Transition from category selection to game play
+  // 🧼 Hide category buttons and container
+  hideCategoryButtons(); // REPLACES: document.getElementById('category-select').style.display = 'none';
+  document.getElementById('game-area').classList.remove('hidden');
+
+  // Set the visible label
+  document.getElementById('category-label').textContent = `Category: ${category}`;
+
 
   // Save the selected category to localStorage for persistence
   localStorage.setItem('selectedCategory', selectedCategory);
