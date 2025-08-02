@@ -55,8 +55,8 @@ let lockedSliderValue = 0; // Default starting value
 const categories = questionSets[selectedSet].categories;
 let textColor = "black"; // You can use this when styling button text
 
-const categorySelect = document.getElementById("category-select");
-categorySelect.innerHTML = '<p>Choose a Category:</p>'; // Clear any old content
+const buttonContainer = document.getElementById("buttons-container");
+buttonContainer.innerHTML = ''; // Clears any previously injected buttons
 
 categories.forEach(category => {
   const button = document.createElement("button");
