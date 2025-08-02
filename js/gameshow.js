@@ -514,9 +514,10 @@ function resetForDoOver() {
 }
 
 function populateCategoryButtons(categories) {
-  const container = document.getElementById("category-select");
-  container.innerHTML = ""; // Clear any existing buttons
+  const container = document.getElementById("buttons-container");
+  buttonContainer.innerHTML = ""; // Clear any existing buttons
   container.style.visibility = 'visible'; // Show container
+  document.getElementById('category-select').style.visibility = 'visible';
 
   categories.forEach(category => {
     const button = document.createElement("button");
