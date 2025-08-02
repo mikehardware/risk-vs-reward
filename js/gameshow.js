@@ -581,7 +581,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load the first question for the newly selected category
     loadQuestion();
   });
-});
 
 
 // Function to show the next question button
