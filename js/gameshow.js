@@ -51,16 +51,25 @@ let tempSliderValue = 0;
 let cumulativePenaltyFactor = 0.0;
 let lockedSliderValue = 0; // Default starting value
 
-// Populate dropdown with categories from the selected question set
+// Populate category buttons from the selected question set
 const categories = questionSets[selectedSet].categories;
-let textColor = "black"; // Set the default color, e.g., "black"
+let textColor = "black"; // You can use this when styling button text
+
+const categorySelect = document.getElementById("category-select");
+categorySelect.innerHTML = '<p>Choose a Category:</p>'; // Clear any old content
 
 categories.forEach(category => {
-  const option = document.createElement("option");
-  option.value = category;
-  option.textContent = category;
-  categorySelect.appendChild(option);
+  const button = document.createElement("button");
+  button.classList.add("category-button");
+  button.dataset.category = category;
+  button.textContent = category;
+
+  // Optional styling using textColor
+  button.style.color = textColor;
+
+  categorySelect.appendChild(button);
 });
+
 const questionBox = document.getElementById("question-box");
 const questionNumber = document.getElementById("question-number");
 const categoryLabel = document.getElementById("category-label");
@@ -129,16 +138,16 @@ function interpolateColor(color1, color2, factor) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function showCategoryDropdown() {
-  const categoryDropdown = document.getElementById('category');
-  categoryDropdown.style.visibility = 'visible';
-  updateBackgroundColor(currentBank)
+function showCategoryButtons() {
+  const categoryButtonContainer = document.getElementById('category-select');
+  categoryButtonContainer.style.visibility = 'visible';
+  updateBackgroundColor(currentBank);
 }
 
 
-function hideCategoryDropdown() {
-  const categoryDropdown = document.getElementById('category');
-  categoryDropdown.style.visibility = 'hidden';
+function hideCategoryButtons() {
+  const categoryButtonContainer = document.getElementById('category-select');
+  categoryButtonContainer.style.visibility = 'hidden';
 }
 
 function initializeGame() {
@@ -322,15 +331,13 @@ function getQuestionsBySet(setNumber) {
 }
 
 function removeUsedCategory(category) {
-  const categoryDropdown = document.getElementById("category"); // Target the <select> element
-  const options = Array.from(categoryDropdown.options);
+  const buttons = document.querySelectorAll(".category-btn");
 
-  options.forEach(option => {
-    if (option.value === category) {
-      categoryDropdown.removeChild(option); // Remove the category from dropdown
+  buttons.forEach(button => {
+    if (button.textContent === category) {
+      button.remove();
     }
   });
-
 }
 
 function handleTimeUp() {
@@ -463,7 +470,7 @@ function loadQuestion() {
   // Remove the selected category from the Select Category pulldown
   removeUsedCategory(selectedCategory);
   // Hide the category dropdown once a category is selected
-  hideCategoryDropdown();
+  hideCategoryButtons();
 
   // Reset and start the timer
   resetAndStartTimer();
@@ -502,9 +509,23 @@ function resetForDoOver() {
   document.getElementById('reward-column').querySelector('h3').textContent = "If you are correct...";  // Reset to original
 
   // THIS WOULD NEED TO GO BACK AND SELECT A CATEGORY
-  showCategoryDropdown();  // Show the category dropdown again
+  showCategoryButtons();  // Show the category dropdown again
   initializeGame();  // Reinitialize the game state
 
+}
+
+function populateCategoryButtons(categories) {
+  const container = document.getElementById("category-select");
+  container.innerHTML = ""; // Clear any existing buttons
+  container.style.visibility = 'visible'; // Show container
+
+  categories.forEach(category => {
+    const button = document.createElement("button");
+    button.textContent = category;
+    button.className = "category-btn";
+    button.addEventListener("click", () => handleCategorySelection(category));
+    container.appendChild(button);
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -513,8 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize currentQuestionIndex to 0 (starting with the first question)
   const selectedSet = localStorage.getItem('selectedSet') || 'set1';
   const categories = questionSets[selectedSet].categories;
-  const categorySelect = document.getElementById("category");
-  document.body.className = ''; // Clear existing classes
+  
   document.body.classList.add('bg-light-blue', 'text-black'); // Set the starting background and text color
   //}
   // Retrieve the selected set from localStorage (default to 'set1' if not found)
@@ -522,27 +542,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get the selected set of questions
   questions = questionSets[selectedSet].questions;
 
-  // Clear the existing options in case the dropdown is populated
-  categorySelect.innerHTML = "";
+  const categoryContainer = document.getElementById("category-select");
 
-  // Add a default option to the dropdown
-  const defaultOption = document.createElement("option");
-  defaultOption.value = "";
-  defaultOption.textContent = "-- Select a Category --";
-  categorySelect.appendChild(defaultOption);
+  // Hide it by default just in case
+  // categoryContainer.style.visibility = 'hidden';
 
-  // Populate the category dropdown with the categories of the selected set
-  categories.forEach(category => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    categorySelect.appendChild(option);
+  // Dynamically populate category buttons
+  populateCategoryButtons(categories);
+
+  // No need for dropdown setup or change event
+
   });
 
 
   // Event listener for the category selection
-  categorySelect.addEventListener("change", () => {
-    selectedCategory = categorySelect.value; // Capture dropdown selection
+  function handleCategorySelection(category) {
+    selectedCategory = category;
 
     if (!selectedCategory) {
       console.error("Category selection is empty!");
@@ -715,7 +730,7 @@ document.getElementById('next-question').addEventListener('click', () => {
   // Reset text for the next question
   document.getElementById('risk-column').querySelector('h3').textContent = "If you miss...";  // Reset to original
   document.getElementById('reward-column').querySelector('h3').textContent = "If you are correct...";  // Reset to original
-  showCategoryDropdown();  // Show the category dropdown again
+  showCategoryButtons();  // Show the category dropdown again
   initializeGame();
 
 });
