@@ -557,10 +557,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // No need for dropdown setup or change event
 
-}); // 👈 This is the key: clean closure of the arrow function and the listener
-
-
-
 // Event listener for the category selection
 function handleCategorySelection(category) {
   selectedCategory = category;
