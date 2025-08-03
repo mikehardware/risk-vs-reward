@@ -139,9 +139,13 @@ function interpolateColor(color1, color2, factor) {
 }
 
 function showCategoryButtons() {
+  document.getElementById('category-prompt').style.color = textColor;
   document.getElementById('category-select').style.display = 'block'; // Show buttons
   document.getElementById('game-area').style.display = 'none'; // Hide entire game area
   updateBackgroundColor(currentBank); // Optional: adjust theming
+  window.scrollTo({
+  top: 0,
+  behavior: 'smooth'
 }
 
 function hideCategoryButtons() {
@@ -549,9 +553,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dynamically populate category buttons
   populateCategoryButtons(categories);
 
-  window.scrollTo({
-  top: 0,
-  behavior: 'smooth'
 });
 
   // No need for dropdown setup or change event
