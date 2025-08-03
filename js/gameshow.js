@@ -474,6 +474,10 @@ function loadQuestion() {
   removeUsedCategory(selectedCategory);
   // Hide the category dropdown once a category is selected
   hideCategoryButtons();
+  window.scrollTo({
+  top: 0,
+  behavior: 'smooth'}); // Smooth scroll to the top when showing category buttons
+
 
   // Reset and start the timer
   resetAndStartTimer();
