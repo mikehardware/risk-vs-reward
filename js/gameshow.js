@@ -523,9 +523,11 @@ function resetForDoOver() {
 
 function populateCategoryButtons(categories) {
   const container = document.getElementById("buttons-container");
-  buttonContainer.innerHTML = ""; // Clear any existing buttons
-  container.style.visibility = 'visible'; // Show container
+  container.innerHTML = ""; // Clear any existing buttons
+  container.style.visibility = 'visible';
   document.getElementById('category-select').style.visibility = 'visible';
+
+  const buttons = [];
 
   categories.forEach(category => {
     const button = document.createElement("button");
@@ -533,8 +535,22 @@ function populateCategoryButtons(categories) {
     button.className = "category-btn";
     button.addEventListener("click", () => handleCategorySelection(category));
     container.appendChild(button);
+    buttons.push(button); // Collect buttons to measure later
   });
-}
+  
+  // Calculate the widest button
+  let maxWidth = 0;
+  buttons.forEach(btn => {
+    btn.style.width = "auto"; // Reset first
+    const width = btn.offsetWidth;
+    if (width > maxWidth) maxWidth = width;
+  });
+
+  // Apply the widest width to all
+  buttons.forEach(btn => {
+    btn.style.width = `${maxWidth}px`;
+  });
+}  
 
 document.addEventListener("DOMContentLoaded", () => {
 
