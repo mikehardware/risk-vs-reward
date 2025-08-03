@@ -145,7 +145,7 @@ function showCategoryButtons() {
   updateBackgroundColor(currentBank); // Optional: adjust theming
   window.scrollTo({
   top: 0,
-  behavior: 'smooth'); // Smooth scroll to the top when showing category buttons
+  behavior: 'smooth'}); // Smooth scroll to the top when showing category buttons
 }
 
 function hideCategoryButtons() {
