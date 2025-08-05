@@ -478,6 +478,14 @@ nav a, .dropbtn {
   pointer-events: auto;       /* Enable interactions */
 }
 
+#buttons-container {
+  display: flex;
+  justify-content: center;     /* Center the buttons horizontally */
+  flex-wrap: wrap;             /* Allow buttons to wrap if needed */
+  gap: 8px;                    /* Space between buttons */
+  margin-top: 12px;            /* Space from "Select Your Category" text */
+}
+
 .category-btn {
   border-radius: 6px; /* Match other buttons */
   font-size: 0.9rem;
