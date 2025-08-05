@@ -480,8 +480,9 @@ nav a, .dropbtn {
 
 .category-btn {
   border-radius: 6px; /* Match other buttons */
-  font-size: 1rem;
-  padding: 10px 16px;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  margin: 4px;
   background-color: #e0e0e0;
   border: none;
   cursor: pointer;
