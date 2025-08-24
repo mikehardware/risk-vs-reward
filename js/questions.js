@@ -1166,7 +1166,7 @@ export const questionSets = {
           "correct": "B"
         },
         {
-          "question": "Which tree is known for producing acorns",
+          "question": "Which tree is known for producing acorns?",
           "category": "Nature",
           "answers": {
             "A": "Pine",
@@ -1217,6 +1217,312 @@ export const questionSets = {
             "B": "Hawaiian",
             "C": "Greek",
             "D": "Latin"
+          },
+          "correct": "A"
+        }
+        ]
+        
+    };
+          "Set 9 Music Themed": {
+        categories: [
+          "Album Covers", "Band Members", "Breakthrough Hits", "Collaborations", "Cover Songs", "Dance Tracks", 
+          "Genre Origins", "Iconic Performances", "Lyrics", "Music Videos", "One-Hit Wonders", 
+          "Stage Names", "Vocal Styles"
+        ],
+        questions: [
+        {
+          "question": "Which band's iconic album Abbey Road features the members walking across a zebra crossing?",
+          "category": "Album Covers",
+          "answers": {
+            "A": "The Beatles",
+            "B": "The Rolling Stones",
+            "C": "Pink Floyd",
+            "D": "Led Zeppelin"
+          },
+          "correct": "A"
+        },
+        {
+          "question": "Which member of The Who was the drummer known for his chaotic, energetic style?",
+          "category": "Band Members",
+          "answers": {
+            "A": "Roger Daltrey",
+            "B": "John Entwistle",
+            "C": "Keith Moon",
+            "D": "Pete Townshend"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "What song launched the career of Nirvana and became an anthem of the 1990s?",
+          "category": "Breakthrough Hits",
+          "answers": {
+            "A": "Come As You Are",
+            "B": "Smells Like Teen Spirit",
+            "C": "Lithium",
+            "D": "Heart-Shaped Box"
+          },
+          "correct": "B"
+        },
+        {
+          "question": "What artist collaborated with Daft Punk on the hit song Get Lucky?",
+          "category": "Collaborations",
+          "answers": {
+            "A": "Bruno Mars",
+            "B": "Justin Timberlake",
+            "C": "The Weeknd",
+            "D": "Pharrell Williams"
+          },
+          "correct": "D"
+        },
+        {
+          "question": "Which artist famously covered Hallelujah, originally written by Leonard Cohen?",
+          "category": "Cover Songs",
+          "answers": {
+            "A": "Bon Iver",
+            "B": "Ed Sheeran",
+            "C": "Jeff Buckley",
+            "D": "Sam Smith"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "Which 1977 disco hit begins with the lyrics: 'Whether you're a brother or whether you're a mother...'?",
+          "category": "Dance Tracks",
+          "answers": {
+            "A": "Stayin' Alive - Bee Gees",
+            "B": "Le Freak - Chic",
+            "C": "I Will Survive - Gloria Gaynor",
+            "D": "Dancing Queen - ABBA"
+          },
+          "correct": "A"
+        },
+        {
+          "question": "Which city is most associated with the birth of grunge music?",
+          "category": "Genre Origins",
+          "answers": {
+            "A": "Los Angeles",
+            "B": "Chicago",
+            "C": "Austin",
+            "D": "Seattle"
+          },
+          "correct": "D"
+        },
+        {
+          "question": "Who famously performed 'Purple Rain' in a downpour during the Super Bowl halftime show?",
+          "category": "Iconic Performances",
+          "answers": {
+            "A": "Bruno Mars",
+            "B": "Prince",
+            "C": "Bruce Springsteen",
+            "D": "U2"
+          },
+          "correct": "B"
+        },
+        {
+          "question": "Which song includes the lyric 'Is this the real life? Is this just fantasy?'",
+          "category": "Lyrics",
+          "answers": {
+            "A": "Bohemian Rhapsody - Queen",
+            "B": "Imagine - John Lennon",
+            "C": "Hotel California - Eagles",
+            "D": "Stairway to Heaven - Led Zeppelin"
+          },
+          "correct": "A"
+        },
+        {
+          "question": "Which artist's music video for Thriller featured zombies and groundbreaking choreography?",
+          "category": "Music Videos",
+          "answers": {
+            "A": "Madonna",
+            "B": "Prince",
+            "C": "Michael Jackson",
+            "D": "Janet Jackson"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "Which band had a massive hit with Take On Me in 1985?",
+          "category": "One-Hit Wonders",
+          "answers": {
+            "A": "Men Without Hats",
+            "B": "Soft Cell",
+            "C": "Dexys Midnight Runners",
+            "D": "a-ha"
+          },
+          "correct": "D"
+        },
+        {
+          "question": "Which artist's real name is Stefani Germanotta?",
+          "category": "Stage Names",
+          "answers": {
+            "A": "Katy Perry",
+            "B": "Lady Gaga",
+            "C": "Halsey",
+            "D": "Sia"
+          },
+          "correct": "B"
+        },
+        {
+          "question": "Which singer is known for her soulful voice and hits like 'Rolling in the Deep' and 'Hello'?",
+          "category": "Vocal Styles",
+          "answers": {
+            "A": "Amy Winehouse",
+            "B": "Alicia Keys",
+            "C": "Adele",
+            "D": "Florence Welch"
+          },
+          "correct": "C"
+        }
+        ]
+        
+    };
+          "Set 10 Pop Culture Themed": {
+        categories: [
+          "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies", "Movies Based on Books", 
+          "Movie Quotes", "Pop Music History", "Reality TV", "Sitcoms", "Streaming & TV", 
+          "Superheroes", "Toys & Games"
+        ],
+        questions: [
+        {
+          "question": "Which digital pet, popular in the late '90s, required constant attention or it would 'die'?",
+          "category": "90s Pop Culture",
+          "answers": {
+            "A": "Furby",
+            "B": "Nano Pet",
+            "C": "Tamagotchi",
+            "D": "Giga Pet"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "What long-running animated show features a character named Stewie Griffin?",
+          "category": "Animated TV",
+          "answers": {
+            "A": "Family Guy",
+            "B": "The Simpsons",
+            "C": "South Park",
+            "D": "Futurama"
+          },
+          "correct": "A"
+        },
+        {
+          "question": "Which actor famously jumped on Oprah Winfrey's couch during a 2005 interview?",
+          "category": "Celebrity Gossip",
+          "answers": {
+            "A": "Mel Gibson",
+            "B": "Tom Cruise",
+            "C": "Charlie Sheen",
+            "D": "Jim Carrey  "
+          },
+          "correct": "B"
+        },
+        {
+          "question": "Which designer is credited with popularizing the wrap dress in the 1970s?",
+          "category": "Fashion",
+          "answers": {
+            "A": "Vera Wang",
+            "B": "Donna Karan",
+            "C": "Carolina Herrera",
+            "D": "Diane von Furstenberg"
+          },
+          "correct": "D"
+        },
+        {
+          "question": "Which dystopian film series stars Jennifer Lawrence as Katniss Everdeen?",
+          "category": "Movies Based on Books",
+          "answers": {
+            "A": "Divergent",
+            "B": "The Hunger Games",
+            "C": "Maze Runner",
+            "D": "The Giver"
+          },
+          "correct": "B"
+        },
+        {
+          "question": "In which film would you hear the line, 'I feel the need... the need for speed'?",
+          "category": "Movie Quotes",
+          "answers": {
+            "A": "Top Gun",
+            "B": "Days of Thunder",
+            "C": "Fast & Furious",
+            "D": "Speed"
+          },
+          "correct": "A"
+        },
+        {
+          "question": "Who was the first artist to have a music video air on MTV in 1981?",
+          "category": "Pop Music History",
+          "answers": {
+            "A": "The Police",
+            "B": "Billy Joel",
+            "C": "Duran Duran",
+            "D": "The Buggles"
+          },
+          "correct": "D"
+        },
+        {
+          "question": "Which show helped launch the careers of Kelly Clarkson and Carrie Underwood?",
+          "category": "Reality TV",
+          "answers": {
+            "A": "The Voice",
+            "B": "American Idol",
+            "C": "America's Got Talent",
+            "D": "Popstars"
+          },
+          "correct": "B"
+        },
+        {
+          "question": "What is the name of the coffee shop the characters frequently visit in Friends?",
+          "category": "Sitcoms",
+          "answers": {
+            "A": "Central Brew",
+            "B": "Java Junction",
+            "C": "Central Perk",
+            "D": "Bean There"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "Which Netflix series features a group of kids battling supernatural forces in the fictional town of Hawkins, Indiana?",
+          "category": "Streaming and TV",
+          "answers": {
+            "A": "Locke & Key",
+            "B": "The Umbrella Academy",
+            "C": "Stranger Things",
+            "D": "Dark"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "Which Marvel superhero is also known as the 'Merc with a Mouth'?",
+          "category": "Superheroes",
+          "answers": {
+            "A": "Iron Man",
+            "B": "Spider-Man",
+            "C": "Deadpool",
+            "D": "Star-Lord"
+          },
+          "correct": "C"
+        },
+        {
+          "question": "What classic toy was marketed with the slogan 'You can tell it's Mattel - it's swell'?",
+          "category": "Toys & Games",
+          "answers": {
+            "A": "Slinky",
+            "B": "Barbie",
+            "C": "Etch A Sketch",
+            "D": "G.I. Joe"
+          },
+          "correct": "B"
+        },
+        {
+          "question": "Which video game franchise features characters named Master Chief and Cortana?",
+          "category": "Video Games",
+          "answers": {
+            "A": "Halo",
+            "B": "Gears of War",
+            "C": "Destiny",
+            "D": "Call of Duty"
           },
           "correct": "A"
         }
