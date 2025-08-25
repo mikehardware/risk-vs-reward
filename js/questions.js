@@ -1376,9 +1376,9 @@ export const questionSets = {
       },
         "Set 10 Pop Culture Themed": {
         categories: [
-          "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies", "Movies Based on Books", 
+          "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies Based on Books", 
           "Movie Quotes", "Pop Music History", "Reality TV", "Sitcoms", "Streaming & TV", 
-          "Superheroes", "Toys & Games"
+          "Superheroes", "Toys & Games", "Video Games"
         ],
         questions: [
         {
