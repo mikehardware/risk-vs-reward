@@ -1222,7 +1222,7 @@ export const questionSets = {
         }
         ]
         
-    };
+    },
           "Set 9 Music Themed": {
         categories: [
           "Album Covers", "Band Members", "Breakthrough Hits", "Collaborations", "Cover Songs", "Dance Tracks", 
@@ -1375,7 +1375,7 @@ export const questionSets = {
         }
         ]
         
-    };
+    },
           "Set 10 Pop Culture Themed": {
         categories: [
           "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies", "Movies Based on Books", 
