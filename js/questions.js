@@ -1482,7 +1482,7 @@ export const questionSets = {
         },
         {
           "question": "Which Netflix series features a group of kids battling supernatural forces in the fictional town of Hawkins, Indiana?",
-          "category": "Streaming and TV",
+          "category": "Streaming & TV",
           "answers": {
             "A": "Locke & Key",
             "B": "The Umbrella Academy",
