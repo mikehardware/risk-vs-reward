@@ -1221,9 +1221,8 @@ export const questionSets = {
           "correct": "A"
         }
         ]
-        
     },
-          "Set 9 Music Themed": {
+      "Set 9 Music Themed": {
         categories: [
           "Album Covers", "Band Members", "Breakthrough Hits", "Collaborations", "Cover Songs", "Dance Tracks", 
           "Genre Origins", "Iconic Performances", "Lyrics", "Music Videos", "One-Hit Wonders", 
@@ -1373,10 +1372,9 @@ export const questionSets = {
           },
           "correct": "C"
         }
-        ]
-        
-    },
-          "Set 10 Pop Culture Themed": {
+        ] 
+      },
+        "Set 10 Pop Culture Themed": {
         categories: [
           "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies", "Movies Based on Books", 
           "Movie Quotes", "Pop Music History", "Reality TV", "Sitcoms", "Streaming & TV", 
