@@ -1,6 +1,27 @@
 // Define the constants for RISK and REWARD calculations
-import throttle from 'https://cdn.skypack.dev/lodash/throttle';
-import debounce from 'https://cdn.skypack.dev/lodash/debounce';
+//import throttle from 'https://cdn.skypack.dev/lodash/throttle';
+//import debounce from 'https://cdn.skypack.dev/lodash/debounce';
+
+// Simple throttle function
+function throttle (func, wait) {
+  let lastTime = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastTime >= wait) {
+      lastTime = now;
+      func.apply(this, args);
+    }
+  };
+}
+
+// Simple debounce function
+function debounce (func, wait) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
 
 const maxRewardPct = 0.873817422860;
 const minRewardPct = 0.596298274140;
