@@ -758,7 +758,7 @@ export const questionSets = {
             "D": "Call of Duty"
           },
           "correct": "A"
-        }
+        },
     "Set 6 Harder": {
         categories: [
           "Animals", "Business", "Food", "History", "Landmarks", "Math", 
