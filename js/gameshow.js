@@ -420,6 +420,10 @@ function loadQuestion() {
   doOverButton.style.display = 'none';
   document.getElementById("result-box").classList.remove("hidden");
 
+  document.getElementById("result-message").textContent = "";
+  document.getElementById("result-box").classList.add("hidden");
+
+
   if (!selectedCategory) {
     console.error("No category selected!");
     return;
@@ -752,6 +756,10 @@ lockButton.addEventListener("click", async () => {
       document.getElementById("risk-least").textContent = fmtMoney(leastIfWrong);
       document.getElementById("risk-most").textContent = fmtMoney(mostIfWrong);
       document.querySelector("#risk-column h3").textContent = "You missed…";
+      // Show the correct answer in the result box
+      document.getElementById("result-message").textContent =
+      `The correct answer is ${currentQuestion.correct}';
+      document.getElementById("result-box").classList.remove("hidden");
     }
 
     enableDoOver(isCorrect, currentQuestionIndex);
