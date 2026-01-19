@@ -1528,7 +1528,4 @@ export const questionSets = {
   }
 
 
-}
-
-
-  };
+};
