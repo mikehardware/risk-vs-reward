@@ -1,5 +1,5 @@
 export const questionSets = {
-     "Set 1 Easier": {
+     "Set 1": {
         categories: [
           "American History", "Art & Design", "Food & Drink", "Geography", "Literature", "Math & Numbers", 
           "Movies", "Music", "Mythology", "Science", "Sports", 
@@ -152,7 +152,7 @@ export const questionSets = {
         ]
         
     },
-      "Set 2 Easier": {
+      "Set 2": {
         categories: [
           "Animals", "Architecture", "Board Games", "Business & Brands", "Chemistry", "Fashion", 
           "Holidays", "Language", "Music", "Religion", "Space", 
@@ -305,7 +305,7 @@ export const questionSets = {
         ]
         
     },
-      "Set 3 Easier": {
+      "Set 3": {
         categories: [
           "Aviation", "Cartoons", "Chemistry", "Computers", "Famous Figures", "Games", 
           "Inventions", "Literature", "Nature", "Physics", "Pop Culture", 
@@ -457,7 +457,7 @@ export const questionSets = {
         }
         ]
     },
-      "Set 4 Music Themed": {
+      "Set 4": {
         categories: [
           "Album Covers", "Band Members", "Breakthrough Hits", "Collaborations", "Cover Songs", "Dance Tracks", 
           "Genre Origins", "Iconic Performances", "Lyrics", "Music Videos", "One-Hit Wonders", 
@@ -609,7 +609,7 @@ export const questionSets = {
         }
         ] 
       },
-        "Set 5 Pop Culture Themed": {
+        "Set 5": {
         categories: [
           "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies Based on Books", 
           "Movie Quotes", "Pop Music History", "Reality TV", "Sitcoms", "Streaming & TV", 
@@ -759,7 +759,7 @@ export const questionSets = {
           },
           "correct": "A"
         },
-    "Set 6 Harder": {
+    "Set 6": {
         categories: [
           "Animals", "Business", "Food", "History", "Landmarks", "Math", 
           "Measurements", "Music", "Plants", "Sailing", "US Geography", 
@@ -912,7 +912,7 @@ export const questionSets = {
         ]
         
     },
-      "Set 7 Harder": {
+      "Set 7": {
         categories: [
           "Animals", "Beverages", "Geology", "Math", "Measurements", "Movies", 
           "Music", "Science", "Sports", "Toys", "Vocabulary", "World Geography", 
@@ -1065,7 +1065,7 @@ export const questionSets = {
         }
       ]
     }, 
-    "Set 8 Harder": {
+    "Set 8": {
       categories: [
         "Actors", "Anatomy", "Animals", "Cities", "Food", "Games", 
         "Movies", "Plants", "Science", "Sports", "Toys", 
@@ -1218,7 +1218,7 @@ export const questionSets = {
       ]
       
    },
-      "Set 9 Harder": {
+      "Set 9": {
       categories: [
         "Anatomy", "Animals", "Food", "Inventions", "Literature", "Measurements", 
         "Movies", "Plants", "Science", "Space", "Technology", 
@@ -1371,7 +1371,7 @@ export const questionSets = {
       ]
       
    },
-      "Set 10 Harder": {
+      "Set 10": {
       categories: [
         "Anatomy", "Animals", "Food", "Measurements", "Music", "Parks", 
         "Plants", "Religion", "Science", "Television", "US History", 
