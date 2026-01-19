@@ -759,7 +759,9 @@ export const questionSets = {
           },
           "correct": "A"
         },
-    "Set 6": {
+        ]
+      },
+      "Set 6": {
         categories: [
           "Animals", "Business", "Food", "History", "Landmarks", "Math", 
           "Measurements", "Music", "Plants", "Sailing", "US Geography", 
