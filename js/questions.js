@@ -1,1079 +1,1079 @@
 export const questionSets = {
-     "Set 1": {
-        categories: [
-          "American History", "Art & Design", "Food & Drink", "Geography", "Literature", "Math & Numbers", 
-          "Movies", "Music", "Mythology", "Science", "Sports", 
-          "Television", "Vocabulary"
-        ],
-        questions: [
-        {
-          "question": "Which founding father is featured on the U.S. $100 bill?",
-          "category": "American History",
-          "answers": {
-            "A": "Alexander Hamilton",
-            "B": "Thomas Jefferson",
-            "C": "John Adams",
-            "D": "Benjamin Franklin"
-          },
-          "correct": "D"
+  "Set 1": {
+    categories: [
+      "American History", "Art & Design", "Food & Drink", "Geography", "Literature", "Math & Numbers",
+      "Movies", "Music", "Mythology", "Science", "Sports",
+      "Television", "Vocabulary"
+    ],
+    questions: [
+      {
+        "question": "Which founding father is featured on the U.S. $100 bill?",
+        "category": "American History",
+        "answers": {
+          "A": "Alexander Hamilton",
+          "B": "Thomas Jefferson",
+          "C": "John Adams",
+          "D": "Benjamin Franklin"
         },
-        {
-          "question": "Which artist is best known for painting melting clocks in the work 'The Persistence of Memory'?",
-          "category": "Art & Design",
-          "answers": {
-            "A": "Salvador Dali",
-            "B": "Pablo Picasso",
-            "C": "Rene Magritte",
-            "D": "Andy Warhol"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "What cheese is traditionally used in a classic Greek salad?",
-          "category": "Food & Drink",
-          "answers": {
-            "A": "Mozzarella",
-            "B": "Feta",
-            "C": "Ricotta",
-            "D": "Cheddar"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which U.S. state is the only one to border exactly one other state?",
-          "category": "Geography",
-          "answers": {
-            "A": "Florida",
-            "B": "Alaska",
-            "C": "Rhode Island",
-            "D": "Maine"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which novel opens with the line, 'Call me Ishmael'?",
-          "category": "Literature",
-          "answers": {
-            "A": "The Old Man and the Sea",
-            "B": "Moby-Dick",
-            "C": "Treasure Island",
-            "D": "The Odyssey"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "How many sides does a dodecagon have?",
-          "category": "Math & Numbers",
-          "answers": {
-            "A": "12",
-            "B": "10",
-            "C": "14",
-            "D": "8"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Which 1994 film features the line, 'Life is like a box of chocolates'?",
-          "category": "Movies",
-          "answers": {
-            "A": "The Shawshank Redemption",
-            "B": "Pulp Fiction",
-            "C": "Forrest Gump",
-            "D": "Jerry Maguire"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which band released the 1977 album 'Rumours'?",
-          "category": "Music",
-          "answers": {
-            "A": "Fleetwood Mac",
-            "B": "The Eagles",
-            "C": "Led Zeppelin",
-            "D": "ABBA"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "In Greek mythology, who is the god of the underworld?",
-          "category": "Mythology",
-          "answers": {
-            "A": "Apollo",
-            "B": "Ares",
-            "C": "Hermes",
-            "D": "Hades"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which element has the chemical symbol 'K'?",
-          "category": "Science",
-          "answers": {
-            "A": "Krypton",
-            "B": "Potassium",
-            "C": "Calcium",
-            "D": "Cobalt"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "In tennis, what is the term for a score of zero?",
-          "category": "Sports",
-          "answers": {
-            "A": "Nil",
-            "B": "Zed",
-            "C": "Love",
-            "D": "Blank"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which sitcom features the fictional coffeehouse Central Perk?",
-          "category": "Television",
-          "answers": {
-            "A": "Friends",
-            "B": "How I Met Your Mother",
-            "C": "Seinfeld",
-            "D": "The Office"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "What does the word 'ephemeral' most nearly mean?",
-          "category": "Vocabulary",
-          "answers": {
-            "A": "Loud",
-            "B": "Short-lived",
-            "C": "Colorful",
-            "D": "Precise"
-          },
-          "correct": "B"
-        }
-        ]
-        
-    },
-      "Set 2": {
-        categories: [
-          "Animals", "Architecture", "Board Games", "Business & Brands", "Chemistry", "Fashion", 
-          "Holidays", "Language", "Music", "Religion", "Space", 
-          "Technology", "Theater"
-        ],
-        questions: [
-        {
-          "question": "What is the only mammal capable of true flight?",
-          "category": "Animals",
-          "answers": {
-            "A": "Bat",
-            "B": "Flying Squirrel",
-            "C": "Sugar Glider",
-            "D": "Parrot"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Which structure is famous for its unintended tilt due to unstable foundation soil?",
-          "category": "Architecture",
-          "answers": {
-            "A": "Colosseum",
-            "B": "Leaning Tower of Pisa",
-            "C": "Big Ben",
-            "D": "Eiffel Tower"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "In the game of Monopoly, which property is not part of the orange color group?",
-          "category": "Board Games",
-          "answers": {
-            "A": "St. James Place",
-            "B": "New York Avenue",
-            "C": "Tennessee Avenue",
-            "D": "Marvin Gardens"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which company owns the smartphone brand Motorola?",
-          "category": "Business & Brands",
-          "answers": {
-            "A": "Samsung",
-            "B": "Apple",
-            "C": "Lenovo",
-            "D": "Google"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which element is commonly used in batteries to store energy?",
-          "category": "Chemistry",
-          "answers": {
-            "A": "Calcium",
-            "B": "Sodium",
-            "C": "Lithium",
-            "D": "Magnesium"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which type of hat is traditionally associated with Sherlock Holmes?",
-          "category": "Fashion",
-          "answers": {
-            "A": "Fedora",
-            "B": "Deerstalker",
-            "C": "Bowler",
-            "D": "Trilby"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "In the U.S., what holiday occurs on the fourth Thursday of November?",
-          "category": "Holidays",
-          "answers": {
-            "A": "Labor Day",
-            "B": "Memorial Day",
-            "C": "Thanksgiving",
-            "D": "Independence Day"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which of the following phrases is an example of an oxymoron?",
-          "category": "Language",
-          "answers": {
-            "A": "Jumbo shrimp",
-            "B": "Red herring",
-            "C": "Loose cannon",
-            "D": "Catch-22"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "What instrument is commonly associated with Yo-Yo Ma",
-          "category": "Music",
-          "answers": {
-            "A": "Violin",
-            "B": "Cello",
-            "C": "Viola",
-            "D": "Bass"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which of these books is included in the New Testament of the Bible?",
-          "category": "Religion",
-          "answers": {
-            "A": "Leviticus",
-            "B": "Psalms",
-            "C": "Romans",
-            "D": "Genesis"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which planet in our solar system has the most moons?",
-          "category": "Space",
-          "answers": {
-            "A": "Saturn",
-            "B": "Jupiter",
-            "C": "Mars",
-            "D": "Neptune"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "What does 'Wi-fi' stand for?",
-          "category": "Technology",
-          "answers": {
-            "A": "Wireless Fidelity",
-            "B": "Wide Frequency",
-            "C": "Wireless Functionality",
-            "D": "Wide Field"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Who wrote the play, 'The Crucible'?",
-          "category": "Theater",
-          "answers": {
-            "A": "Tennessee Williams",
-            "B": "Arthur Miller",
-            "C": "Eugene O'Neill",
-            "D": "Neil Simon"
-          },
-          "correct": "B"
-        }
-        ]
-        
-    },
-      "Set 3": {
-        categories: [
-          "Aviation", "Cartoons", "Chemistry", "Computers", "Famous Figures", "Games", 
-          "Inventions", "Literature", "Nature", "Physics", "Pop Culture", 
-          "Transportation", "Word Origins"
-        ],
-        questions: [
-        {
-          "question": "Which part of an airplane generates lift by altering air pressure above and below it?",
-          "category": "Aviation",
-          "answers": {
-            "A": "Engine",
-            "B": "Aileron",
-            "C": "Wing",
-            "D": "Rudder"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which cartoon character lives in a pineapple under the sea?",
-          "category": "Cartoons",
-          "answers": {
-            "A": "SpongeBob SquarePants",
-            "B": "Scooby-Doo",
-            "C": "Dexter",
-            "D": "Patrick Star"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "What is the pH value of pure water at at 25°C?",
-          "category": "Chemistry",
-          "answers": {
-            "A": "5",
-            "B": "7",
-            "C": "9",
-            "D": "3"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "What does 'URL' stand for in internet terminology?",
-          "category": "Computers",
-          "answers": {
-            "A": "User Reference Label",
-            "B": "Universal Remote Link",
-            "C": "Unified Routing Language",
-            "D": "Uniform Resource Locator"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which civil rights leader delivered the 'I Have a Dream' speech?",
-          "category": "Famous Figures",
-          "answers": {
-            "A": "Malcolm X",
-            "B": "Martin Luther King Jr.",
-            "C": "Frederick Douglass",
-            "D": "Nelson Mandela"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "What color are the four home corners in the original boad game 'Sorry'?",
-          "category": "Games",
-          "answers": {
-            "A": "Red, blue, yellow, green",
-            "B": "Red, orange, purple, blue",
-            "C": "Yellow, pink, blue, brown",
-            "D": "Green, black, red, orange"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Who is credited with inventing the light bulb?",
-          "category": "Inventions",
-          "answers": {
-            "A": "Nikola Tesla",
-            "B": "Alexander Graham Bell",
-            "C": "Benjamin Franklin",
-            "D": "Thomas Edison"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "In the 'Harry Potter' book series, what is the name of Harry's pet owl?",
-          "category": "Literature",
-          "answers": {
-            "A": "Errol",
-            "B": "Hedwig",
-            "C": "Crookshanks",
-            "D": "Buckbeak"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which tree is known for producing acorns?",
-          "category": "Nature",
-          "answers": {
-            "A": "Pine",
-            "B": "Maple",
-            "C": "Oak",
-            "D": "Birch"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which of these is not a fundamental force in physics?",
-          "category": "Physics",
-          "answers": {
-            "A": "Electromagnetism",
-            "B": "Gravity",
-            "C": "Centrifugal",
-            "D": "Strong nuclear"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which singer famously wore a meat dress to the 2010 MTV Video Music Awards?",
-          "category": "Pop Culture",
-          "answers": {
-            "A": "Madonna",
-            "B": "Rihanna",
-            "C": "Lady Gaga",
-            "D": "Katy Perry"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "What company manufactures the Corolla, a globally popular compact car?",
-          "category": "Transportation",
-          "answers": {
-            "A": "Honda",
-            "B": "Toyota",
-            "C": "Ford",
-            "D": "Hyundai"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "The word 'tsunami' comes from which language?",
-          "category": "Word Origins",
-          "answers": {
-            "A": "Japanese",
-            "B": "Hawaiian",
-            "C": "Greek",
-            "D": "Latin"
-          },
-          "correct": "A"
-        }
-        ]
-    },
-      "Set 4": {
-        categories: [
-          "Album Covers", "Band Members", "Breakthrough Hits", "Collaborations", "Cover Songs", "Dance Tracks", 
-          "Genre Origins", "Iconic Performances", "Lyrics", "Music Videos", "One-Hit Wonders", 
-          "Stage Names", "Vocal Styles"
-        ],
-        questions: [
-        {
-          "question": "Which band's iconic album Abbey Road features the members walking across a zebra crossing?",
-          "category": "Album Covers",
-          "answers": {
-            "A": "The Beatles",
-            "B": "The Rolling Stones",
-            "C": "Pink Floyd",
-            "D": "Led Zeppelin"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Which member of The Who was the drummer known for his chaotic, energetic style?",
-          "category": "Band Members",
-          "answers": {
-            "A": "Roger Daltrey",
-            "B": "John Entwistle",
-            "C": "Keith Moon",
-            "D": "Pete Townshend"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "What song launched the career of Nirvana and became an anthem of the 1990s?",
-          "category": "Breakthrough Hits",
-          "answers": {
-            "A": "Come As You Are",
-            "B": "Smells Like Teen Spirit",
-            "C": "Lithium",
-            "D": "Heart-Shaped Box"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "What artist collaborated with Daft Punk on the hit song Get Lucky?",
-          "category": "Collaborations",
-          "answers": {
-            "A": "Bruno Mars",
-            "B": "Justin Timberlake",
-            "C": "The Weeknd",
-            "D": "Pharrell Williams"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which artist famously covered Hallelujah, originally written by Leonard Cohen?",
-          "category": "Cover Songs",
-          "answers": {
-            "A": "Bon Iver",
-            "B": "Ed Sheeran",
-            "C": "Jeff Buckley",
-            "D": "Sam Smith"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which 1977 disco hit begins with the lyrics: 'Whether you're a brother or whether you're a mother...'?",
-          "category": "Dance Tracks",
-          "answers": {
-            "A": "Stayin' Alive - Bee Gees",
-            "B": "Le Freak - Chic",
-            "C": "I Will Survive - Gloria Gaynor",
-            "D": "Dancing Queen - ABBA"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Which city is most associated with the birth of grunge music?",
-          "category": "Genre Origins",
-          "answers": {
-            "A": "Los Angeles",
-            "B": "Chicago",
-            "C": "Austin",
-            "D": "Seattle"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Who famously performed 'Purple Rain' in a downpour during the Super Bowl halftime show?",
-          "category": "Iconic Performances",
-          "answers": {
-            "A": "Bruno Mars",
-            "B": "Prince",
-            "C": "Bruce Springsteen",
-            "D": "U2"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which song includes the lyric 'Is this the real life? Is this just fantasy?'",
-          "category": "Lyrics",
-          "answers": {
-            "A": "Bohemian Rhapsody - Queen",
-            "B": "Imagine - John Lennon",
-            "C": "Hotel California - Eagles",
-            "D": "Stairway to Heaven - Led Zeppelin"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Which artist's music video for Thriller featured zombies and groundbreaking choreography?",
-          "category": "Music Videos",
-          "answers": {
-            "A": "Madonna",
-            "B": "Prince",
-            "C": "Michael Jackson",
-            "D": "Janet Jackson"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which band had a massive hit with Take On Me in 1985?",
-          "category": "One-Hit Wonders",
-          "answers": {
-            "A": "Men Without Hats",
-            "B": "Soft Cell",
-            "C": "Dexys Midnight Runners",
-            "D": "a-ha"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which artist's real name is Stefani Germanotta?",
-          "category": "Stage Names",
-          "answers": {
-            "A": "Katy Perry",
-            "B": "Lady Gaga",
-            "C": "Halsey",
-            "D": "Sia"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which singer is known for her soulful voice and hits like 'Rolling in the Deep' and 'Hello'?",
-          "category": "Vocal Styles",
-          "answers": {
-            "A": "Amy Winehouse",
-            "B": "Alicia Keys",
-            "C": "Adele",
-            "D": "Florence Welch"
-          },
-          "correct": "C"
-        }
-        ] 
+        "correct": "D"
       },
-        "Set 5": {
-        categories: [
-          "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies Based on Books", 
-          "Movie Quotes", "Pop Music History", "Reality TV", "Sitcoms", "Streaming & TV", 
-          "Superheroes", "Toys & Games", "Video Games"
-        ],
-        questions: [
-        {
-          "question": "Which digital pet, popular in the late '90s, required constant attention or it would 'die'?",
-          "category": "90s Pop Culture",
-          "answers": {
-            "A": "Furby",
-            "B": "Nano Pet",
-            "C": "Tamagotchi",
-            "D": "Giga Pet"
-          },
-          "correct": "C"
+      {
+        "question": "Which artist is best known for painting melting clocks in the work 'The Persistence of Memory'?",
+        "category": "Art & Design",
+        "answers": {
+          "A": "Salvador Dali",
+          "B": "Pablo Picasso",
+          "C": "Rene Magritte",
+          "D": "Andy Warhol"
         },
-        {
-          "question": "What long-running animated show features a character named Stewie Griffin?",
-          "category": "Animated TV",
-          "answers": {
-            "A": "Family Guy",
-            "B": "The Simpsons",
-            "C": "South Park",
-            "D": "Futurama"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Which actor famously jumped on Oprah Winfrey's couch during a 2005 interview?",
-          "category": "Celebrity Gossip",
-          "answers": {
-            "A": "Mel Gibson",
-            "B": "Tom Cruise",
-            "C": "Charlie Sheen",
-            "D": "Jim Carrey  "
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which designer is credited with popularizing the wrap dress in the 1970s?",
-          "category": "Fashion",
-          "answers": {
-            "A": "Vera Wang",
-            "B": "Donna Karan",
-            "C": "Carolina Herrera",
-            "D": "Diane von Furstenberg"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which dystopian film series stars Jennifer Lawrence as Katniss Everdeen?",
-          "category": "Movies Based on Books",
-          "answers": {
-            "A": "Divergent",
-            "B": "The Hunger Games",
-            "C": "Maze Runner",
-            "D": "The Giver"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "In which film would you hear the line, 'I feel the need... the need for speed'?",
-          "category": "Movie Quotes",
-          "answers": {
-            "A": "Top Gun",
-            "B": "Days of Thunder",
-            "C": "Fast & Furious",
-            "D": "Speed"
-          },
-          "correct": "A"
-        },
-        {
-          "question": "Who was the first artist to have a music video air on MTV in 1981?",
-          "category": "Pop Music History",
-          "answers": {
-            "A": "The Police",
-            "B": "Billy Joel",
-            "C": "Duran Duran",
-            "D": "The Buggles"
-          },
-          "correct": "D"
-        },
-        {
-          "question": "Which show helped launch the careers of Kelly Clarkson and Carrie Underwood?",
-          "category": "Reality TV",
-          "answers": {
-            "A": "The Voice",
-            "B": "American Idol",
-            "C": "America's Got Talent",
-            "D": "Popstars"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "What is the name of the coffee shop the characters frequently visit in Friends?",
-          "category": "Sitcoms",
-          "answers": {
-            "A": "Central Brew",
-            "B": "Java Junction",
-            "C": "Central Perk",
-            "D": "Bean There"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which Netflix series features a group of kids battling supernatural forces in the fictional town of Hawkins, Indiana?",
-          "category": "Streaming & TV",
-          "answers": {
-            "A": "Locke & Key",
-            "B": "The Umbrella Academy",
-            "C": "Stranger Things",
-            "D": "Dark"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "Which Marvel superhero is also known as the 'Merc with a Mouth'?",
-          "category": "Superheroes",
-          "answers": {
-            "A": "Iron Man",
-            "B": "Spider-Man",
-            "C": "Deadpool",
-            "D": "Star-Lord"
-          },
-          "correct": "C"
-        },
-        {
-          "question": "What classic toy was marketed with the slogan 'You can tell it's Mattel - it's swell'?",
-          "category": "Toys & Games",
-          "answers": {
-            "A": "Slinky",
-            "B": "Barbie",
-            "C": "Etch A Sketch",
-            "D": "G.I. Joe"
-          },
-          "correct": "B"
-        },
-        {
-          "question": "Which video game franchise features characters named Master Chief and Cortana?",
-          "category": "Video Games",
-          "answers": {
-            "A": "Halo",
-            "B": "Gears of War",
-            "C": "Destiny",
-            "D": "Call of Duty"
-          },
-          "correct": "A"
-        },
-        ]
+        "correct": "A"
       },
-      "Set 6": {
-        categories: [
-          "Animals", "Business", "Food", "History", "Landmarks", "Math", 
-          "Measurements", "Music", "Plants", "Sailing", "US Geography", 
-          "World Geography", "World History"
-        ],
-        questions: [
-        {
-          "question": "Which of these animals are most associated with the naturalist and artist John James Audubon?",
-          "category": "Animals",
-          "answers": {
-            "A": "Beetles",
-            "B": "Birds",
-            "C": "Butterflies",
-            "D": "Bats"
-          },
-          "correct": "B"
+      {
+        "question": "What cheese is traditionally used in a classic Greek salad?",
+        "category": "Food & Drink",
+        "answers": {
+          "A": "Mozzarella",
+          "B": "Feta",
+          "C": "Ricotta",
+          "D": "Cheddar"
         },
-        {
-          "question": "Because of the variety of treats it offers, what national chain is colloquially known as '31 Flavors'?",
-          "category": "Business",
-          "answers": {
-            "A": "Taco Bell",
-            "B": "Dunkin Donuts",
-            "C": "Baskin-Robbins",
-            "D": "Subway"
-          },
-          "correct": "C"
+        "correct": "B"
+      },
+      {
+        "question": "Which U.S. state is the only one to border exactly one other state?",
+        "category": "Geography",
+        "answers": {
+          "A": "Florida",
+          "B": "Alaska",
+          "C": "Rhode Island",
+          "D": "Maine"
         },
-        {
-          "question": "Which of these food items is named after a city, not a person?",
-          "category": "Food",
-          "answers": {
-            "A": "Nachos",
-            "B": "Melba Toast",
-            "C": "Sriracha Sauce",
-            "D": "Salisbury Steak"
-          },
-          "correct": "C"
+        "correct": "D"
+      },
+      {
+        "question": "Which novel opens with the line, 'Call me Ishmael'?",
+        "category": "Literature",
+        "answers": {
+          "A": "The Old Man and the Sea",
+          "B": "Moby-Dick",
+          "C": "Treasure Island",
+          "D": "The Odyssey"
         },
-        {
-          "question": "John Chapman, the 19th-century figure known as Johnny Appleseed, is legendary for wandering the country doing what?",
-          "category": "History",
-          "answers": {
-            "A": "Selling Books",
-            "B": "Robbing Banks",
-            "C": "Painting Portraits",
-            "D": "Planting Trees"
-          },
-          "correct": "D"
+        "correct": "B"
+      },
+      {
+        "question": "How many sides does a dodecagon have?",
+        "category": "Math & Numbers",
+        "answers": {
+          "A": "12",
+          "B": "10",
+          "C": "14",
+          "D": "8"
         },
-        {
-          "question": "If you are facing the Mount Rushmore National Memorial, which President is shown on the far right side?",
-          "category": "Landmarks",
-          "answers": {
-            "A": "Thomas Jefferson",
-            "B": "Theodore Roosevelt",
-            "C": "Abraham Lincoln",
-            "D": "George Washington"
-          },
-          "correct": "C"
+        "correct": "A"
+      },
+      {
+        "question": "Which 1994 film features the line, 'Life is like a box of chocolates'?",
+        "category": "Movies",
+        "answers": {
+          "A": "The Shawshank Redemption",
+          "B": "Pulp Fiction",
+          "C": "Forrest Gump",
+          "D": "Jerry Maguire"
         },
-        {
-          "question": "Which of the following is equal to one century?",
-          "category": "Math",
-          "answers": {
-            "A": "Fivescore years",
-            "B": "Fourscore years",
-            "C": "Threescore years",
-            "D": "Sixscore years"
-          },
-          "correct": "A"
+        "correct": "C"
+      },
+      {
+        "question": "Which band released the 1977 album 'Rumours'?",
+        "category": "Music",
+        "answers": {
+          "A": "Fleetwood Mac",
+          "B": "The Eagles",
+          "C": "Led Zeppelin",
+          "D": "ABBA"
         },
-        {
-          "question": "How many tablespoons are in one cup?",
-          "category": "Measurements",
-          "answers": {
-            "A": "48",
-            "B": "3",
-            "C": "24",
-            "D": "16"
-          },
-          "correct": "D"
+        "correct": "A"
+      },
+      {
+        "question": "In Greek mythology, who is the god of the underworld?",
+        "category": "Mythology",
+        "answers": {
+          "A": "Apollo",
+          "B": "Ares",
+          "C": "Hermes",
+          "D": "Hades"
         },
-        {
-          "question": "Who was the original drummer for The Beatles, before being replaced by Ringo Starr?",
-          "category": "Music",
-          "answers": {
-            "A": "Stuart Sutcliffe",
-            "B": "Pete Best",
-            "C": "Brian Epstein",
-            "D": "George Martin"
-          },
-          "correct": "B"
+        "correct": "D"
+      },
+      {
+        "question": "Which element has the chemical symbol 'K'?",
+        "category": "Science",
+        "answers": {
+          "A": "Krypton",
+          "B": "Potassium",
+          "C": "Calcium",
+          "D": "Cobalt"
         },
-        {
-          "question": "From what part of a tree does the spice cinnamon come from?",
-          "category": "Plants",
-          "answers": {
-            "A": "Bark",
-            "B": "Nut",
-            "C": "Fruit",
-            "D": "Root"
-          },
-          "correct": "A"
+        "correct": "B"
+      },
+      {
+        "question": "In tennis, what is the term for a score of zero?",
+        "category": "Sports",
+        "answers": {
+          "A": "Nil",
+          "B": "Zed",
+          "C": "Love",
+          "D": "Blank"
         },
-        {
-          "question": "Which part of a sailboat is normally underwater?",
-          "category": "Sailing",
-          "answers": {
-            "A": "Mast",
-            "B": "Jib",
-            "C": "Boom",
-            "D": "Keel"
-          },
-          "correct": "D"
+        "correct": "C"
+      },
+      {
+        "question": "Which sitcom features the fictional coffeehouse Central Perk?",
+        "category": "Television",
+        "answers": {
+          "A": "Friends",
+          "B": "How I Met Your Mother",
+          "C": "Seinfeld",
+          "D": "The Office"
         },
-        {
-          "question": "Which one of these states does not border Missouri?",
-          "category": "US Geography",
-          "answers": {
-            "A": "Kentucky",
-            "B": "Mississippi",
-            "C": "Oklahoma",
-            "D": "Nebraska"
-          },
-          "correct": "B"
+        "correct": "A"
+      },
+      {
+        "question": "What does the word 'ephemeral' most nearly mean?",
+        "category": "Vocabulary",
+        "answers": {
+          "A": "Loud",
+          "B": "Short-lived",
+          "C": "Colorful",
+          "D": "Precise"
         },
-        {
-          "question": "Which is the deepest lake in the world?",
-          "category": "World Geography",
-          "answers": {
-            "A": "Lake Superior",
-            "B": "Lake Baikal",
-            "C": "Caspian Sea",
-            "D": "Crater Lake"
-          },
-          "correct": "B"
+        "correct": "B"
+      }
+    ]
+
+  },
+  "Set 2": {
+    categories: [
+      "Animals", "Architecture", "Board Games", "Business & Brands", "Chemistry", "Fashion",
+      "Holidays", "Language", "Music", "Religion", "Space",
+      "Technology", "Theater"
+    ],
+    questions: [
+      {
+        "question": "What is the only mammal capable of true flight?",
+        "category": "Animals",
+        "answers": {
+          "A": "Bat",
+          "B": "Flying Squirrel",
+          "C": "Sugar Glider",
+          "D": "Parrot"
         },
-        {
-          "question": "To emphasize its 'go anywhere' investment strategy, Fidelity named its Magellan Fund after a famous what?",
-          "category": "World History",
-          "answers": {
-            "A": "Sculptor",
-            "B": "Architect",
-            "C": "Inventor",
-            "D": "Explorer"
-          },
-          "correct": "D"
-        }
-        ]
-        
-    },
-      "Set 7": {
-        categories: [
-          "Animals", "Beverages", "Geology", "Math", "Measurements", "Movies", 
-          "Music", "Science", "Sports", "Toys", "Vocabulary", "World Geography", 
-          "World History"
-        ],
-        questions: [ 
-    
-        {
-          "question": "Which of these animals is a marsupial?",
-          "category": "Animals",
-          "answers": {
-            "A": "Aardvark",
-            "B": "Opossum",
-            "C": "Platypus",
-            "D": "Echidna"
-          },
-          "correct": "B"
+        "correct": "A"
+      },
+      {
+        "question": "Which structure is famous for its unintended tilt due to unstable foundation soil?",
+        "category": "Architecture",
+        "answers": {
+          "A": "Colosseum",
+          "B": "Leaning Tower of Pisa",
+          "C": "Big Ben",
+          "D": "Eiffel Tower"
         },
-        {
-          "question": "In the United States, 100-proof whiskey contains what percentage of alcohol by volume?",
-          "category": "Beverages",
-          "answers": {
-            "A": "25%",
-            "B": "75%",
-            "C": "50%",
-            "D": "100%"
-          },
-          "correct": "C"
+        "correct": "B"
+      },
+      {
+        "question": "In the game of Monopoly, which property is not part of the orange color group?",
+        "category": "Board Games",
+        "answers": {
+          "A": "St. James Place",
+          "B": "New York Avenue",
+          "C": "Tennessee Avenue",
+          "D": "Marvin Gardens"
         },
-        {
-          "question": "Which of these is not a metamorphic rock?",
-          "category": "Geology",
-          "answers": {
-            "A": "Gneiss",
-            "B": "Marble",
-            "C": "Slate",
-            "D": "Travertine"
-          },
-          "correct": "D"
+        "correct": "D"
+      },
+      {
+        "question": "Which company owns the smartphone brand Motorola?",
+        "category": "Business & Brands",
+        "answers": {
+          "A": "Samsung",
+          "B": "Apple",
+          "C": "Lenovo",
+          "D": "Google"
         },
-        {
-          "question": "The Pythagorean theorem involves the relationship of sides of what kind of triangle?",
-          "category": "Math",
-          "answers": {
-            "A": "Right",
-            "B": "Equilateral",
-            "C": "Isosceles",
-            "D": "Scalene"
-          },
-          "correct": "A"
+        "correct": "C"
+      },
+      {
+        "question": "Which element is commonly used in batteries to store energy?",
+        "category": "Chemistry",
+        "answers": {
+          "A": "Calcium",
+          "B": "Sodium",
+          "C": "Lithium",
+          "D": "Magnesium"
         },
-        {
-          "question": "In liquid measurements, a quart is a quarter of a what?",
-          "category": "Measurements",
-          "answers": {
-            "A": "Liter",
-            "B": "Pint",
-            "C": "Cup",
-            "D": "Gallon"
-          },
-          "correct": "D"
+        "correct": "C"
+      },
+      {
+        "question": "Which type of hat is traditionally associated with Sherlock Holmes?",
+        "category": "Fashion",
+        "answers": {
+          "A": "Fedora",
+          "B": "Deerstalker",
+          "C": "Bowler",
+          "D": "Trilby"
         },
-        {
-          "question": "The 2008 horror flick 'Prom Night' features main characters who are mostly what?",
-          "category": "Movies",
-          "answers": {
-            "A": "Infants",
-            "B": "Teens",
-            "C": "Middle-aged",
-            "D": "Senior citizens"
-          },
-          "correct": "B"
+        "correct": "B"
+      },
+      {
+        "question": "In the U.S., what holiday occurs on the fourth Thursday of November?",
+        "category": "Holidays",
+        "answers": {
+          "A": "Labor Day",
+          "B": "Memorial Day",
+          "C": "Thanksgiving",
+          "D": "Independence Day"
         },
-        {
-          "question": "Bo Diddley was best known for playing what musical instrument?",
-          "category": "Music",
-          "answers": {
-            "A": "Trumpet",
-            "B": "Piano",
-            "C": "Saxophone",
-            "D": "Guitar"
-          },
-          "correct": "D"
+        "correct": "C"
+      },
+      {
+        "question": "Which of the following phrases is an example of an oxymoron?",
+        "category": "Language",
+        "answers": {
+          "A": "Jumbo shrimp",
+          "B": "Red herring",
+          "C": "Loose cannon",
+          "D": "Catch-22"
         },
-        {
-          "question": "Albert Einstein was awarded the 1921 Nobel Prize in Physics for his work on what subject?",
-          "category": "Science",
-          "answers": {
-            "A": "Theory of General Relativity",
-            "B": "Nuclear reactions",
-            "C": "The photoelectric effect",
-            "D": "Gravity"
-          },
-          "correct": "C"
+        "correct": "A"
+      },
+      {
+        "question": "What instrument is commonly associated with Yo-Yo Ma",
+        "category": "Music",
+        "answers": {
+          "A": "Violin",
+          "B": "Cello",
+          "C": "Viola",
+          "D": "Bass"
         },
-        {
-          "question": "In sports journalism, 'puckhead' is an affectionate term for a fan of what sport?",
-          "category": "Sports",
-          "answers": {
-            "A": "Tennis",
-            "B": "Cycling",
-            "C": "Golf",
-            "D": "Hockey"
-          },
-          "correct": "D"
+        "correct": "B"
+      },
+      {
+        "question": "Which of these books is included in the New Testament of the Bible?",
+        "category": "Religion",
+        "answers": {
+          "A": "Leviticus",
+          "B": "Psalms",
+          "C": "Romans",
+          "D": "Genesis"
         },
-        {
-          "question": "Jigsaw puzzles were originally used to teach what?",
-          "category": "Toys",
-          "answers": {
-            "A": "History",
-            "B": "The virtue of patience",
-            "C": "Geography",
-            "D": "Architecture"
-          },
-          "correct": "C"
+        "correct": "C"
+      },
+      {
+        "question": "Which planet in our solar system has the most moons?",
+        "category": "Space",
+        "answers": {
+          "A": "Saturn",
+          "B": "Jupiter",
+          "C": "Mars",
+          "D": "Neptune"
         },
-        {
-          "question": "Which of the following is a common definition for the word 'tawny'?",
-          "category": "Vocabulary",
-          "answers": {
-            "A": "Dark blue",
-            "B": "Light brown",
-            "C": "Hot pink",
-            "D": "Lime green"
-          },
-          "correct": "B"
+        "correct": "A"
+      },
+      {
+        "question": "What does 'Wi-fi' stand for?",
+        "category": "Technology",
+        "answers": {
+          "A": "Wireless Fidelity",
+          "B": "Wide Frequency",
+          "C": "Wireless Functionality",
+          "D": "Wide Field"
         },
-        {
-          "question": "Which of these is the capital city of Australia?",
-          "category": "World Geography",
-          "answers": {
-            "A": "Sydney",
-            "B": "Canberra",
-            "C": "Perth",
-            "D": "Melbourne"
-          },
-          "correct": "B"
+        "correct": "A"
+      },
+      {
+        "question": "Who wrote the play, 'The Crucible'?",
+        "category": "Theater",
+        "answers": {
+          "A": "Tennessee Williams",
+          "B": "Arthur Miller",
+          "C": "Eugene O'Neill",
+          "D": "Neil Simon"
         },
-        {
-          "question": "Which conquistador conquered the Incan empire?",
-          "category": "World History",
-          "answers": {
-            "A": "Francisco Pizarro",
-            "B": "Hernán Cortés",
-            "C": "Francisco Vázquez de Coronado",
-            "D": "Vasco Núñez de Balboa"
-          },
-          "correct": "A"
-        }
-      ]
-    }, 
-    "Set 8": {
-      categories: [
-        "Actors", "Anatomy", "Animals", "Cities", "Food", "Games", 
-        "Movies", "Plants", "Science", "Sports", "Toys", 
-        "US History", "World Geography"
-      ],
-      questions: [
+        "correct": "B"
+      }
+    ]
+
+  },
+  "Set 3": {
+    categories: [
+      "Aviation", "Cartoons", "Chemistry", "Computers", "Famous Figures", "Games",
+      "Inventions", "Literature", "Nature", "Physics", "Pop Culture",
+      "Transportation", "Word Origins"
+    ],
+    questions: [
+      {
+        "question": "Which part of an airplane generates lift by altering air pressure above and below it?",
+        "category": "Aviation",
+        "answers": {
+          "A": "Engine",
+          "B": "Aileron",
+          "C": "Wing",
+          "D": "Rudder"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which cartoon character lives in a pineapple under the sea?",
+        "category": "Cartoons",
+        "answers": {
+          "A": "SpongeBob SquarePants",
+          "B": "Scooby-Doo",
+          "C": "Dexter",
+          "D": "Patrick Star"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "What is the pH value of pure water at at 25°C?",
+        "category": "Chemistry",
+        "answers": {
+          "A": "5",
+          "B": "7",
+          "C": "9",
+          "D": "3"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "What does 'URL' stand for in internet terminology?",
+        "category": "Computers",
+        "answers": {
+          "A": "User Reference Label",
+          "B": "Universal Remote Link",
+          "C": "Unified Routing Language",
+          "D": "Uniform Resource Locator"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Which civil rights leader delivered the 'I Have a Dream' speech?",
+        "category": "Famous Figures",
+        "answers": {
+          "A": "Malcolm X",
+          "B": "Martin Luther King Jr.",
+          "C": "Frederick Douglass",
+          "D": "Nelson Mandela"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "What color are the four home corners in the original board game 'Sorry'?",
+        "category": "Games",
+        "answers": {
+          "A": "Red, blue, yellow, green",
+          "B": "Red, orange, purple, blue",
+          "C": "Yellow, pink, blue, brown",
+          "D": "Green, black, red, orange"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Who is credited with inventing the light bulb?",
+        "category": "Inventions",
+        "answers": {
+          "A": "Nikola Tesla",
+          "B": "Alexander Graham Bell",
+          "C": "Benjamin Franklin",
+          "D": "Thomas Edison"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "In the 'Harry Potter' book series, what is the name of Harry's pet owl?",
+        "category": "Literature",
+        "answers": {
+          "A": "Errol",
+          "B": "Hedwig",
+          "C": "Crookshanks",
+          "D": "Buckbeak"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which tree is known for producing acorns?",
+        "category": "Nature",
+        "answers": {
+          "A": "Pine",
+          "B": "Maple",
+          "C": "Oak",
+          "D": "Birch"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which of these is not a fundamental force in physics?",
+        "category": "Physics",
+        "answers": {
+          "A": "Electromagnetism",
+          "B": "Gravity",
+          "C": "Centrifugal",
+          "D": "Strong nuclear"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which singer famously wore a meat dress to the 2010 MTV Video Music Awards?",
+        "category": "Pop Culture",
+        "answers": {
+          "A": "Madonna",
+          "B": "Rihanna",
+          "C": "Lady Gaga",
+          "D": "Katy Perry"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "What company manufactures the Corolla, a globally popular compact car?",
+        "category": "Transportation",
+        "answers": {
+          "A": "Honda",
+          "B": "Toyota",
+          "C": "Ford",
+          "D": "Hyundai"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "The word 'tsunami' comes from which language?",
+        "category": "Word Origins",
+        "answers": {
+          "A": "Japanese",
+          "B": "Hawaiian",
+          "C": "Greek",
+          "D": "Latin"
+        },
+        "correct": "A"
+      }
+    ]
+  },
+  "Set 4": {
+    categories: [
+      "Album Covers", "Band Members", "Breakthrough Hits", "Collaborations", "Cover Songs", "Dance Tracks",
+      "Genre Origins", "Iconic Performances", "Lyrics", "Music Videos", "One-Hit Wonders",
+      "Stage Names", "Vocal Styles"
+    ],
+    questions: [
+      {
+        "question": "Which band's iconic album Abbey Road features the members walking across a zebra crossing?",
+        "category": "Album Covers",
+        "answers": {
+          "A": "The Beatles",
+          "B": "The Rolling Stones",
+          "C": "Pink Floyd",
+          "D": "Led Zeppelin"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Which member of The Who was the drummer known for his chaotic, energetic style?",
+        "category": "Band Members",
+        "answers": {
+          "A": "Roger Daltrey",
+          "B": "John Entwistle",
+          "C": "Keith Moon",
+          "D": "Pete Townshend"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "What song launched the career of Nirvana and became an anthem of the 1990s?",
+        "category": "Breakthrough Hits",
+        "answers": {
+          "A": "Come As You Are",
+          "B": "Smells Like Teen Spirit",
+          "C": "Lithium",
+          "D": "Heart-Shaped Box"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "What artist collaborated with Daft Punk on the hit song Get Lucky?",
+        "category": "Collaborations",
+        "answers": {
+          "A": "Bruno Mars",
+          "B": "Justin Timberlake",
+          "C": "The Weeknd",
+          "D": "Pharrell Williams"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Which artist famously covered Hallelujah, originally written by Leonard Cohen?",
+        "category": "Cover Songs",
+        "answers": {
+          "A": "Bon Iver",
+          "B": "Ed Sheeran",
+          "C": "Jeff Buckley",
+          "D": "Sam Smith"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which 1977 disco hit begins with the lyrics: 'Whether you're a brother or whether you're a mother...'?",
+        "category": "Dance Tracks",
+        "answers": {
+          "A": "Stayin' Alive - Bee Gees",
+          "B": "Le Freak - Chic",
+          "C": "I Will Survive - Gloria Gaynor",
+          "D": "Dancing Queen - ABBA"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Which city is most associated with the birth of grunge music?",
+        "category": "Genre Origins",
+        "answers": {
+          "A": "Los Angeles",
+          "B": "Chicago",
+          "C": "Austin",
+          "D": "Seattle"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Who famously performed 'Purple Rain' in a downpour during the Super Bowl halftime show?",
+        "category": "Iconic Performances",
+        "answers": {
+          "A": "Bruno Mars",
+          "B": "Prince",
+          "C": "Bruce Springsteen",
+          "D": "U2"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which song includes the lyric 'Is this the real life? Is this just fantasy?'",
+        "category": "Lyrics",
+        "answers": {
+          "A": "Bohemian Rhapsody - Queen",
+          "B": "Imagine - John Lennon",
+          "C": "Hotel California - Eagles",
+          "D": "Stairway to Heaven - Led Zeppelin"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Which artist's music video for Thriller featured zombies and groundbreaking choreography?",
+        "category": "Music Videos",
+        "answers": {
+          "A": "Madonna",
+          "B": "Prince",
+          "C": "Michael Jackson",
+          "D": "Janet Jackson"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which band had a massive hit with Take On Me in 1985?",
+        "category": "One-Hit Wonders",
+        "answers": {
+          "A": "Men Without Hats",
+          "B": "Soft Cell",
+          "C": "Dexys Midnight Runners",
+          "D": "a-ha"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Which artist's real name is Stefani Germanotta?",
+        "category": "Stage Names",
+        "answers": {
+          "A": "Katy Perry",
+          "B": "Lady Gaga",
+          "C": "Halsey",
+          "D": "Sia"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which singer is known for her soulful voice and hits like 'Rolling in the Deep' and 'Hello'?",
+        "category": "Vocal Styles",
+        "answers": {
+          "A": "Amy Winehouse",
+          "B": "Alicia Keys",
+          "C": "Adele",
+          "D": "Florence Welch"
+        },
+        "correct": "C"
+      }
+    ]
+  },
+  "Set 5": {
+    categories: [
+      "90s Pop Culture", "Animated TV", "Celebrity Gossip", "Fashion", "Movies Based on Books",
+      "Movie Quotes", "Pop Music History", "Reality TV", "Sitcoms", "Streaming & TV",
+      "Superheroes", "Toys & Games", "Video Games"
+    ],
+    questions: [
+      {
+        "question": "Which digital pet, popular in the late '90s, required constant attention or it would 'die'?",
+        "category": "90s Pop Culture",
+        "answers": {
+          "A": "Furby",
+          "B": "Nano Pet",
+          "C": "Tamagotchi",
+          "D": "Giga Pet"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "What long-running animated show features a character named Stewie Griffin?",
+        "category": "Animated TV",
+        "answers": {
+          "A": "Family Guy",
+          "B": "The Simpsons",
+          "C": "South Park",
+          "D": "Futurama"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Which actor famously jumped on Oprah Winfrey's couch during a 2005 interview?",
+        "category": "Celebrity Gossip",
+        "answers": {
+          "A": "Mel Gibson",
+          "B": "Tom Cruise",
+          "C": "Charlie Sheen",
+          "D": "Jim Carrey"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which designer is credited with popularizing the wrap dress in the 1970s?",
+        "category": "Fashion",
+        "answers": {
+          "A": "Vera Wang",
+          "B": "Donna Karan",
+          "C": "Carolina Herrera",
+          "D": "Diane von Furstenberg"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Which dystopian film series stars Jennifer Lawrence as Katniss Everdeen?",
+        "category": "Movies Based on Books",
+        "answers": {
+          "A": "Divergent",
+          "B": "The Hunger Games",
+          "C": "Maze Runner",
+          "D": "The Giver"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "In which film would you hear the line, 'I feel the need... the need for speed'?",
+        "category": "Movie Quotes",
+        "answers": {
+          "A": "Top Gun",
+          "B": "Days of Thunder",
+          "C": "Fast & Furious",
+          "D": "Speed"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Who was the first artist to have a music video air on MTV in 1981?",
+        "category": "Pop Music History",
+        "answers": {
+          "A": "The Police",
+          "B": "Billy Joel",
+          "C": "Duran Duran",
+          "D": "The Buggles"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Which show helped launch the careers of Kelly Clarkson and Carrie Underwood?",
+        "category": "Reality TV",
+        "answers": {
+          "A": "The Voice",
+          "B": "American Idol",
+          "C": "America's Got Talent",
+          "D": "Popstars"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "What is the name of the coffee shop the characters frequently visit in Friends?",
+        "category": "Sitcoms",
+        "answers": {
+          "A": "Central Brew",
+          "B": "Java Junction",
+          "C": "Central Perk",
+          "D": "Bean There"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which Netflix series features a group of kids battling supernatural forces in the fictional town of Hawkins, Indiana?",
+        "category": "Streaming & TV",
+        "answers": {
+          "A": "Locke & Key",
+          "B": "The Umbrella Academy",
+          "C": "Stranger Things",
+          "D": "Dark"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which Marvel superhero is also known as the 'Merc with a Mouth'?",
+        "category": "Superheroes",
+        "answers": {
+          "A": "Iron Man",
+          "B": "Spider-Man",
+          "C": "Deadpool",
+          "D": "Star-Lord"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "What classic toy was marketed with the slogan 'You can tell it's Mattel - it's swell'?",
+        "category": "Toys & Games",
+        "answers": {
+          "A": "Slinky",
+          "B": "Barbie",
+          "C": "Etch A Sketch",
+          "D": "G.I. Joe"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which video game franchise features characters named Master Chief and Cortana?",
+        "category": "Video Games",
+        "answers": {
+          "A": "Halo",
+          "B": "Gears of War",
+          "C": "Destiny",
+          "D": "Call of Duty"
+        },
+        "correct": "A"
+      }
+    ]
+  },
+  "Set 6": {
+    categories: [
+      "Animals", "Business", "Food", "History", "Landmarks", "Math",
+      "Measurements", "Music", "Plants", "Sailing", "US Geography",
+      "World Geography", "World History"
+    ],
+    questions: [
+      {
+        "question": "Which of these animals are most associated with the naturalist and artist John James Audubon?",
+        "category": "Animals",
+        "answers": {
+          "A": "Beetles",
+          "B": "Birds",
+          "C": "Butterflies",
+          "D": "Bats"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Because of the variety of treats it offers, what national chain is colloquially known as '31 Flavors'?",
+        "category": "Business",
+        "answers": {
+          "A": "Taco Bell",
+          "B": "Dunkin Donuts",
+          "C": "Baskin-Robbins",
+          "D": "Subway"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which of these food items is named after a city, not a person?",
+        "category": "Food",
+        "answers": {
+          "A": "Nachos",
+          "B": "Melba Toast",
+          "C": "Sriracha Sauce",
+          "D": "Salisbury Steak"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "John Chapman, the 19th-century figure known as Johnny Appleseed, is legendary for wandering the country doing what?",
+        "category": "History",
+        "answers": {
+          "A": "Selling Books",
+          "B": "Robbing Banks",
+          "C": "Painting Portraits",
+          "D": "Planting Trees"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "If you are facing the Mount Rushmore National Memorial, which President is shown on the far right side?",
+        "category": "Landmarks",
+        "answers": {
+          "A": "Thomas Jefferson",
+          "B": "Theodore Roosevelt",
+          "C": "Abraham Lincoln",
+          "D": "George Washington"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which of the following is equal to one century?",
+        "category": "Math",
+        "answers": {
+          "A": "Fivescore years",
+          "B": "Fourscore years",
+          "C": "Threescore years",
+          "D": "Sixscore years"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "How many tablespoons are in one cup?",
+        "category": "Measurements",
+        "answers": {
+          "A": "48",
+          "B": "3",
+          "C": "24",
+          "D": "16"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Who was the original drummer for The Beatles, before being replaced by Ringo Starr?",
+        "category": "Music",
+        "answers": {
+          "A": "Stuart Sutcliffe",
+          "B": "Pete Best",
+          "C": "Brian Epstein",
+          "D": "George Martin"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "From what part of a tree does the spice cinnamon come from?",
+        "category": "Plants",
+        "answers": {
+          "A": "Bark",
+          "B": "Nut",
+          "C": "Fruit",
+          "D": "Root"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "Which part of a sailboat is normally underwater?",
+        "category": "Sailing",
+        "answers": {
+          "A": "Mast",
+          "B": "Jib",
+          "C": "Boom",
+          "D": "Keel"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Which one of these states does not border Missouri?",
+        "category": "US Geography",
+        "answers": {
+          "A": "Kentucky",
+          "B": "Mississippi",
+          "C": "Oklahoma",
+          "D": "Nebraska"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which is the deepest lake in the world?",
+        "category": "World Geography",
+        "answers": {
+          "A": "Lake Superior",
+          "B": "Lake Baikal",
+          "C": "Caspian Sea",
+          "D": "Crater Lake"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "To emphasize its 'go anywhere' investment strategy, Fidelity named its Magellan Fund after a famous what?",
+        "category": "World History",
+        "answers": {
+          "A": "Sculptor",
+          "B": "Architect",
+          "C": "Inventor",
+          "D": "Explorer"
+        },
+        "correct": "D"
+      }
+    ]
+
+  },
+  "Set 7": {
+    categories: [
+      "Animals", "Beverages", "Geology", "Math", "Measurements", "Movies",
+      "Music", "Science", "Sports", "Toys", "Vocabulary", "World Geography",
+      "World History"
+    ],
+    questions: [
+
+      {
+        "question": "Which of these animals is a marsupial?",
+        "category": "Animals",
+        "answers": {
+          "A": "Aardvark",
+          "B": "Opossum",
+          "C": "Platypus",
+          "D": "Echidna"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "In the United States, 100-proof whiskey contains what percentage of alcohol by volume?",
+        "category": "Beverages",
+        "answers": {
+          "A": "25%",
+          "B": "75%",
+          "C": "50%",
+          "D": "100%"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which of these is not a metamorphic rock?",
+        "category": "Geology",
+        "answers": {
+          "A": "Gneiss",
+          "B": "Marble",
+          "C": "Slate",
+          "D": "Travertine"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "The Pythagorean theorem involves the relationship of sides of what kind of triangle?",
+        "category": "Math",
+        "answers": {
+          "A": "Right",
+          "B": "Equilateral",
+          "C": "Isosceles",
+          "D": "Scalene"
+        },
+        "correct": "A"
+      },
+      {
+        "question": "In liquid measurements, a quart is a quarter of a what?",
+        "category": "Measurements",
+        "answers": {
+          "A": "Liter",
+          "B": "Pint",
+          "C": "Cup",
+          "D": "Gallon"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "The 2008 horror flick 'Prom Night' features main characters who are mostly what?",
+        "category": "Movies",
+        "answers": {
+          "A": "Infants",
+          "B": "Teens",
+          "C": "Middle-aged",
+          "D": "Senior citizens"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Bo Diddley was best known for playing what musical instrument?",
+        "category": "Music",
+        "answers": {
+          "A": "Trumpet",
+          "B": "Piano",
+          "C": "Saxophone",
+          "D": "Guitar"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Albert Einstein was awarded the 1921 Nobel Prize in Physics for his work on what subject?",
+        "category": "Science",
+        "answers": {
+          "A": "Theory of General Relativity",
+          "B": "Nuclear reactions",
+          "C": "The photoelectric effect",
+          "D": "Gravity"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "In sports journalism, 'puckhead' is an affectionate term for a fan of what sport?",
+        "category": "Sports",
+        "answers": {
+          "A": "Tennis",
+          "B": "Cycling",
+          "C": "Golf",
+          "D": "Hockey"
+        },
+        "correct": "D"
+      },
+      {
+        "question": "Jigsaw puzzles were originally used to teach what?",
+        "category": "Toys",
+        "answers": {
+          "A": "History",
+          "B": "The virtue of patience",
+          "C": "Geography",
+          "D": "Architecture"
+        },
+        "correct": "C"
+      },
+      {
+        "question": "Which of the following is a common definition for the word 'tawny'?",
+        "category": "Vocabulary",
+        "answers": {
+          "A": "Dark blue",
+          "B": "Light brown",
+          "C": "Hot pink",
+          "D": "Lime green"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which of these is the capital city of Australia?",
+        "category": "World Geography",
+        "answers": {
+          "A": "Sydney",
+          "B": "Canberra",
+          "C": "Perth",
+          "D": "Melbourne"
+        },
+        "correct": "B"
+      },
+      {
+        "question": "Which conquistador conquered the Incan empire?",
+        "category": "World History",
+        "answers": {
+          "A": "Francisco Pizarro",
+          "B": "Hernán Cortés",
+          "C": "Francisco Vázquez de Coronado",
+          "D": "Vasco Núñez de Balboa"
+        },
+        "correct": "A"
+      }
+    ]
+  },
+  "Set 8": {
+    categories: [
+      "Actors", "Anatomy", "Animals", "Cities", "Food", "Games",
+      "Movies", "Plants", "Science", "Sports", "Toys",
+      "US History", "World Geography"
+    ],
+    questions: [
       {
         "question": "In what classic Gary Cooper film does Babe Ruth appear as himself?",
         "category": "Actors",
@@ -1152,7 +1152,7 @@ export const questionSets = {
         "correct": "A"
       },
       {
-        "question": "Which musical instrument can be played 'pizzacato'?",
+        "question": "Which musical instrument can be played 'pizzicato'?",
         "category": "Music",
         "answers": {
           "A": "Violin",
@@ -1217,16 +1217,16 @@ export const questionSets = {
         },
         "correct": "D"
       }
-      ]
-      
-   },
-      "Set 9": {
-      categories: [
-        "Anatomy", "Animals", "Food", "Inventions", "Literature", "Measurements", 
-        "Movies", "Plants", "Science", "Space", "Technology", 
-        "US History", "World Geography"
-      ],
-      questions: [
+    ]
+
+  },
+  "Set 9": {
+    categories: [
+      "Anatomy", "Animals", "Food", "Inventions", "Literature", "Measurements",
+      "Movies", "Plants", "Science", "Space", "Technology",
+      "US History", "World Geography"
+    ],
+    questions: [
       {
         "question": "What is unique about the human hyoid bone?",
         "category": "Anatomy",
@@ -1370,16 +1370,16 @@ export const questionSets = {
         },
         "correct": "C"
       }
-      ]
-      
-   },
-      "Set 10": {
-      categories: [
-        "Anatomy", "Animals", "Food", "Measurements", "Music", "Parks", 
-        "Plants", "Religion", "Science", "Television", "US History", 
-        "Vocabulary", "World Geography"
-      ],
-      questions: [
+    ]
+
+  },
+  "Set 10": {
+    categories: [
+      "Anatomy", "Animals", "Food", "Measurements", "Music", "Parks",
+      "Plants", "Religion", "Science", "Television", "US History",
+      "Vocabulary", "World Geography"
+    ],
+    questions: [
       {
         "question": "Where would you normally find a 'hallux'?",
         "category": "Anatomy",
@@ -1523,12 +1523,12 @@ export const questionSets = {
         },
         "correct": "A"
       }
-      ]
-      
-   }
-        
-        
-    }
+    ]
+
+  }
+
+
+}
 
 
   };
