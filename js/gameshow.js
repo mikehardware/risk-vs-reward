@@ -758,7 +758,7 @@ lockButton.addEventListener("click", async () => {
       document.querySelector("#risk-column h3").textContent = "You missed…";
       // Show the correct answer in the result box
       document.getElementById("result-message").textContent =
-      `The correct answer is ${currentQuestion.correct}';
+      `The correct answer is ${currentQuestion.correct}`;
       document.getElementById("result-box").classList.remove("hidden");
     }
 
