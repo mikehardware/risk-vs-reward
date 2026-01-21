@@ -23,6 +23,17 @@ function debounce (func, wait) {
   };
 }
 
+// Hide/show the <p> row that contains a value span by its ID.
+// Also clears the text when hidden to avoid stale values.
+function setRowVisibleByValueId(valueId, show) {
+  const valueEl = document.getElementById(valueId);
+  if (!valueEl) return;
+  const row = valueEl.closest('p') || valueEl.parentElement; // your markup uses <p> rows
+  if (!row) return;
+  row.classList.toggle('hidden', !show);
+  if (!show) valueEl.textContent = "";
+}
+
 const maxRewardPct = 0.873817422860;
 const minRewardPct = 0.596298274140;
 const originalMaxRewardPct = 0.873817422860;
@@ -733,34 +744,55 @@ lockButton.addEventListener("click", async () => {
       });
     }
 
-    // Populate the result panel
-    if (isCorrect) {
-      document.getElementById("reward-column").classList.add("visible");
-      document.getElementById("risk-column").classList.remove("visible");
-      document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
-      document.getElementById("reward-plus").textContent = fmtMoney(displayedReward);
-      document.getElementById("reward-new").textContent = fmtMoney(newBankIfCorrect);
-      document.getElementById("reward-least").textContent = fmtMoney(leastIfCorrect);
-      document.getElementById("reward-most").textContent = fmtMoney(mostIfCorrect);
-      document.querySelector("#reward-column h3").textContent = "You’re right!";
-      if (newBank >= 1_000_000 - 0.005) {
-        fanfare.play();
-        triggerConfetti();
-      }
-    } else {
-      document.getElementById("risk-column").classList.add("visible");
-      document.getElementById("reward-column").classList.remove("visible");
-      document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
-      document.getElementById("risk-minus").textContent = fmtMoney(displayedRisk);
-      document.getElementById("risk-new").textContent = fmtMoney(newBankIfWrong);
-      document.getElementById("risk-least").textContent = fmtMoney(leastIfWrong);
-      document.getElementById("risk-most").textContent = fmtMoney(mostIfWrong);
-      document.querySelector("#risk-column h3").textContent = "You missed…";
-      // Show the correct answer in the result box
-      document.getElementById("result-message").textContent =
-      `The correct answer is ${currentQuestion.correct}`;
-      document.getElementById("result-box").classList.remove("hidden");
-    }
+
+// Populate the result panel
+if (isCorrect) {
+  // Show reward column, hide risk column
+  document.getElementById("reward-column").classList.add("visible");
+  document.getElementById("risk-column").classList.remove("visible");
+
+  // Always show/update these
+  document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
+  document.getElementById("reward-least").textContent = fmtMoney(leastIfCorrect);
+  document.getElementById("reward-most").textContent  = fmtMoney(mostIfCorrect);
+  document.querySelector("#reward-column h3").textContent = "You’re right!";
+
+  // Hide the rows you don't want on the reward side
+  setRowVisibleByValueId("reward-plus", false);
+  setRowVisibleByValueId("reward-new",  false);
+
+  // Also hide risk rows just to ensure nothing accidentally appears
+  setRowVisibleByValueId("risk-minus", false);
+  setRowVisibleByValueId("risk-new",   false);
+
+  if (newBank >= 1_000_000 - 0.005) {
+    fanfare.play();
+    triggerConfetti();
+  }
+} else {
+  // Show risk column, hide reward column
+  document.getElementById("risk-column").classList.add("visible");
+  document.getElementById("reward-column").classList.remove("visible");
+
+  // Always show/update these
+  document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
+  document.getElementById("risk-least").textContent = fmtMoney(leastIfWrong);
+  document.getElementById("risk-most").textContent  = fmtMoney(mostIfWrong);
+  document.querySelector("#risk-column h3").textContent = "You missed…";
+
+  // Hide rows you don't want on the risk side
+  setRowVisibleByValueId("risk-minus", false);
+  setRowVisibleByValueId("risk-new",   false);
+
+  // Also hide reward rows just to ensure nothing accidentally appears
+  setRowVisibleByValueId("reward-plus", false);
+  setRowVisibleByValueId("reward-new",  false);
+
+  // Show the correct answer in the result box
+  document.getElementById("result-message").textContent =
+    `The correct answer is ${currentQuestion.correct}`;
+  document.getElementById("result-box").classList.remove("hidden");
+}
 
     enableDoOver(isCorrect, currentQuestionIndex);
     enableNextQuestionButton();
