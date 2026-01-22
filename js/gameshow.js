@@ -583,15 +583,15 @@ function loadQuestion() {
   document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
   document.getElementById("reward-plus").textContent         = (typeof displayedReward !== "undefined") ? fmtMoney(displayedReward) : "—";
   document.getElementById("reward-new").textContent          = (typeof newBankIfCorrect !== "undefined") ? fmtMoney(newBankIfCorrect) : "—";
-  document.getElementById("reward-least").textContent        = fmtMoney(leastIfCorrect);
-  document.getElementById("reward-most").textContent         = fmtMoney(mostIfCorrect);
+ // document.getElementById("reward-least").textContent        = fmtMoney(leastIfCorrect);
+ // document.getElementById("reward-most").textContent         = fmtMoney(mostIfCorrect);
 
   // RISK side
   document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
   document.getElementById("risk-minus").textContent        = (typeof displayedRisk !== "undefined") ? fmtMoney(displayedRisk) : "—";
   document.getElementById("risk-new").textContent          = (typeof newBankIfWrong !== "undefined") ? fmtMoney(newBankIfWrong) : "—";
-  document.getElementById("risk-least").textContent        = fmtMoney(leastIfWrong);
-  document.getElementById("risk-most").textContent         = fmtMoney(mostIfWrong);
+ // document.getElementById("risk-least").textContent        = fmtMoney(leastIfWrong);
+ // document.getElementById("risk-most").textContent         = fmtMoney(mostIfWrong);
 
   // Reset and start the timer
   resetAndStartTimer();
