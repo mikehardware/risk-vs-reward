@@ -23,19 +23,60 @@ function debounce (func, wait) {
   };
 }
 
+
 // Hide/show the <p> row that contains a value span by its ID.
-// Also clears the text when hidden to avoid stale values.
+// Uses inline style so it can't be overridden by CSS.
 function setRowVisibleByValueId(valueId, show) {
   const valueEl = document.getElementById(valueId);
   if (!valueEl) return;
   const row = valueEl.closest('p') || valueEl.parentElement; // your markup uses <p> rows
   if (!row) return;
 
-  
-// Inline style beats external CSS and specificity issues
   row.style.display = show ? "" : "none";
+  if (!show) valueEl.textContent = ""; // avoid stale values if shown later
+}
 
-  if (!show) valueEl.textContent = "";
+
+// QUESTION MODE: show both columns, show all rows
+function enterQuestionMode() {
+  // Show both columns
+  document.getElementById("reward-column").classList.add("visible");
+  document.getElementById("risk-column").classList.add("visible");
+
+  // Show the four rows (labels + numbers) on both sides
+  setRowVisibleByValueId("reward-plus", true);
+  setRowVisibleByValueId("reward-new",  true);
+  setRowVisibleByValueId("risk-minus",  true);
+  setRowVisibleByValueId("risk-new",    true);
+
+  // Restore headings for the question phase
+  const rewardH3 = document.querySelector("#reward-column h3");
+  if (rewardH3) rewardH3.textContent = "If you are correct...";
+  const riskH3 = document.querySelector("#risk-column h3");
+  if (riskH3) riskH3.textContent = "If you miss...";
+}
+
+// RESULT MODE: show only one column, hide delta/new rows on that side
+function enterResultMode(isCorrect) {
+  const showSide = isCorrect ? "reward" : "risk";
+  const hideSide = isCorrect ? "risk" : "reward";
+
+  // Show only the relevant column
+  document.getElementById(`${showSide}-column`).classList.add("visible");
+  document.getElementById(`${hideSide}-column`).classList.remove("visible");
+
+  // Hide the delta/new rows on the side we're showing
+  if (isCorrect) {
+    setRowVisibleByValueId("reward-plus", false);
+    setRowVisibleByValueId("reward-new",  false);
+    const h3 = document.querySelector("#reward-column h3");
+    if (h3) h3.textContent = "You’re right!";
+  } else {
+    setRowVisibleByValueId("risk-minus", false);
+    setRowVisibleByValueId("risk-new",   false);
+    const h3 = document.querySelector("#risk-column h3");
+    if (h3) h3.textContent = "You missed…";
+  }
 }
 
 const maxRewardPct = 0.873817422860;
@@ -430,14 +471,37 @@ function resetAndStartTimer() {
 
 // Inside loadQuestion()
 function loadQuestion() {
+
   // Hide the "Use the Do Over" button at the start of each new question
   const doOverButton = document.getElementById('do-over-button');
-  doOverButton.style.display = 'none';
-  document.getElementById("result-box").classList.remove("hidden");
+  if (doOverButton) doOverButton.style.display = 'none';
 
-  document.getElementById("result-message").textContent = "";
-  document.getElementById("result-box").classList.add("hidden");
+  // Reset and hide result box for new question
+  const resultBox = document.getElementById("result-box");
+  const resultMsg = document.getElementById("result-message");
+  if (resultMsg) resultMsg.textContent = "";
+  if (resultBox) resultBox.classList.add("hidden");
 
+  // Enter QUESTION MODE (both columns visible, all rows visible)
+  enterQuestionMode();
+
+  // --- Populate numbers for the new question ---
+  // If some values are only known after a wager, use "—" now and update them later.
+
+  // REWARD side
+
+  document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
+  document.getElementById("reward-plus").textContent         = (typeof displayedReward !== "undefined") ? fmtMoney(displayedReward) : "—";
+  document.getElementById("reward-new").textContent          = (typeof newBankIfCorrect !== "undefined") ? fmtMoney(newBankIfCorrect) : "—";
+  document.getElementById("reward-least").textContent        = fmtMoney(leastIfCorrect);
+  document.getElementById("reward-most").textContent         = fmtMoney(mostIfCorrect);
+
+  // RISK side
+  document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
+  document.getElementById("risk-minus").textContent        = (typeof displayedRisk !== "undefined") ? fmtMoney(displayedRisk) : "—";
+  document.getElementById("risk-new").textContent          = (typeof newBankIfWrong !== "undefined") ? fmtMoney(newBankIfWrong) : "—";
+  document.getElementById("risk-least").textContent        = fmtMoney(leastIfWrong);
+  document.getElementById("risk-most").textContent         = fmtMoney(mostIfWrong);
 
   if (!selectedCategory) {
     console.error("No category selected!");
@@ -751,46 +815,32 @@ lockButton.addEventListener("click", async () => {
 
 // Populate the result panel
 if (isCorrect) {
-  // Show reward column, hide risk column
-  document.getElementById("reward-column").classList.add("visible");
-  document.getElementById("risk-column").classList.remove("visible");
+ 
+  // Enter RESULT MODE: shows reward column, hides risk column,
+  // hides reward-plus and reward-new, sets heading to "You’re right!"
+  enterResultMode(true);
 
-  // Always show/update these
+  // Update the values that remain visible in result mode
   document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
-  document.getElementById("reward-least").textContent = fmtMoney(leastIfCorrect);
-  document.getElementById("reward-most").textContent  = fmtMoney(mostIfCorrect);
-  document.querySelector("#reward-column h3").textContent = "You’re right!";
+  document.getElementById("reward-least").textContent        = fmtMoney(leastIfCorrect);
+  document.getElementById("reward-most").textContent         = fmtMoney(mostIfCorrect);
 
-  // Hide the rows you don't want on the reward side
-  setRowVisibleByValueId("reward-plus", false);
-  setRowVisibleByValueId("reward-new",  false);
-
-  // Also hide risk rows just to ensure nothing accidentally appears
-  setRowVisibleByValueId("risk-minus", false);
-  setRowVisibleByValueId("risk-new",   false);
-
+  // Milestone celebration
   if (newBank >= 1_000_000 - 0.005) {
     fanfare.play();
     triggerConfetti();
   }
+
 } else {
-  // Show risk column, hide reward column
-  document.getElementById("risk-column").classList.add("visible");
-  document.getElementById("reward-column").classList.remove("visible");
 
-  // Always show/update these
+  // Enter RESULT MODE: shows risk column, hides reward column,
+  // hides risk-minus and risk-new, sets heading to "You missed…"
+  enterResultMode(false);
+
+  // Update the values that remain visible in result mode
   document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
-  document.getElementById("risk-least").textContent = fmtMoney(leastIfWrong);
-  document.getElementById("risk-most").textContent  = fmtMoney(mostIfWrong);
-  document.querySelector("#risk-column h3").textContent = "You missed…";
-
-  // Hide rows you don't want on the risk side
-  setRowVisibleByValueId("risk-minus", false);
-  setRowVisibleByValueId("risk-new",   false);
-
-  // Also hide reward rows just to ensure nothing accidentally appears
-  setRowVisibleByValueId("reward-plus", false);
-  setRowVisibleByValueId("reward-new",  false);
+  document.getElementById("risk-least").textContent        = fmtMoney(leastIfWrong);
+  document.getElementById("risk-most").textContent         = fmtMoney(mostIfWrong);
 
   // Show the correct answer in the result box
   document.getElementById("result-message").textContent =
