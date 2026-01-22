@@ -79,6 +79,16 @@ function enterResultMode(isCorrect) {
   }
 }
 
+    function fmtMoney(num) {
+      const rounded = Math.round((+num + Number.EPSILON) * 100) / 100;
+      return rounded.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
 const maxRewardPct = 0.873817422860;
 const minRewardPct = 0.596298274140;
 const originalMaxRewardPct = 0.873817422860;
@@ -788,16 +798,6 @@ lockButton.addEventListener("click", async () => {
     document.querySelectorAll('input[name="answer"]').forEach(i => i.disabled = true);
 
     updateBackgroundColor(currentBank);
-
-    function fmtMoney(num) {
-      const rounded = Math.round((+num + Number.EPSILON) * 100) / 100;
-      return rounded.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-    }
 
     if (currentQuestionIndex + 1 === 12) {
       const rewardLeastLabel = rewardLeast?.parentElement?.querySelector('.label');
