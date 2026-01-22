@@ -30,7 +30,11 @@ function setRowVisibleByValueId(valueId, show) {
   if (!valueEl) return;
   const row = valueEl.closest('p') || valueEl.parentElement; // your markup uses <p> rows
   if (!row) return;
-  row.classList.toggle('hidden', !show);
+
+  
+// Inline style beats external CSS and specificity issues
+  row.style.display = show ? "" : "none";
+
   if (!show) valueEl.textContent = "";
 }
 
