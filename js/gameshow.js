@@ -486,32 +486,6 @@ function loadQuestion() {
   const doOverButton = document.getElementById('do-over-button');
   if (doOverButton) doOverButton.style.display = 'none';
 
-  // Reset and hide result box for new question
-  const resultBox = document.getElementById("result-box");
-  const resultMsg = document.getElementById("result-message");
-  if (resultMsg) resultMsg.textContent = "";
-  if (resultBox) resultBox.classList.add("hidden");
-
-  // Enter QUESTION MODE (both columns visible, all rows visible)
-  enterQuestionMode();
-
-  // --- Populate numbers for the new question ---
-  // If some values are only known after a wager, use "—" now and update them later.
-
-  // REWARD side
-
-  document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
-  document.getElementById("reward-plus").textContent         = (typeof displayedReward !== "undefined") ? fmtMoney(displayedReward) : "—";
-  document.getElementById("reward-new").textContent          = (typeof newBankIfCorrect !== "undefined") ? fmtMoney(newBankIfCorrect) : "—";
-  document.getElementById("reward-least").textContent        = fmtMoney(leastIfCorrect);
-  document.getElementById("reward-most").textContent         = fmtMoney(mostIfCorrect);
-
-  // RISK side
-  document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
-  document.getElementById("risk-minus").textContent        = (typeof displayedRisk !== "undefined") ? fmtMoney(displayedRisk) : "—";
-  document.getElementById("risk-new").textContent          = (typeof newBankIfWrong !== "undefined") ? fmtMoney(newBankIfWrong) : "—";
-  document.getElementById("risk-least").textContent        = fmtMoney(leastIfWrong);
-  document.getElementById("risk-most").textContent         = fmtMoney(mostIfWrong);
 
   if (!selectedCategory) {
     console.error("No category selected!");
@@ -592,6 +566,32 @@ function loadQuestion() {
   top: 0,
   behavior: 'smooth'}); // Smooth scroll to the top when showing category buttons
 
+  // Reset and hide result box for new question
+  const resultBox = document.getElementById("result-box");
+  const resultMsg = document.getElementById("result-message");
+  if (resultMsg) resultMsg.textContent = "";
+  if (resultBox) resultBox.classList.add("hidden");
+
+  // Enter QUESTION MODE (both columns visible, all rows visible)
+  enterQuestionMode();
+
+  // --- Populate numbers for the new question ---
+  // If some values are only known after a wager, use "—" now and update them later.
+
+  // REWARD side
+
+  document.getElementById("reward-current-bank").textContent = fmtMoney(currentBank);
+  document.getElementById("reward-plus").textContent         = (typeof displayedReward !== "undefined") ? fmtMoney(displayedReward) : "—";
+  document.getElementById("reward-new").textContent          = (typeof newBankIfCorrect !== "undefined") ? fmtMoney(newBankIfCorrect) : "—";
+  document.getElementById("reward-least").textContent        = fmtMoney(leastIfCorrect);
+  document.getElementById("reward-most").textContent         = fmtMoney(mostIfCorrect);
+
+  // RISK side
+  document.getElementById("risk-current-bank").textContent = fmtMoney(currentBank);
+  document.getElementById("risk-minus").textContent        = (typeof displayedRisk !== "undefined") ? fmtMoney(displayedRisk) : "—";
+  document.getElementById("risk-new").textContent          = (typeof newBankIfWrong !== "undefined") ? fmtMoney(newBankIfWrong) : "—";
+  document.getElementById("risk-least").textContent        = fmtMoney(leastIfWrong);
+  document.getElementById("risk-most").textContent         = fmtMoney(mostIfWrong);
 
   // Reset and start the timer
   resetAndStartTimer();
