@@ -226,7 +226,7 @@ input[type=range]::-moz-range-thumb:hover {
 
 p strong {
   display: flex;
-  justify-content: space-between; /* Ensures "New Bank:" stays left and the number aligns right */
+  justify-content: space-between; /* Ensures "You now have:" stays left and the number aligns right */
   width: 100%; /* Expands the container properly */
 }
 
