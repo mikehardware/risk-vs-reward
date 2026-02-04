@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TITLE - Eddie Lawhorn</title>
+  <link rel="stylesheet" href="../../../css/styles.css">
+</head>
+<body class="post-page">
+  <header>Eddie Lawhorn</header>
+  <div id="menu-placeholder"></div>
+
+  <div class="container">
+    <h2>TITLE</h2>
+    <small>Posted MONTH DAY, 2026</small>
+    <p>Text by paragraphs</p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+
+  <p><a href="../../blog.html" class="back-link">&larr; Back to Eddie's Blog</a></p>
+
+  <footer>&copy; 2026 Eddie Lawhorn. All rights reserved.</footer>
+
+  <script>
+    fetch('../../../menu.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('menu-placeholder').innerHTML = data;
+      });
+  </script>
+</body>
+</html>
