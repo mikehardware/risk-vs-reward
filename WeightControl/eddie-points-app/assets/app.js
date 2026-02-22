@@ -1,7 +1,10 @@
 /* app.js – UI/state, storage, import/export, rendering */
-import { U, bmi, finalPoints } from './calc.js'; // bmi re-export trick below
+
+// ✅ Correct: import the whole module namespace
 import * as Calc from './calc.js';
 import { weightChart, weeklyPointsChart } from './charts.js';
+
+
 
 function $(sel){ return document.querySelector(sel); }
 function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
@@ -317,9 +320,6 @@ function hoverText(row, mph){
   const paceStr = `${Math.floor(pace)}:${String(Math.round((pace%1)*60)).padStart(2,'0')}/mi`;
   return `mph: ${mph.toFixed(2)}\npace: ${paceStr}\nelev(m): ${row.elev}\nincline: ${row.incline.toFixed(1)}%`;
 }
-
-// expose BMI for import above
-export const bmi = Calc.U.bmi;
 
 // INIT
 (async function start(){
