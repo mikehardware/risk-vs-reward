@@ -2,27 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Eddie’s Weight & Walking Points</title>
+  <title>Weight & Walking Points</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Correct stylesheet link (this makes the sky-blue theme show up) -->
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
+  <!-- HEADER (sticky) -->
   <header class="app-header">
-    <h1>Eddie’s Weight & Walking Points</h1>
+    <div class="header-row">
+      <h1 class="app-title">Weight & Walking Points</h1>
+      <div class="header-actions">
+        <span id="display-user" class="muted small"></span>
+        <button id="login-btn" class="small-btn">Login</button>
+        <button id="logout-btn" class="small-btn" style="display:none;">Logout</button>
+      </div>
+    </div>
+
+    <!-- Top navigation buttons (scroll to sections) -->
     <nav class="tabs">
-      <button class="tab-btn active" data-tab="daily">Daily</button>
-      <button class="tab-btn" data-tab="points">Walking Points</button>
-      <button class="tab-btn" data-tab="settings">Settings</button>
-      <button class="tab-btn" data-tab="import">Import</button>
-      <button class="tab-btn" data-tab="export">Export</button>
+      <button class="tab-btn active" data-target="#tab-daily">Daily</button>
+      <button class="tab-btn" data-target="#tab-points">Walking Points</button>
+      <button class="tab-btn" data-target="#tab-settings">Settings</button>
+      <button class="tab-btn" data-target="#tab-import">Import</button>
+      <button class="tab-btn" data-target="#tab-export">Export</button>
     </nav>
   </header>
 
   <main>
-    <!-- DAILY TAB -->
-    <section id="tab-daily" class="tab active">
+    <!-- DAILY -->
+    <section id="tab-daily" class="tab-section">
       <form id="daily-form" class="card">
         <div class="row">
           <label>Date <input type="date" id="daily-date" required /></label>
@@ -58,8 +67,8 @@
       </div>
     </section>
 
-    <!-- POINTS TAB -->
-    <section id="tab-points" class="tab">
+    <!-- WALKING POINTS -->
+    <section id="tab-points" class="tab-section">
       <form id="points-form" class="card">
         <div class="row">
           <label>Date <input type="date" id="walk-date" required /></label>
@@ -77,13 +86,14 @@
         </div>
       </form>
 
+      <div class="row row-end card">
+        <label class="switch">
+          <input type="checkbox" id="points-details" />
+          <span>Show details (Base/Incl/Elev/Gender)</span>
+        </label>
+      </div>
+
       <div class="card">
-        <div class="row row-end">
-          <label class="switch">
-            <input type="checkbox" id="points-details" />
-            <span>Show details (Base/Incl/Elev/Gender)</span>
-          </label>
-        </div>
         <div class="table-scroll">
           <table id="points-table">
             <thead>
@@ -92,6 +102,7 @@
                 <th>Dist</th>
                 <th>Time</th>
                 <th>mph</th>
+                <th>Pace (min/mi)</th>
                 <th class="detail-col">Base</th>
                 <th>Incl %</th>
                 <th class="detail-col">Incl Adj</th>
@@ -114,8 +125,8 @@
       </div>
     </section>
 
-    <!-- SETTINGS TAB -->
-    <section id="tab-settings" class="tab">
+    <!-- SETTINGS -->
+    <section id="tab-settings" class="tab-section">
       <form id="settings-form" class="card">
         <h3>Settings</h3>
         <div class="grid">
@@ -172,8 +183,8 @@
       </form>
     </section>
 
-    <!-- IMPORT / EXPORT -->
-    <section id="tab-import" class="tab">
+    <!-- IMPORT -->
+    <section id="tab-import" class="tab-section">
       <div class="card">
         <h3>Import</h3>
         <p>Paste CSV exported from your Excel sheets (Daily or Walk Record). The app will detect the type.</p>
@@ -186,7 +197,8 @@
       </div>
     </section>
 
-    <section id="tab-export" class="tab">
+    <!-- EXPORT -->
+    <section id="tab-export" class="tab-section">
       <div class="card">
         <h3>Export</h3>
         <div class="row">
@@ -198,11 +210,26 @@
     </section>
   </main>
 
+  <!-- LOGIN MODAL (placeholder) -->
+  <dialog id="login-modal">
+    <form method="dialog" class="card" style="max-width:420px;">
+      <h3>Sign in (placeholder)</h3>
+      <p class="muted small">For now, this just stores a display name locally.</p>
+      <label>Display name
+        <input id="login-name" type="text" placeholder="e.g., Eddie" required />
+      </label>
+      <div class="row" style="justify-content:flex-end;margin-top:10px;">
+        <button value="cancel">Cancel</button>
+        <button id="login-save" class="primary" value="default">Save</button>
+      </div>
+    </form>
+  </dialog>
+
   <footer class="app-footer">
-    <span>Eddie’s app • Theme color #2b6cb0 • Local‑only (IndexedDB)</span>
+    <span>Weight & Walking Points • Local‑only (IndexedDB)</span>
   </footer>
 
-  <!-- Proper script includes -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script type="module" src="assets/app.js"></script>
 </body>

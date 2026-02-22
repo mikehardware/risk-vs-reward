@@ -1,15 +1,11 @@
-/* app.js – UI/state, storage, import/export, rendering */
-
-// ✅ Correct: import the whole module namespace
+/* app.js – navigation, storage, charts, import/export, login stub */
 import * as Calc from './calc.js';
 import { weightChart, weeklyPointsChart } from './charts.js';
-
-
 
 function $(sel){ return document.querySelector(sel); }
 function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
 
-// State
+/* ------------------------ State & Storage ------------------------ */
 const DB = {
   settings: {
     units: 'english',
@@ -21,39 +17,21 @@ const DB = {
     graphStart2y: null,
     elevationGamma: 0.40,
     genderFactor: { male:1.00, female:1.25 },
-    coeff: { A:1.55, B:0.65, C:0.05 }, // base points coefficients
+    coeff: { A:1.55, B:0.65, C:0.05 }, // base points coefficients (tunable)
     inclineTable: []
   },
   daily: [],  // {date, dateStr, weight, notes}
   walks: []   // {date, dateStr, dist, minutes, seconds, incline, elev, notes, calc}
 };
-
-// Local Storage helpers
 const KEY = 'eddie-points-app-v1';
 function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
 function load(){
   const raw = localStorage.getItem(KEY);
   if (!raw) return;
-  try{
-    const parsed = JSON.parse(raw);
-    Object.assign(DB, parsed);
-  }catch(e){}
+  try{ Object.assign(DB, JSON.parse(raw)); }catch(e){}
 }
 
-// UI tabs
-$all('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    $all('.tab-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const tab = btn.dataset.tab;
-    $all('.tab').forEach(el=>el.classList.remove('active'));
-    $('#tab-'+tab).classList.add('active');
-    if (tab==='daily') renderDaily();
-    if (tab==='points') renderWalks();
-  });
-});
-
-// Load config.json (incline table defaults)
+// Load incline table defaults
 async function loadConfig(){
   try{
     const res = await fetch('assets/config.json');
@@ -65,7 +43,7 @@ async function loadConfig(){
   }catch(e){}
 }
 
-// SETTINGS
+/* ------------------------ Settings UI ------------------------ */
 function initSettings(){
   $('#units').value = DB.settings.units;
   $('#gender').value = DB.settings.gender;
@@ -91,16 +69,16 @@ function initSettings(){
   });
 }
 
-// DAILY
+/* ------------------------ Daily Tab ------------------------ */
 let weightChartRef = null;
+
 function renderDaily(){
-  const tbody = $('#daily-table tbody');
-  tbody.innerHTML = '';
+  const tbody = $('#daily-table tbody'); tbody.innerHTML = '';
   DB.daily.sort((a,b)=> (a.date>b.date?1:-1));
   const weights = [];
+
   DB.daily.forEach(row=>{
-    const w = row.weight;
-    weights.push(w);
+    const w = row.weight; weights.push(w);
     const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units).toFixed(1);
     const ma7 = Calc.movingAverage(weights, 7).slice(-1)[0];
     const tr = document.createElement('tr');
@@ -116,7 +94,6 @@ function renderDaily(){
     tbody.appendChild(tr);
   });
 
-  // chart
   if (weightChartRef) { weightChartRef.destroy(); weightChartRef=null; }
   if ($('#daily-chart')) {
     weightChartRef = weightChart($('#daily-chart'), DB.daily);
@@ -124,7 +101,6 @@ function renderDaily(){
 }
 
 function weeklyAvgForDate(date){
-  // average of weights within the week of 'date'
   const ws = weekStart(date, DB.settings.weekStart);
   const we = new Date(ws); we.setDate(ws.getDate()+6);
   const vals = DB.daily.filter(r=> r.date>=ws && r.date<=we).map(r=>r.weight);
@@ -144,11 +120,11 @@ $('#daily-form').addEventListener('submit',(e)=>{
   renderDaily();
 });
 
-// WALKS
+/* ------------------------ Points Tab ------------------------ */
 let pointsChartRef = null;
+
 function renderWalks(){
-  const tbody = $('#points-table tbody');
-  tbody.innerHTML = '';
+  const tbody = $('#points-table tbody'); tbody.innerHTML = '';
   DB.walks.sort((a,b)=> (a.date>b.date?1:-1));
 
   const showDetails = $('#points-details').checked;
@@ -156,6 +132,15 @@ function renderWalks(){
 
   DB.walks.forEach(row=>{
     const { mph, base, inc, elev, g, final } = row.calc;
+    // inline pace (min/mile)
+    const pace = Calc.U.paceMinPerMile(row.dist, row.minutes, row.seconds);
+    const paceStr = (()=>{
+      if (!pace || !isFinite(pace)) return '';
+      const mm = Math.floor(pace);
+      const ss = Math.round((pace - mm) * 60);
+      return `${mm}:${String(ss).padStart(2,'0')}`;
+    })();
+
     const tr = document.createElement('tr');
     tr.title = hoverText(row, mph);
     tr.innerHTML = `
@@ -163,6 +148,7 @@ function renderWalks(){
       <td>${fmtDistance(row.dist)}</td>
       <td>${fmtTime(row.minutes,row.seconds)}</td>
       <td>${mph.toFixed(2)}</td>
+      <td>${paceStr}</td>
       <td class="detail-col ${showDetails?'':'hidden'}">${base.toFixed(2)}</td>
       <td>${(row.incline||0).toFixed(1)}</td>
       <td class="detail-col ${showDetails?'':'hidden'}">${inc.toFixed(3)}</td>
@@ -176,7 +162,7 @@ function renderWalks(){
     tbody.appendChild(tr);
   });
 
-  // weekly chart
+  // weekly totals chart
   const {labels, values} = weeklyTotals();
   if (pointsChartRef){ pointsChartRef.destroy(); pointsChartRef=null; }
   if ($('#points-chart')) {
@@ -193,14 +179,11 @@ $('#points-form').addEventListener('submit',(e)=>{
   const elev = $('#walk-elevation').value ? Number($('#walk-elevation').value) : DB.settings.homeElevationMeters;
   const notes = $('#walk-notes').value;
 
-  const mph = Calc.U.mph(dist, mm, ss);
   const calc = Calc.finalPoints({
     distanceMiles: dist, minutes:mm, seconds:ss,
-    inclinePct: incline, elevationMeters:elev,
-    gender: DB.settings.gender,
-    genderFactor: DB.settings.genderFactor,
-    inclineTable: DB.settings.inclineTable,
-    gamma: DB.settings.elevationGamma,
+    inclinePct: incline, elevationMeters: elev,
+    gender: DB.settings.gender, genderFactor: DB.settings.genderFactor,
+    inclineTable: DB.settings.inclineTable, gamma: DB.settings.elevationGamma,
     coeff: DB.settings.coeff
   });
 
@@ -213,7 +196,7 @@ $('#points-form').addEventListener('submit',(e)=>{
 
 $('#points-details').addEventListener('change', renderWalks);
 
-// IMPORT
+/* ------------------------ Import/Export ------------------------ */
 $('#import-parse').addEventListener('click', ()=>{
   const txt = $('#import-text').value.trim();
   const preview = $('#import-preview');
@@ -232,7 +215,6 @@ $('#import-parse').addEventListener('click', ()=>{
   };
 });
 
-// EXPORT
 $('#export-daily').addEventListener('click', ()=>{
   const csv = toCSV([['Date','Weight','Notes']].concat(DB.daily.map(r=>[r.dateStr, r.weight, r.notes||''])));
   downloadFile('daily.csv', csv, 'text/csv');
@@ -248,7 +230,84 @@ $('#export-backup').addEventListener('click', ()=>{
   downloadFile('backup.json', JSON.stringify(DB, null, 2), 'application/json');
 });
 
-// Helpers
+/* ------------------------ Navigation: smooth scroll + hash ------------------------ */
+$all('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const targetSel = btn.dataset.target;
+    const section = document.querySelector(targetSel);
+    if (!section) return;
+    history.pushState(null, '', targetSel); // hash route
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setActiveTab(targetSel);
+  });
+});
+
+function setActiveTab(targetSel){
+  $all('.tab-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.target === targetSel);
+  });
+}
+
+const observer = new IntersectionObserver((entries)=>{
+  let winner = null, maxRatio = 0;
+  for (const entry of entries){
+    if (entry.isIntersecting && entry.intersectionRatio > maxRatio){
+      winner = entry; maxRatio = entry.intersectionRatio;
+    }
+  }
+  if (winner){ setActiveTab('#'+winner.target.id); }
+}, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: [0,0.25,0.5,0.75,1] });
+
+$all('.tab-section').forEach(sec=> observer.observe(sec));
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  const hash = location.hash || '#tab-daily';
+  const section = document.querySelector(hash);
+  if (section){ setActiveTab(hash); setTimeout(()=> section.scrollIntoView({ behavior:'instant', block:'start'}), 0); }
+});
+window.addEventListener('popstate', ()=>{
+  const hash = location.hash || '#tab-daily';
+  setActiveTab(hash);
+  document.querySelector(hash)?.scrollIntoView({ behavior:'smooth', block:'start' });
+});
+
+/* ------------------------ Login (placeholder) ------------------------ */
+const KEY_USER = 'eddie-points-user';
+const loginBtn = $('#login-btn');
+const logoutBtn = $('#logout-btn');
+const displayUser = $('#display-user');
+const loginModal = $('#login-modal');
+const loginNameInput = $('#login-name');
+const loginSaveBtn = $('#login-save');
+
+function loadUser(){ try{ return JSON.parse(localStorage.getItem(KEY_USER)) || null; }catch{return null;} }
+function saveUser(u){ localStorage.setItem(KEY_USER, JSON.stringify(u)); }
+function setUserUI(u){
+  if (u && u.name){
+    displayUser.textContent = `Signed in as ${u.name}`;
+    loginBtn.style.display = 'none'; logoutBtn.style.display = 'inline-block';
+  } else {
+    displayUser.textContent = '';
+    loginBtn.style.display = 'inline-block'; logoutBtn.style.display = 'none';
+  }
+}
+loginBtn?.addEventListener('click', ()=>{
+  loginNameInput.value = (loadUser()?.name || '');
+  loginModal.showModal();
+});
+logoutBtn?.addEventListener('click', ()=>{
+  localStorage.removeItem(KEY_USER);
+  setUserUI(null);
+});
+loginSaveBtn?.addEventListener('click', (e)=>{
+  e.preventDefault();
+  const name = loginNameInput.value.trim();
+  if (!name) { loginModal.close(); return; }
+  saveUser({ name }); setUserUI({ name }); loginModal.close();
+});
+window.addEventListener('DOMContentLoaded', ()=> setUserUI(loadUser()) );
+
+/* ------------------------ Helpers ------------------------ */
 function weekStart(date, startDow){
   const d = new Date(date);
   const day = d.getDay();
@@ -258,7 +317,6 @@ function weekStart(date, startDow){
   return d;
 }
 function weeklyTotals(){
-  // group DB.walks by week
   const map = new Map();
   DB.walks.forEach(w=>{
     const ws = weekStart(w.date, DB.settings.weekStart);
@@ -274,10 +332,7 @@ function parseMmSs(s){
   return [Number(m[1]), Number(m[2])];
 }
 function parseCSV(txt){
-  return txt.split(/\r?\n/).filter(Boolean).map(line=>{
-    // simple CSV (no embedded commas/quotes for now)
-    return line.split(',').map(x=>x.trim());
-  });
+  return txt.split(/\r?\n/).filter(Boolean).map(line=> line.split(',').map(x=>x.trim()));
 }
 function toCSV(rows){ return rows.map(r=>r.map(c=>String(c)).join(',')).join('\n'); }
 function classifyCSV(rows){
@@ -288,15 +343,12 @@ function classifyCSV(rows){
 }
 function importRows(rows, type){
   if (type==='daily'){
-    // expecting header: Date, Weight, Notes (or similar)
     rows.slice(1).forEach(r=>{
-      const d = new Date(r[0]+'T00:00:00');
-      if (isNaN(d)) return;
+      const d = new Date(r[0]+'T00:00:00'); if (isNaN(d)) return;
       const weight = Number(r[1]); if (!weight) return;
       DB.daily.push({ date:d, dateStr:r[0], weight, notes:r[2]||'' });
     });
   } else if (type==='walks'){
-    // expected columns: Date, Distance, Minutes, Seconds, (Incline), (Elevation), (Notes)
     rows.slice(1).forEach(r=>{
       const d = new Date(r[0]+'T00:00:00'); if (isNaN(d)) return;
       const dist = Number(r[1]); const mm = Number(r[2]); const ss = Number(r[3]||0);
@@ -317,16 +369,15 @@ function fmtDistance(d){ return DB.settings.units==='metric' ? `${(d*1.609344).t
 function esc(s){ return s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 function hoverText(row, mph){
   const pace = Calc.U.paceMinPerMile(row.dist, row.minutes, row.seconds);
-  const paceStr = `${Math.floor(pace)}:${String(Math.round((pace%1)*60)).padStart(2,'0')}/mi`;
+  const paceStr = `${Math.floor(pace||0)}:${String(Math.round(((pace||0)%1)*60)).padStart(2,'0')}/mi`;
   return `mph: ${mph.toFixed(2)}\npace: ${paceStr}\nelev(m): ${row.elev}\nincline: ${row.incline.toFixed(1)}%`;
 }
 
-// INIT
+/* ------------------------ Start ------------------------ */
 (async function start(){
   load();
   await loadConfig();
   initSettings();
-
   renderDaily();
   renderWalks();
 })();

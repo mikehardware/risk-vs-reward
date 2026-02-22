@@ -19,21 +19,39 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
   background:var(--bg); color:var(--text);
 }
+main{padding:16px; max-width:1100px; margin:auto}
+
+/* Sticky header & nav */
 .app-header{
   background:linear-gradient(90deg, var(--brand), #2b6cb0);
   color:#fff; padding:16px 20px;
+  position: sticky; top: 0; z-index: 1000;
+  box-shadow: 0 1px 0 var(--border);
 }
-.app-header h1{margin:0 0 8px 0; font-size:20px; font-weight:600}
+.header-row{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:8px;
+}
+.app-title{ margin:0; font-size:20px; font-weight:600 }
+.header-actions{ display:flex; align-items:center; gap:8px }
+.small-btn{
+  padding:4px 8px; font-size:12px; border-radius:6px; border:1px solid #ffffff30; background:#ffffff20; color:#fff;
+}
+.small-btn:hover{ background:#ffffff30; }
+
 .tabs{display:flex; gap:8px; flex-wrap:wrap}
 .tab-btn{
   background:#ffffff20; color:#fff; border:1px solid #ffffff30;
   padding:6px 10px; border-radius:6px; cursor:pointer;
 }
 .tab-btn.active{background:#fff; color:var(--brand)}
-main{padding:16px; max-width:1100px; margin:auto}
+.tab-section{ scroll-margin-top: 90px; }
+
+/* Cards & layout */
 .card{
   background:var(--card); border:1px solid var(--border);
   border-radius:10px; padding:14px; margin-bottom:16px;
@@ -42,6 +60,8 @@ main{padding:16px; max-width:1100px; margin:auto}
 .row-end{justify-content:flex-end}
 .grid{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 label{display:flex; flex-direction:column; gap:4px; font-size:14px}
+
+/* Inputs */
 input,select,textarea{
   background:var(--bg); color:var(--text);
   border:1px solid var(--border); border-radius:8px; padding:8px;
@@ -52,12 +72,18 @@ button{
 }
 button.primary{background:var(--brand); color:#fff; border-color:transparent}
 button.secondary{background:#e2e8f0; color:#0f172a}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+/* Tables */
 .table-scroll{overflow:auto; border:1px solid var(--border); border-radius:8px}
 table{border-collapse:collapse; width:100%}
 th,td{padding:8px 10px; border-bottom:1px solid var(--border); white-space:nowrap}
 th{position:sticky; top:0; background:var(--card); z-index:1}
-.muted{color:var(--muted)}
-.small{font-size:12px}
+
+/* Footer */
 .app-footer{padding:20px; text-align:center; color:var(--muted)}
-.switch{display:flex; align-items:center; gap:8px}
-.detail-col.hidden{display:none}
+
+/* Dialog (login) */
+dialog::backdrop{ background: rgba(0,0,0,0.35); }
+dialog[open]{ border:none; padding:0; background:transparent; }
