@@ -13,7 +13,7 @@
     <div class="header-row">
       <h1 class="app-title">Weight & Walking Points</h1>
       <div class="header-actions">
-        <span id="display-user" class="muted small"></span>
+        <span id="display-user" class="user-chip"></span>
         <button id="login-btn" class="small-btn">Login</button>
         <button id="logout-btn" class="small-btn" style="display:none;">Logout</button>
       </div>
@@ -21,17 +21,19 @@
 
     <!-- Top navigation buttons (scroll to sections) -->
     <nav class="tabs">
-      <button class="tab-btn active" data-target="#tab-daily">Daily</button>
-      <button class="tab-btn" data-target="#tab-points">Walking Points</button>
-      <button class="tab-btn" data-target="#tab-settings">Settings</button>
-      <button class="tab-btn" data-target="#tab-import">Import</button>
-      <button class="tab-btn" data-target="#tab-export">Export</button>
+      <button class="tab-btn active" data-target="#section-daily">Daily</button>
+      <button class="tab-btn" data-target="#section-points">Walking Points</button>
+      <button class="tab-btn" data-target="#section-settings">Settings</button>
+      <button class="tab-btn" data-target="#section-import">Import</button>
+      <button class="tab-btn" data-target="#section-export">Export</button>
     </nav>
   </header>
 
   <main>
     <!-- DAILY -->
-    <section id="tab-daily" class="tab-section">
+    <section id="section-daily" class="tab-section">
+      <h2 class="section-title">Daily</h2>
+
       <form id="daily-form" class="card">
         <div class="row">
           <label>Date <input type="date" id="daily-date" required /></label>
@@ -49,10 +51,15 @@
               <tr>
                 <th>Date</th>
                 <th>Weight</th>
+                <th>Moving Average</th>
+                <th>Calories per Day</th>
+                <th>Lbs./Week</th>
+                <th>Lbs. (+/‑)</th>
                 <th>BMI</th>
-                <th>7‑day MA</th>
-                <th>Δ lbs</th>
-                <th>Weekly Avg</th>
+                <th>% Change</th>
+                <th>% to Goal</th>
+                <th>Goal Date</th>
+                <th>Weekly Avg. Weight</th>
                 <th>Notes</th>
               </tr>
             </thead>
@@ -68,7 +75,9 @@
     </section>
 
     <!-- WALKING POINTS -->
-    <section id="tab-points" class="tab-section">
+    <section id="section-points" class="tab-section">
+      <h2 class="section-title">Walking Points</h2>
+
       <form id="points-form" class="card">
         <div class="row">
           <label>Date <input type="date" id="walk-date" required /></label>
@@ -126,9 +135,10 @@
     </section>
 
     <!-- SETTINGS -->
-    <section id="tab-settings" class="tab-section">
+    <section id="section-settings" class="tab-section">
+      <h2 class="section-title">Settings</h2>
+
       <form id="settings-form" class="card">
-        <h3>Settings</h3>
         <div class="grid">
           <label>Units
             <select id="units">
@@ -166,6 +176,25 @@
             <small class="muted">Used for BMI (cm if Metric; in if English)</small>
           </label>
 
+          <label>Starting Weight
+            <input type="number" id="start-weight" step="0.1" min="0" />
+          </label>
+
+          <label>Short‑Term Goal Weight
+            <input type="number" id="goal-short" step="0.1" min="0" />
+          </label>
+
+          <label>Long‑Term Goal Weight
+            <input type="number" id="goal-long" step="0.1" min="0" />
+          </label>
+
+          <label>Goal Mode
+            <select id="goal-mode">
+              <option value="short" selected>Short‑Term</option>
+              <option value="long">Long‑Term</option>
+            </select>
+          </label>
+
           <label>Graph Start (Weight)
             <input type="date" id="graph-start-weight" />
           </label>
@@ -184,9 +213,11 @@
     </section>
 
     <!-- IMPORT -->
-    <section id="tab-import" class="tab-section">
+    <section id="section-import" class="tab-section">
+      <h2 class="section-title">Import</h2>
+
       <div class="card">
-        <h3>Import</h3>
+        <h3>CSV Import</h3>
         <p>Paste CSV exported from your Excel sheets (Daily or Walk Record). The app will detect the type.</p>
         <textarea id="import-text" rows="10" placeholder="Paste CSV here..."></textarea>
         <div class="row">
@@ -198,9 +229,11 @@
     </section>
 
     <!-- EXPORT -->
-    <section id="tab-export" class="tab-section">
+    <section id="section-export" class="tab-section">
+      <h2 class="section-title">Export</h2>
+
       <div class="card">
-        <h3>Export</h3>
+        <h3>Downloads</h3>
         <div class="row">
           <button id="export-daily" class="secondary">Export Daily CSV</button>
           <button id="export-walks" class="secondary">Export Walks CSV</button>

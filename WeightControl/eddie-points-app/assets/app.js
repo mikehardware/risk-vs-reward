@@ -12,13 +12,18 @@ const DB = {
     gender: 'male',
     weekStart: 0,
     homeElevationMeters: 179,
-    height: 175, // cm if metric, inches if english (converted)
+    height: 175, // cm if metric; inches if english (converted in bmi)
     graphStartWeight: null,
     graphStart2y: null,
     elevationGamma: 0.40,
     genderFactor: { male:1.00, female:1.25 },
     coeff: { A:1.55, B:0.65, C:0.05 }, // base points coefficients (tunable)
-    inclineTable: []
+    inclineTable: [],
+    // NEW for % Change / Goal projections:
+    startWeight: null,
+    goalShort: null,
+    goalLong: null,
+    goalMode: 'short' // 'short' | 'long'
   },
   daily: [],  // {date, dateStr, weight, notes}
   walks: []   // {date, dateStr, dist, minutes, seconds, incline, elev, notes, calc}
@@ -53,6 +58,11 @@ function initSettings(){
   $('#graph-start-weight').value = DB.settings.graphStartWeight || '';
   $('#graph-start-2y').value = DB.settings.graphStart2y || '';
   $('#elev-gamma').value = DB.settings.elevationGamma;
+  // NEW fields:
+  $('#start-weight').value = DB.settings.startWeight ?? '';
+  $('#goal-short').value  = DB.settings.goalShort ?? '';
+  $('#goal-long').value   = DB.settings.goalLong ?? '';
+  $('#goal-mode').value   = DB.settings.goalMode ?? 'short';
 
   $('#settings-form').addEventListener('change', ()=>{
     DB.settings.units = $('#units').value;
@@ -63,11 +73,17 @@ function initSettings(){
     DB.settings.graphStartWeight = $('#graph-start-weight').value || null;
     DB.settings.graphStart2y = $('#graph-start-2y').value || null;
     DB.settings.elevationGamma = Number($('#elev-gamma').value);
+    // NEW:
+    DB.settings.startWeight = toNumberOrNull($('#start-weight').value);
+    DB.settings.goalShort   = toNumberOrNull($('#goal-short').value);
+    DB.settings.goalLong    = toNumberOrNull($('#goal-long').value);
+    DB.settings.goalMode    = $('#goal-mode').value;
     save();
     renderDaily();
     renderWalks();
   });
 }
+function toNumberOrNull(v){ const n = Number(v); return (isFinite(n) ? n : null); }
 
 /* ------------------------ Daily Tab ------------------------ */
 let weightChartRef = null;
@@ -75,29 +91,118 @@ let weightChartRef = null;
 function renderDaily(){
   const tbody = $('#daily-table tbody'); tbody.innerHTML = '';
   DB.daily.sort((a,b)=> (a.date>b.date?1:-1));
-  const weights = [];
 
-  DB.daily.forEach(row=>{
-    const w = row.weight; weights.push(w);
-    const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units).toFixed(1);
-    const ma7 = Calc.movingAverage(weights, 7).slice(-1)[0];
+  const weights = [];
+  const ma20 = [];           // 20-day moving average (expanding until 20)
+  const weeklyAvgMap = new Map();
+
+  // Build 20-day MA progressively
+  DB.daily.forEach((row, i)=>{
+    weights.push(row.weight);
+    const window = Math.min(20, i+1);
+    const slice = weights.slice(weights.length - window);
+    const avg = slice.reduce((a,b)=>a+b,0)/slice.length;
+    ma20.push(avg);
+  });
+
+  // Precompute weekly averages per week (by week start)
+  DB.daily.forEach(r=>{
+    const ws = weekStart(r.date, DB.settings.weekStart);
+    const key = ws.toISOString().slice(0,10);
+    const arr = weeklyAvgMap.get(key) || [];
+    arr.push(r.weight);
+    weeklyAvgMap.set(key, arr);
+  });
+
+  DB.daily.forEach((row, i)=>{
+    const w = row.weight;
+    const dateStrLong = formatLongDate(row.date); // Sunday February 22, 2026
+    const ma = ma20[i];
+
+    // Lbs. (+/-) from previous day (if any)
+    const delta = (i>0) ? (w - DB.daily[i-1].weight) : null;
+
+    // Lbs./Week: MA change vs 7 days ago (provisional)
+    const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
+
+    // Calories per Day (deficit positive if losing): (lbs/week * 3500) / 7
+    const calsPerDay = (lbsWeek!=null) ? (lbsWeek * 3500 / 7) : null;
+
+    // BMI (3 decimals)
+    const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
+    const bmiFmt = isFinite(bmiVal) ? bmiVal.toFixed(3) : '';
+
+    // % Change from Starting Weight (if provided)
+    const pctChange = (DB.settings.startWeight!=null)
+      ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
+      : null;
+
+    // % to Goal + Goal Date (provisional)
+    const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
+    let pctToGoal = null, goalDateStr = '';
+    if (DB.settings.startWeight!=null && goalWeight!=null){
+      const start = DB.settings.startWeight;
+      const goal  = goalWeight;
+      const span  = (start - goal); // negative if gaining desired
+      const progressed = (start - w); // positive if moving toward lower goal
+      if (span !== 0){
+        pctToGoal = (progressed / span) * 100;
+      }
+      // Goal date using lbs/week projection
+      if (lbsWeek && Math.abs(lbsWeek) > 1e-6){
+        const remaining = Math.abs(w - goal);
+        const weeks = remaining / Math.abs(lbsWeek);
+        const target = new Date(row.date);
+        target.setDate(target.getDate() + Math.round(weeks * 7));
+        goalDateStr = formatLongDate(target);
+      }
+    }
+
+    // Weekly Avg. Weight only on last day of week
+    const ws = weekStart(row.date, DB.settings.weekStart);
+    const we = new Date(ws); we.setDate(ws.getDate()+6);
+    const isEndOfWeek = sameYMD(row.date, we);
+    let weeklyAvg = '';
+    if (isEndOfWeek){
+      const key = ws.toISOString().slice(0,10);
+      const arr = weeklyAvgMap.get(key) || [];
+      weeklyAvg = arr.length ? (arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1) : '';
+    }
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${row.dateStr}</td>
+      <td>${dateStrLong}</td>
       <td>${fmtWeight(w)}</td>
-      <td>${bmiVal}</td>
-      <td>${ma7? ma7.toFixed(1):''}</td>
-      <td>${weights.length>1 ? (w - weights[weights.length-2]).toFixed(1) : ''}</td>
-      <td>${weeklyAvgForDate(row.date)?.toFixed(1) ?? ''}</td>
+      <td>${fmtNumber(ma,1)}</td>
+      <td>${fmtNumber(calsPerDay,0)}</td>
+      <td>${fmtNumber(lbsWeek,2)}</td>
+      <td>${fmtSigned(delta,1)}</td>
+      <td>${bmiFmt}</td>
+      <td>${fmtNumber(pctChange,2,' %')}</td>
+      <td>${fmtNumber(pctToGoal,2,' %')}</td>
+      <td>${goalDateStr}</td>
+      <td>${weeklyAvg ? fmtWeightRaw(weeklyAvg) : ''}</td>
       <td>${esc(row.notes||'')}</td>
     `;
     tbody.appendChild(tr);
   });
 
+  // chart
   if (weightChartRef) { weightChartRef.destroy(); weightChartRef=null; }
   if ($('#daily-chart')) {
     weightChartRef = weightChart($('#daily-chart'), DB.daily);
   }
+}
+
+function formatLongDate(d){
+  try{
+    return new Intl.DateTimeFormat('en-US', {
+      weekday:'long', month:'long', day:'numeric', year:'numeric'
+    }).format(d);
+  }catch{ return d.toISOString().slice(0,10); }
+}
+function sameYMD(a,b){
+  return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
 }
 
 function weeklyAvgForDate(date){
@@ -112,7 +217,7 @@ $('#daily-form').addEventListener('submit',(e)=>{
   const d = $('#daily-date').value;
   const w = Number($('#daily-weight').value);
   const n = $('#daily-notes').value;
-  if (!d || !w) return;
+  if (!d || !isFinite(w)) return;
   const date = new Date(d+'T00:00:00');
   DB.daily.push({ date, dateStr: d, weight: w, notes:n });
   save();
@@ -132,7 +237,6 @@ function renderWalks(){
 
   DB.walks.forEach(row=>{
     const { mph, base, inc, elev, g, final } = row.calc;
-    // inline pace (min/mile)
     const pace = Calc.U.paceMinPerMile(row.dist, row.minutes, row.seconds);
     const paceStr = (()=>{
       if (!pace || !isFinite(pace)) return '';
@@ -162,7 +266,6 @@ function renderWalks(){
     tbody.appendChild(tr);
   });
 
-  // weekly totals chart
   const {labels, values} = weeklyTotals();
   if (pointsChartRef){ pointsChartRef.destroy(); pointsChartRef=null; }
   if ($('#points-chart')) {
@@ -216,7 +319,60 @@ $('#import-parse').addEventListener('click', ()=>{
 });
 
 $('#export-daily').addEventListener('click', ()=>{
-  const csv = toCSV([['Date','Weight','Notes']].concat(DB.daily.map(r=>[r.dateStr, r.weight, r.notes||''])));
+  const header = ['Date','Weight','Moving Average','Calories per Day','Lbs./Week','Lbs (+/-)','BMI','% Change','% to Goal','Goal Date','Weekly Avg. Weight','Notes'];
+  const csvRows = [header];
+  // Rebuild same computed fields for export
+  const tmp = [...DB.daily].sort((a,b)=> (a.date>b.date?1:-1));
+  const weights = [];
+  const ma20 = [];
+  tmp.forEach((r,i)=>{
+    weights.push(r.weight);
+    const window = Math.min(20, i+1);
+    const slice = weights.slice(weights.length - window);
+    ma20.push(slice.reduce((a,b)=>a+b,0)/slice.length);
+  });
+
+  tmp.forEach((row,i)=>{
+    const dLong = formatLongDate(row.date);
+    const w = row.weight;
+    const ma = ma20[i];
+    const lbsWeek = (i>=7) ? (ma20[i]-ma20[i-7]) : null;
+    const calsPerDay = (lbsWeek!=null)? (lbsWeek*3500/7) : null;
+    const bmi = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
+    const pctChange = (DB.settings.startWeight!=null)? ((w-DB.settings.startWeight)/DB.settings.startWeight*100) : null;
+    const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
+    let pctToGoal = null, goalDateStr = '';
+    if (DB.settings.startWeight!=null && goalWeight!=null){
+      const start = DB.settings.startWeight;
+      const goal  = goalWeight;
+      const span  = (start - goal);
+      const progressed = (start - w);
+      if (span !== 0){ pctToGoal = (progressed/span)*100; }
+      if (lbsWeek && Math.abs(lbsWeek)>1e-6){
+        const remaining = Math.abs(w - goal);
+        const weeks = remaining / Math.abs(lbsWeek);
+        const target = new Date(row.date);
+        target.setDate(target.getDate() + Math.round(weeks*7));
+        goalDateStr = formatLongDate(target);
+      }
+    }
+    const weekly = weeklyAvgForDate(row.date);
+    csvRows.push([
+      dLong,
+      w.toFixed(1),
+      fmtNumber(ma,1,false,true),
+      fmtNumber(calsPerDay,0,false,true),
+      fmtNumber(lbsWeek,2,false,true),
+      fmtSigned(i>0?(w-tmp[i-1].weight):null,1,false,true),
+      isFinite(bmi)? bmi.toFixed(3):'',
+      fmtNumber(pctChange,2,' %',true),
+      fmtNumber(pctToGoal,2,' %',true),
+      goalDateStr,
+      weekly!=null? weekly.toFixed(1):'',
+      row.notes||''
+    ]);
+  });
+  const csv = toCSV(csvRows);
   downloadFile('daily.csv', csv, 'text/csv');
 });
 $('#export-walks').addEventListener('click', ()=>{
@@ -241,13 +397,11 @@ $all('.tab-btn').forEach(btn=>{
     setActiveTab(targetSel);
   });
 });
-
 function setActiveTab(targetSel){
   $all('.tab-btn').forEach(b=>{
     b.classList.toggle('active', b.dataset.target === targetSel);
   });
 }
-
 const observer = new IntersectionObserver((entries)=>{
   let winner = null, maxRatio = 0;
   for (const entry of entries){
@@ -257,16 +411,14 @@ const observer = new IntersectionObserver((entries)=>{
   }
   if (winner){ setActiveTab('#'+winner.target.id); }
 }, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: [0,0.25,0.5,0.75,1] });
-
 $all('.tab-section').forEach(sec=> observer.observe(sec));
-
 window.addEventListener('DOMContentLoaded', ()=>{
-  const hash = location.hash || '#tab-daily';
+  const hash = location.hash || '#section-daily';
   const section = document.querySelector(hash);
   if (section){ setActiveTab(hash); setTimeout(()=> section.scrollIntoView({ behavior:'instant', block:'start'}), 0); }
 });
 window.addEventListener('popstate', ()=>{
-  const hash = location.hash || '#tab-daily';
+  const hash = location.hash || '#section-daily';
   setActiveTab(hash);
   document.querySelector(hash)?.scrollIntoView({ behavior:'smooth', block:'start' });
 });
@@ -345,7 +497,7 @@ function importRows(rows, type){
   if (type==='daily'){
     rows.slice(1).forEach(r=>{
       const d = new Date(r[0]+'T00:00:00'); if (isNaN(d)) return;
-      const weight = Number(r[1]); if (!weight) return;
+      const weight = Number(r[1]); if (!isFinite(weight)) return;
       DB.daily.push({ date:d, dateStr:r[0], weight, notes:r[2]||'' });
     });
   } else if (type==='walks'){
@@ -364,9 +516,32 @@ function importRows(rows, type){
   }
 }
 function fmtTime(m,s){ return `${String(m)}:${String(s).padStart(2,'0')}`; }
-function fmtWeight(w){ return DB.settings.units==='metric' ? `${(w).toFixed(1)} kg` : `${w.toFixed(1)} lb`; }
-function fmtDistance(d){ return DB.settings.units==='metric' ? `${(d*1.609344).toFixed(2)} km` : `${d.toFixed(2)} mi`; }
-function esc(s){ return s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+function fmtWeight(w){
+  return DB.settings.units==='metric'
+    ? `${(w).toFixed(1)} kg`
+    : `${w.toFixed(1)} lb`;
+}
+function fmtWeightRaw(w){
+  const n = Number(w);
+  return DB.settings.units==='metric'
+    ? `${(n).toFixed(1)} kg`
+    : `${n.toFixed(1)} lb`;
+}
+function fmtDistance(d){
+  return DB.settings.units==='metric'
+    ? `${(d*1.609344).toFixed(2)} km`
+    : `${d.toFixed(2)} mi`;
+}
+function fmtSigned(v,dec=1, suffix='', raw=false){
+  if (v==null || !isFinite(v)) return raw?'':'';
+  const s = (v>=0?'+':'');
+  return raw ? `${s}${v.toFixed(dec)}${suffix}` : `${s}${v.toFixed(dec)}${suffix}`;
+}
+function fmtNumber(v, dec=1, suffix='', raw=false){
+  if (v==null || !isFinite(v)) return raw?'':'';
+  return raw ? `${v.toFixed(dec)}${suffix}` : `${v.toFixed(dec)}${suffix}`;
+}
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 function hoverText(row, mph){
   const pace = Calc.U.paceMinPerMile(row.dist, row.minutes, row.seconds);
   const paceStr = `${Math.floor(pace||0)}:${String(Math.round(((pace||0)%1)*60)).padStart(2,'0')}/mi`;

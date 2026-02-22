@@ -38,8 +38,11 @@ main{padding:16px; max-width:1100px; margin:auto}
 }
 .app-title{ margin:0; font-size:20px; font-weight:600 }
 .header-actions{ display:flex; align-items:center; gap:8px }
+.user-chip{ color:#fff; font-weight:600 }  /* improved contrast */
+
 .small-btn{
-  padding:4px 8px; font-size:12px; border-radius:6px; border:1px solid #ffffff30; background:#ffffff20; color:#fff;
+  padding:4px 8px; font-size:12px; border-radius:6px;
+  border:1px solid #ffffff30; background:#ffffff20; color:#fff;
 }
 .small-btn:hover{ background:#ffffff30; }
 
@@ -49,7 +52,8 @@ main{padding:16px; max-width:1100px; margin:auto}
   padding:6px 10px; border-radius:6px; cursor:pointer;
 }
 .tab-btn.active{background:#fff; color:var(--brand)}
-.tab-section{ scroll-margin-top: 90px; }
+.tab-section{ scroll-margin-top: 94px; }
+.section-title{ margin:8px 0 12px; font-size:18px }
 
 /* Cards & layout */
 .card{
