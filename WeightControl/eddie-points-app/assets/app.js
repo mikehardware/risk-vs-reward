@@ -1,4 +1,4 @@
-/* app.js – CRUD for Daily, date sorting, feet→meters elevation, straight-line charts */
+/* app.js – CRUD for Daily & Walking, feet→meters elevation, straight-line charts */
 import * as Calc from './calc.js';
 import { weightChart, weeklyPointsChart } from './charts.js';
 
@@ -37,16 +37,14 @@ function load(){
 
 /* Migrate any legacy data (string dates, missing ids) */
 function migrate(){
-  const ensureId = () => 'd_' + Math.random().toString(36).slice(2,10);
+  const ensureId = () => 'id_' + Math.random().toString(36).slice(2,10);
   (DB.daily||[]).forEach(r=>{
     if (!r.id) r.id = ensureId();
-    // normalize date
     if (!(r.date instanceof Date)){
       if (typeof r.date === 'string'){ r.date = new Date(r.date); }
       else if (r.dateStr){ r.date = new Date(r.dateStr+'T00:00:00'); }
       else { r.date = new Date(); }
     }
-    // normalize dateStr
     if (!r.dateStr) r.dateStr = r.date.toISOString().slice(0,10);
   });
   (DB.walks||[]).forEach(r=>{
@@ -151,21 +149,48 @@ function renderDaily(){
     weeklyAvgMap.set(key, arr);
   });
 
+  // Prepare globals for formulas depending on "start"
+  const firstEntry = DB.daily[0];
+  const startDate = firstEntry?.date ?? null;
+  const startWeightForCalc = DB.settings.startWeight ?? firstEntry?.weight ?? null;
+
+  // Running max for lbs (+/-)
+  let runMax = -Infinity;
+
   DB.daily.forEach((row, i)=>{
     const w = row.weight;
     const dateStrLong = formatLongDate(row.date);
     const ma = ma20[i];
-    const delta = (i>0) ? (w - DB.daily[i-1].weight) : null;
-    const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
-    const calsPerDay = (lbsWeek!=null) ? (lbsWeek * 3500 / 7) : null;
 
+    // Lbs./Week (we'll keep MA change over 7 days)
+    const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
+
+    // Calories per Day (your formula)
+    // -(start - current) * 3500 / (daysFromStart - 1); 0 if same day or missing start
+    let calsPerDay = null;
+    if (startDate && startWeightForCalc!=null){
+      const daysElapsed = Math.round((row.date - startDate) / 86400000);
+      if (daysElapsed <= 0){
+        calsPerDay = 0;
+      } else {
+        calsPerDay = -((startWeightForCalc - w) * 3500) / (daysElapsed);
+      }
+    }
+
+    // Lbs. (+/-) = current - max_so_far (up to this date)
+    runMax = Math.max(runMax, w);
+    const lbsPlusMinus = w - runMax; // 0 at first; ≤ 0 thereafter when below peak
+
+    // BMI (3 decimals)
     const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
     const bmiFmt = isFinite(bmiVal) ? bmiVal.toFixed(3) : '';
 
+    // % Change from Starting Weight (if provided)
     const pctChange = (DB.settings.startWeight!=null)
       ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
       : null;
 
+    // % to Goal + Goal Date (projection using lbsWeek)
     const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
     let pctToGoal = null, goalDateStr = '';
     if (DB.settings.startWeight!=null && goalWeight!=null){
@@ -183,6 +208,7 @@ function renderDaily(){
       }
     }
 
+    // Weekly Avg. Weight only on last day of week
     const ws = weekStart(row.date, DB.settings.weekStart);
     const we = new Date(ws); we.setDate(ws.getDate()+6);
     const isEndOfWeek = sameYMD(row.date, we);
@@ -197,10 +223,10 @@ function renderDaily(){
     tr.innerHTML = `
       <td>${dateStrLong}</td>
       <td>${fmtWeight(w)}</td>
-      <td>${fmtNumber(ma,1)}</td>
+      <td>${fmtNumber(ma,2)}</td>          <!-- 2 decimals for Moving Average -->
       <td>${fmtNumber(calsPerDay,0)}</td>
       <td>${fmtNumber(lbsWeek,2)}</td>
-      <td>${fmtSigned(delta,1)}</td>
+      <td>${fmtSigned(lbsPlusMinus,1)}</td>
       <td>${bmiFmt}</td>
       <td>${fmtNumber(pctChange,2,' %')}</td>
       <td>${fmtNumber(pctToGoal,2,' %')}</td>
@@ -281,8 +307,9 @@ $('#daily-form').addEventListener('submit',(e)=>{
   renderDaily();
 });
 
-/* ------------------------ Points Tab ------------------------ */
+/* ------------------------ Walking Tab (CRUD + calc) ------------------------ */
 let pointsChartRef = null;
+let editingWalkId = null;
 
 function renderWalks(){
   const tbody = $('#points-table tbody'); tbody.innerHTML = '';
@@ -320,15 +347,58 @@ function renderWalks(){
       <td class="detail-col ${showDetails?'':'hidden'}">${g.toFixed(2)}</td>
       <td><strong>${final.toFixed(2)}</strong></td>
       <td>${esc(row.notes||'')}</td>
+      <td>
+        <button class="icon-btn edit" data-id="${row.id}">✏️</button>
+        <button class="icon-btn danger delete" data-id="${row.id}">🗑</button>
+      </td>
     `;
     tbody.appendChild(tr);
   });
+
+  // actions (delegated)
+  tbody.onclick = (e)=>{
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (btn.classList.contains('edit')) onEditWalk(id);
+    if (btn.classList.contains('delete')) onDeleteWalk(id);
+  };
 
   const {labels, values} = weeklyTotals();
   if (pointsChartRef){ pointsChartRef.destroy(); pointsChartRef=null; }
   if ($('#points-chart')) {
     pointsChartRef = weeklyPointsChart($('#points-chart'), labels, values);
   }
+}
+
+function onEditWalk(id){
+  const row = DB.walks.find(r=>r.id===id);
+  if (!row) return;
+  editingWalkId = id;
+
+  $('#walk-date').value = row.dateStr;
+  $('#walk-distance').value = row.dist;
+  $('#walk-time').value = `${row.minutes}:${String(row.seconds).padStart(2,'0')}`;
+  $('#walk-incline').value = row.incline;
+
+  // Elevation input in current UI units
+  const elevForInput = (DB.settings.units==='english') ? Math.round(row.elev/0.3048) : Math.round(row.elev);
+  $('#walk-elevation').value = elevForInput;
+
+  $('#walk-notes').value = row.notes || '';
+  $('#walk-submit').textContent = 'Save';
+  $('#walk-cancel-edit').style.display = 'inline-block';
+}
+$('#walk-cancel-edit').onclick = ()=>{
+  editingWalkId = null;
+  $('#points-form').reset();
+  $('#walk-submit').textContent = 'Add Walk';
+  $('#walk-cancel-edit').style.display = 'none';
+};
+function onDeleteWalk(id){
+  if (!confirm('Delete this walk?')) return;
+  const idx = DB.walks.findIndex(r=>r.id===id);
+  if (idx>=0){ DB.walks.splice(idx,1); save(); renderWalks(); }
 }
 
 $('#points-form').addEventListener('submit',(e)=>{
@@ -356,13 +426,31 @@ $('#points-form').addEventListener('submit',(e)=>{
   });
 
   const date = new Date(d+'T00:00:00');
-  DB.walks.push({ id:uid(), date, dateStr:d, dist, minutes:mm, seconds:ss, incline, elev:elevMeters, notes, calc });
+
+  if (editingWalkId){
+    const row = DB.walks.find(r=>r.id===editingWalkId);
+    if (row){
+      row.date = date;
+      row.dateStr = d;
+      row.dist = dist;
+      row.minutes = mm;
+      row.seconds = ss;
+      row.incline = incline;
+      row.elev = elevMeters;
+      row.notes = notes;
+      row.calc = calc;
+    }
+    editingWalkId = null;
+    $('#walk-submit').textContent = 'Add Walk';
+    $('#walk-cancel-edit').style.display = 'none';
+    $('#points-form').reset();
+  } else {
+    DB.walks.push({ id:uid(), date, dateStr:d, dist, minutes:mm, seconds:ss, incline, elev:elevMeters, notes, calc });
+    $('#points-form').reset();
+  }
   save();
-  e.target.reset();
   renderWalks();
 });
-
-$('#points-details').addEventListener('change', renderWalks);
 
 /* ------------------------ Import/Export ------------------------ */
 $('#import-parse').addEventListener('click', ()=>{
@@ -396,14 +484,30 @@ $('#export-daily').addEventListener('click', ()=>{
     ma20.push(slice.reduce((a,b)=>a+b,0)/slice.length);
   });
 
+  const firstEntry = tmp[0];
+  const startDate = firstEntry?.date ?? null;
+  const startWeightForCalc = DB.settings.startWeight ?? firstEntry?.weight ?? null;
+  let runMax = -Infinity;
+
   tmp.forEach((row,i)=>{
     const dLong = formatLongDate(row.date);
     const w = row.weight;
     const ma = ma20[i];
+
     const lbsWeek = (i>=7) ? (ma20[i]-ma20[i-7]) : null;
-    const calsPerDay = (lbsWeek!=null)? (lbsWeek*3500/7) : null;
+
+    let calsPerDay = null;
+    if (startDate && startWeightForCalc!=null){
+      const daysElapsed = Math.round((row.date - startDate) / 86400000);
+      calsPerDay = (daysElapsed<=0) ? 0 : -((startWeightForCalc - w) * 3500) / (daysElapsed);
+    }
+
+    runMax = Math.max(runMax, w);
+    const lbsPlusMinus = w - runMax;
+
     const bmi = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
     const pctChange = (DB.settings.startWeight!=null)? ((w-DB.settings.startWeight)/DB.settings.startWeight*100) : null;
+
     const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
     let pctToGoal = null, goalDateStr = '';
     if (DB.settings.startWeight!=null && goalWeight!=null){
@@ -424,10 +528,10 @@ $('#export-daily').addEventListener('click', ()=>{
     csvRows.push([
       dLong,
       w.toFixed(1),
-      fmtNumber(ma,1,false,true),
+      fmtNumber(ma,2,false,true),
       fmtNumber(calsPerDay,0,false,true),
       fmtNumber(lbsWeek,2,false,true),
-      fmtSigned(i>0?(w-tmp[i-1].weight):null,1,false,true),
+      fmtSigned(lbsPlusMinus,1,false,true),
       isFinite(bmi)? bmi.toFixed(3):'',
       fmtNumber(pctChange,2,' %',true),
       fmtNumber(pctToGoal,2,' %',true),
@@ -477,6 +581,13 @@ const observer = new IntersectionObserver((entries)=>{
 }, { root: null, rootMargin: '-50% 0px -50% 0px', threshold: [0,0.25,0.5,0.75,1] });
 $all('.tab-section').forEach(sec=> observer.observe(sec));
 window.addEventListener('DOMContentLoaded', ()=>{
+  load();
+  migrate();             // ensure old data shows correctly
+  loadConfig().then(()=>{
+    initSettings();
+    renderDaily();
+    renderWalks();
+  });
   const hash = location.hash || '#section-daily';
   const section = document.querySelector(hash);
   if (section){ setActiveTab(hash); setTimeout(()=> section.scrollIntoView({ behavior:'instant', block:'start'}), 0); }
@@ -631,13 +742,3 @@ function formatLongDate(d){
 function sameYMD(a,b){
   return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
 }
-
-/* ------------------------ Start ------------------------ */
-(async function start(){
-  load();
-  migrate();             // ensure old data shows correctly
-  await loadConfig();
-  initSettings();
-  renderDaily();
-  renderWalks();
-})();

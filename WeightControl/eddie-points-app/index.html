@@ -62,7 +62,7 @@
                 <th>Goal Date</th>
                 <th>Weekly Avg. Weight</th>
                 <th>Notes</th>
-                <th>Actions</th> <!-- NEW -->
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody><!-- filled by app.js --></tbody>
@@ -85,7 +85,7 @@
           <label>Date <input type="date" id="walk-date" required /></label>
           <label>Distance <input type="number" id="walk-distance" step="0.01" min="0" required /></label>
           <label>Time (min:ss)
-            <input type="text" id="walk-time" placeholder="mm:ss" pattern="^\\d{1,3}:\\d{2}$" required />
+            <input type="text" id="walk-time" placeholder="mm:ss" pattern="^\d{1,3}:\d{2}$" required />
           </label>
           <label>Incline % <input type="number" id="walk-incline" step="0.1" min="0" max="20" value="0" /></label>
           <label>Elevation (<span id="elev-unit-label">ft</span>)
@@ -93,7 +93,8 @@
             <small id="elev-help" class="muted">Enter elevation in feet (defaults to Home Elevation)</small>
           </label>
           <label>Notes <input type="text" id="walk-notes" maxlength="120" /></label>
-          <button type="submit" class="primary">Add Walk</button>
+          <button id="walk-submit" type="submit" class="primary">Add Walk</button>
+          <button id="walk-cancel-edit" type="button" class="secondary" style="display:none;">Cancel Edit</button>
         </div>
       </form>
 
@@ -123,6 +124,7 @@
                 <th class="detail-col">Gender Adj</th>
                 <th>Final Pts</th>
                 <th>Notes</th>
+                <th>Actions</th> <!-- NEW -->
               </tr>
             </thead>
             <tbody><!-- filled by app.js --></tbody>
