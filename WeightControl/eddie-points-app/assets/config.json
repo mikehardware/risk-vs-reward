@@ -1,0 +1,24 @@
+{
+  "brandColor": "#2b6cb0",
+  "units": "english",
+  "genderFactor": { "male": 1.00, "female": 1.25 },
+  "weekStart": 0,
+  "homeElevationMeters": 179,
+  "elevationGamma": 0.40,
+  "inclineTable": [
+    { "pct": 0.0, "mult": 1.0000 }, { "pct": 0.5, "mult": 1.0100 }, { "pct": 1.0, "mult": 1.0200 },
+    { "pct": 1.5, "mult": 1.0300 }, { "pct": 2.0, "mult": 1.0400 }, { "pct": 2.5, "mult": 1.0500 },
+    { "pct": 3.0, "mult": 1.0600 }, { "pct": 3.5, "mult": 1.0700 }, { "pct": 4.0, "mult": 1.0800 },
+    { "pct": 4.5, "mult": 1.0900 }, { "pct": 5.0, "mult": 1.1000 }, { "pct": 5.5, "mult": 1.1300 },
+    { "pct": 6.0, "mult": 1.1600 }, { "pct": 6.5, "mult": 1.1900 }, { "pct": 7.0, "mult": 1.2200 },
+    { "pct": 7.5, "mult": 1.2500 }, { "pct": 8.0, "mult": 1.2800 }, { "pct": 8.5, "mult": 1.3100 },
+    { "pct": 9.0, "mult": 1.3400 }, { "pct": 9.5, "mult": 1.3700 }, { "pct": 10.0, "mult": 1.4000 },
+    { "pct": 10.5, "mult": 1.4600 }, { "pct": 11.0, "mult": 1.5200 }, { "pct": 11.5, "mult": 1.5800 },
+    { "pct": 12.0, "mult": 1.6400 }, { "pct": 12.5, "mult": 1.7000 }, { "pct": 13.0, "mult": 1.7600 },
+    { "pct": 13.5, "mult": 1.8200 }, { "pct": 14.0, "mult": 1.8800 }, { "pct": 14.5, "mult": 1.9400 },
+    { "pct": 15.0, "mult": 2.0000 }, { "pct": 15.5, "mult": 2.1000 }, { "pct": 16.0, "mult": 2.2000 },
+    { "pct": 16.5, "mult": 2.3000 }, { "pct": 17.0, "mult": 2.4000 }, { "pct": 17.5, "mult": 2.5000 },
+    { "pct": 18.0, "mult": 2.6000 }, { "pct": 18.5, "mult": 2.7000 }, { "pct": 19.0, "mult": 2.8000 },
+    { "pct": 19.5, "mult": 2.9000 }, { "pct": 20.0, "mult": 3.0000 }
+  ]
+}
