@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <title>Eddie’s Weight & Walking Points</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  https://cdn.jsdelivr.net
-  assets/styles.css
+
+  <!-- Correct stylesheet link (this makes the sky-blue theme show up) -->
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
   <header class="app-header">
@@ -80,7 +81,7 @@
         <div class="row row-end">
           <label class="switch">
             <input type="checkbox" id="points-details" />
-            <span>Show details (Base/Incline/Elev/Gender)</span>
+            <span>Show details (Base/Incl/Elev/Gender)</span>
           </label>
         </div>
         <div class="table-scroll">
@@ -201,9 +202,8 @@
     <span>Eddie’s app • Theme color #2b6cb0 • Local‑only (IndexedDB)</span>
   </footer>
 
-  https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js</script>
-  assets/calc.js</script>
-  assets/charts.js</script>
-  assets/app.js</script>
+  <!-- Proper script includes -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="assets/app.js"></script>
 </body>
 </html>
