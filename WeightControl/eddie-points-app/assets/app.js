@@ -1,4 +1,4 @@
-/* app.js – navigation, storage, charts, import/export, login stub */
+/* app.js – CRUD for Daily, date sorting, feet→meters elevation, straight-line charts */
 import * as Calc from './calc.js';
 import { weightChart, weeklyPointsChart } from './charts.js';
 
@@ -17,16 +17,15 @@ const DB = {
     graphStart2y: null,
     elevationGamma: 0.40,
     genderFactor: { male:1.00, female:1.25 },
-    coeff: { A:1.55, B:0.65, C:0.05 }, // base points coefficients (tunable)
+    coeff: { A:1.55, B:0.65, C:0.05 },
     inclineTable: [],
-    // NEW for % Change / Goal projections:
     startWeight: null,
     goalShort: null,
     goalLong: null,
-    goalMode: 'short' // 'short' | 'long'
+    goalMode: 'short'
   },
-  daily: [],  // {date, dateStr, weight, notes}
-  walks: []   // {date, dateStr, dist, minutes, seconds, incline, elev, notes, calc}
+  daily: [],  // {id, date, dateStr, weight, notes}
+  walks: []   // {id, date, dateStr, dist, minutes, seconds, incline, elev(m), notes, calc}
 };
 const KEY = 'eddie-points-app-v1';
 function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
@@ -36,7 +35,32 @@ function load(){
   try{ Object.assign(DB, JSON.parse(raw)); }catch(e){}
 }
 
-// Load incline table defaults
+/* Migrate any legacy data (string dates, missing ids) */
+function migrate(){
+  const ensureId = () => 'd_' + Math.random().toString(36).slice(2,10);
+  (DB.daily||[]).forEach(r=>{
+    if (!r.id) r.id = ensureId();
+    // normalize date
+    if (!(r.date instanceof Date)){
+      if (typeof r.date === 'string'){ r.date = new Date(r.date); }
+      else if (r.dateStr){ r.date = new Date(r.dateStr+'T00:00:00'); }
+      else { r.date = new Date(); }
+    }
+    // normalize dateStr
+    if (!r.dateStr) r.dateStr = r.date.toISOString().slice(0,10);
+  });
+  (DB.walks||[]).forEach(r=>{
+    if (!r.id) r.id = ensureId();
+    if (!(r.date instanceof Date)){
+      if (typeof r.date === 'string'){ r.date = new Date(r.date); }
+      else if (r.dateStr){ r.date = new Date(r.dateStr+'T00:00:00'); }
+      else { r.date = new Date(); }
+    }
+    if (!r.dateStr) r.dateStr = r.date.toISOString().slice(0,10);
+  });
+}
+
+/* ------------------------ Config load ------------------------ */
 async function loadConfig(){
   try{
     const res = await fetch('assets/config.json');
@@ -58,11 +82,12 @@ function initSettings(){
   $('#graph-start-weight').value = DB.settings.graphStartWeight || '';
   $('#graph-start-2y').value = DB.settings.graphStart2y || '';
   $('#elev-gamma').value = DB.settings.elevationGamma;
-  // NEW fields:
   $('#start-weight').value = DB.settings.startWeight ?? '';
   $('#goal-short').value  = DB.settings.goalShort ?? '';
   $('#goal-long').value   = DB.settings.goalLong ?? '';
   $('#goal-mode').value   = DB.settings.goalMode ?? 'short';
+
+  updateUnitLabels();
 
   $('#settings-form').addEventListener('change', ()=>{
     DB.settings.units = $('#units').value;
@@ -73,27 +98,39 @@ function initSettings(){
     DB.settings.graphStartWeight = $('#graph-start-weight').value || null;
     DB.settings.graphStart2y = $('#graph-start-2y').value || null;
     DB.settings.elevationGamma = Number($('#elev-gamma').value);
-    // NEW:
     DB.settings.startWeight = toNumberOrNull($('#start-weight').value);
     DB.settings.goalShort   = toNumberOrNull($('#goal-short').value);
     DB.settings.goalLong    = toNumberOrNull($('#goal-long').value);
     DB.settings.goalMode    = $('#goal-mode').value;
     save();
+    updateUnitLabels();
     renderDaily();
     renderWalks();
   });
 }
+function updateUnitLabels(){
+  const isEng = DB.settings.units === 'english';
+  const unitLabel = $('#elev-unit-label');
+  const help = $('#elev-help');
+  if (unitLabel) unitLabel.textContent = isEng ? 'ft' : 'm';
+  if (help) help.textContent = isEng
+    ? 'Enter elevation in feet (defaults to Home Elevation)'
+    : 'Enter elevation in meters (defaults to Home Elevation)';
+}
 function toNumberOrNull(v){ const n = Number(v); return (isFinite(n) ? n : null); }
 
-/* ------------------------ Daily Tab ------------------------ */
+/* ------------------------ Daily Tab (CRUD + calculations) ------------------------ */
 let weightChartRef = null;
+let editingDailyId = null;
 
 function renderDaily(){
   const tbody = $('#daily-table tbody'); tbody.innerHTML = '';
-  DB.daily.sort((a,b)=> (a.date>b.date?1:-1));
+
+  // Always sort by date ascending
+  DB.daily.sort((a,b)=> a.date - b.date);
 
   const weights = [];
-  const ma20 = [];           // 20-day moving average (expanding until 20)
+  const ma20 = [];
   const weeklyAvgMap = new Map();
 
   // Build 20-day MA progressively
@@ -105,7 +142,7 @@ function renderDaily(){
     ma20.push(avg);
   });
 
-  // Precompute weekly averages per week (by week start)
+  // Weekly averages per week
   DB.daily.forEach(r=>{
     const ws = weekStart(r.date, DB.settings.weekStart);
     const key = ws.toISOString().slice(0,10);
@@ -116,39 +153,27 @@ function renderDaily(){
 
   DB.daily.forEach((row, i)=>{
     const w = row.weight;
-    const dateStrLong = formatLongDate(row.date); // Sunday February 22, 2026
+    const dateStrLong = formatLongDate(row.date);
     const ma = ma20[i];
-
-    // Lbs. (+/-) from previous day (if any)
     const delta = (i>0) ? (w - DB.daily[i-1].weight) : null;
-
-    // Lbs./Week: MA change vs 7 days ago (provisional)
     const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
-
-    // Calories per Day (deficit positive if losing): (lbs/week * 3500) / 7
     const calsPerDay = (lbsWeek!=null) ? (lbsWeek * 3500 / 7) : null;
 
-    // BMI (3 decimals)
     const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
     const bmiFmt = isFinite(bmiVal) ? bmiVal.toFixed(3) : '';
 
-    // % Change from Starting Weight (if provided)
     const pctChange = (DB.settings.startWeight!=null)
       ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
       : null;
 
-    // % to Goal + Goal Date (provisional)
     const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
     let pctToGoal = null, goalDateStr = '';
     if (DB.settings.startWeight!=null && goalWeight!=null){
       const start = DB.settings.startWeight;
       const goal  = goalWeight;
-      const span  = (start - goal); // negative if gaining desired
-      const progressed = (start - w); // positive if moving toward lower goal
-      if (span !== 0){
-        pctToGoal = (progressed / span) * 100;
-      }
-      // Goal date using lbs/week projection
+      const span  = (start - goal);
+      const progressed = (start - w);
+      if (span !== 0){ pctToGoal = (progressed/span) * 100; }
       if (lbsWeek && Math.abs(lbsWeek) > 1e-6){
         const remaining = Math.abs(w - goal);
         const weeks = remaining / Math.abs(lbsWeek);
@@ -158,7 +183,6 @@ function renderDaily(){
       }
     }
 
-    // Weekly Avg. Weight only on last day of week
     const ws = weekStart(row.date, DB.settings.weekStart);
     const we = new Date(ws); we.setDate(ws.getDate()+6);
     const isEndOfWeek = sameYMD(row.date, we);
@@ -183,33 +207,50 @@ function renderDaily(){
       <td>${goalDateStr}</td>
       <td>${weeklyAvg ? fmtWeightRaw(weeklyAvg) : ''}</td>
       <td>${esc(row.notes||'')}</td>
+      <td>
+        <button class="icon-btn edit" data-id="${row.id}">✏️</button>
+        <button class="icon-btn danger delete" data-id="${row.id}">🗑</button>
+      </td>
     `;
     tbody.appendChild(tr);
   });
 
-  // chart
+  // table action handlers (delegated)
+  tbody.onclick = (e)=>{
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (btn.classList.contains('edit')) onEditDaily(id);
+    if (btn.classList.contains('delete')) onDeleteDaily(id);
+  };
+
+  // chart (straight lines configured in charts.js)
   if (weightChartRef) { weightChartRef.destroy(); weightChartRef=null; }
   if ($('#daily-chart')) {
     weightChartRef = weightChart($('#daily-chart'), DB.daily);
   }
 }
 
-function formatLongDate(d){
-  try{
-    return new Intl.DateTimeFormat('en-US', {
-      weekday:'long', month:'long', day:'numeric', year:'numeric'
-    }).format(d);
-  }catch{ return d.toISOString().slice(0,10); }
+function onEditDaily(id){
+  const row = DB.daily.find(r=>r.id===id);
+  if (!row) return;
+  editingDailyId = id;
+  $('#daily-date').value = row.date.toISOString().slice(0,10);
+  $('#daily-weight').value = row.weight;
+  $('#daily-notes').value = row.notes || '';
+  $('#daily-submit').textContent = 'Save';
+  $('#daily-cancel-edit').style.display = 'inline-block';
 }
-function sameYMD(a,b){
-  return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
-}
-
-function weeklyAvgForDate(date){
-  const ws = weekStart(date, DB.settings.weekStart);
-  const we = new Date(ws); we.setDate(ws.getDate()+6);
-  const vals = DB.daily.filter(r=> r.date>=ws && r.date<=we).map(r=>r.weight);
-  return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+$('#daily-cancel-edit').onclick = ()=>{
+  editingDailyId = null;
+  $('#daily-form').reset();
+  $('#daily-submit').textContent = 'Add Entry';
+  $('#daily-cancel-edit').style.display = 'none';
+};
+function onDeleteDaily(id){
+  if (!confirm('Delete this daily entry?')) return;
+  const idx = DB.daily.findIndex(r=>r.id===id);
+  if (idx>=0){ DB.daily.splice(idx,1); save(); renderDaily(); }
 }
 
 $('#daily-form').addEventListener('submit',(e)=>{
@@ -219,9 +260,24 @@ $('#daily-form').addEventListener('submit',(e)=>{
   const n = $('#daily-notes').value;
   if (!d || !isFinite(w)) return;
   const date = new Date(d+'T00:00:00');
-  DB.daily.push({ date, dateStr: d, weight: w, notes:n });
+
+  if (editingDailyId){
+    const row = DB.daily.find(r=>r.id===editingDailyId);
+    if (row){
+      row.date = date;
+      row.dateStr = d;
+      row.weight = w;
+      row.notes = n;
+    }
+    editingDailyId = null;
+    $('#daily-submit').textContent = 'Add Entry';
+    $('#daily-cancel-edit').style.display = 'none';
+    $('#daily-form').reset();
+  } else {
+    DB.daily.push({ id:uid(), date, dateStr:d, weight:w, notes:n });
+    $('#daily-form').reset();
+  }
   save();
-  e.target.reset();
   renderDaily();
 });
 
@@ -230,7 +286,9 @@ let pointsChartRef = null;
 
 function renderWalks(){
   const tbody = $('#points-table tbody'); tbody.innerHTML = '';
-  DB.walks.sort((a,b)=> (a.date>b.date?1:-1));
+
+  // Always sort by date ascending
+  DB.walks.sort((a,b)=> a.date - b.date);
 
   const showDetails = $('#points-details').checked;
   $all('.detail-col').forEach(th=> th.classList.toggle('hidden', !showDetails));
@@ -256,7 +314,7 @@ function renderWalks(){
       <td class="detail-col ${showDetails?'':'hidden'}">${base.toFixed(2)}</td>
       <td>${(row.incline||0).toFixed(1)}</td>
       <td class="detail-col ${showDetails?'':'hidden'}">${inc.toFixed(3)}</td>
-      <td>${(row.elev ?? DB.settings.homeElevationMeters)}</td>
+      <td>${fmtElevation(row.elev)}</td>
       <td class="detail-col ${showDetails?'':'hidden'}">${elev.toFixed(3)}</td>
       <td>${DB.settings.gender}</td>
       <td class="detail-col ${showDetails?'':'hidden'}">${g.toFixed(2)}</td>
@@ -279,19 +337,26 @@ $('#points-form').addEventListener('submit',(e)=>{
   const dist = Number($('#walk-distance').value);
   const [mm, ss] = parseMmSs($('#walk-time').value);
   const incline = Number($('#walk-incline').value || 0);
-  const elev = $('#walk-elevation').value ? Number($('#walk-elevation').value) : DB.settings.homeElevationMeters;
+  const elevRaw = $('#walk-elevation').value ? Number($('#walk-elevation').value) : null;
   const notes = $('#walk-notes').value;
 
+  // Elevation: English (ft) -> meters; Metric remains meters
+  let elevMeters = DB.settings.homeElevationMeters;
+  if (elevRaw!=null && isFinite(elevRaw)){
+    elevMeters = (DB.settings.units === 'english') ? (elevRaw * 0.3048) : elevRaw;
+  }
+
+  // Compute points
   const calc = Calc.finalPoints({
     distanceMiles: dist, minutes:mm, seconds:ss,
-    inclinePct: incline, elevationMeters: elev,
+    inclinePct: incline, elevationMeters: elevMeters,
     gender: DB.settings.gender, genderFactor: DB.settings.genderFactor,
     inclineTable: DB.settings.inclineTable, gamma: DB.settings.elevationGamma,
     coeff: DB.settings.coeff
   });
 
   const date = new Date(d+'T00:00:00');
-  DB.walks.push({ date, dateStr:d, dist, minutes:mm, seconds:ss, incline, elev, notes, calc });
+  DB.walks.push({ id:uid(), date, dateStr:d, dist, minutes:mm, seconds:ss, incline, elev:elevMeters, notes, calc });
   save();
   e.target.reset();
   renderWalks();
@@ -321,8 +386,7 @@ $('#import-parse').addEventListener('click', ()=>{
 $('#export-daily').addEventListener('click', ()=>{
   const header = ['Date','Weight','Moving Average','Calories per Day','Lbs./Week','Lbs (+/-)','BMI','% Change','% to Goal','Goal Date','Weekly Avg. Weight','Notes'];
   const csvRows = [header];
-  // Rebuild same computed fields for export
-  const tmp = [...DB.daily].sort((a,b)=> (a.date>b.date?1:-1));
+  const tmp = [...DB.daily].sort((a,b)=> a.date - b.date);
   const weights = [];
   const ma20 = [];
   tmp.forEach((r,i)=>{
@@ -460,6 +524,7 @@ loginSaveBtn?.addEventListener('click', (e)=>{
 window.addEventListener('DOMContentLoaded', ()=> setUserUI(loadUser()) );
 
 /* ------------------------ Helpers ------------------------ */
+function uid(){ return 'id_' + Math.random().toString(36).slice(2,10); }
 function weekStart(date, startDow){
   const d = new Date(date);
   const day = d.getDay();
@@ -498,20 +563,24 @@ function importRows(rows, type){
     rows.slice(1).forEach(r=>{
       const d = new Date(r[0]+'T00:00:00'); if (isNaN(d)) return;
       const weight = Number(r[1]); if (!isFinite(weight)) return;
-      DB.daily.push({ date:d, dateStr:r[0], weight, notes:r[2]||'' });
+      DB.daily.push({ id:uid(), date:d, dateStr:r[0], weight, notes:r[2]||'' });
     });
   } else if (type==='walks'){
     rows.slice(1).forEach(r=>{
       const d = new Date(r[0]+'T00:00:00'); if (isNaN(d)) return;
       const dist = Number(r[1]); const mm = Number(r[2]); const ss = Number(r[3]||0);
-      const incline = Number(r[4]||0); const elev = r[5]? Number(r[5]) : DB.settings.homeElevationMeters;
+      const incline = Number(r[4]||0); const elevRaw = r[5]? Number(r[5]) : null;
+      let elevMeters = DB.settings.homeElevationMeters;
+      if (elevRaw!=null && isFinite(elevRaw)){
+        elevMeters = (DB.settings.units === 'english') ? (elevRaw * 0.3048) : elevRaw;
+      }
       const notes = r[6]||'';
       const calc = Calc.finalPoints({
         distanceMiles: dist, minutes:mm, seconds:ss, inclinePct:incline,
-        elevationMeters:elev, gender:DB.settings.gender, genderFactor:DB.settings.genderFactor,
+        elevationMeters:elevMeters, gender:DB.settings.gender, genderFactor:DB.settings.genderFactor,
         inclineTable:DB.settings.inclineTable, gamma:DB.settings.elevationGamma, coeff:DB.settings.coeff
       });
-      DB.walks.push({ date:d, dateStr:r[0], dist, minutes:mm, seconds:ss, incline, elev, notes, calc });
+      DB.walks.push({ id:uid(), date:d, dateStr:r[0], dist, minutes:mm, seconds:ss, incline, elev:elevMeters, notes, calc });
     });
   }
 }
@@ -532,6 +601,11 @@ function fmtDistance(d){
     ? `${(d*1.609344).toFixed(2)} km`
     : `${d.toFixed(2)} mi`;
 }
+function fmtElevation(meters){
+  if (DB.settings.units==='metric') return `${Math.round(meters)} m`;
+  const ft = Math.round(meters / 0.3048);
+  return `${ft} ft`;
+}
 function fmtSigned(v,dec=1, suffix='', raw=false){
   if (v==null || !isFinite(v)) return raw?'':'';
   const s = (v>=0?'+':'');
@@ -545,12 +619,23 @@ function esc(s){ return String(s).replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;
 function hoverText(row, mph){
   const pace = Calc.U.paceMinPerMile(row.dist, row.minutes, row.seconds);
   const paceStr = `${Math.floor(pace||0)}:${String(Math.round(((pace||0)%1)*60)).padStart(2,'0')}/mi`;
-  return `mph: ${mph.toFixed(2)}\npace: ${paceStr}\nelev(m): ${row.elev}\nincline: ${row.incline.toFixed(1)}%`;
+  return `mph: ${mph.toFixed(2)}\npace: ${paceStr}\nelev(${DB.settings.units==='english'?'ft':'m'}): ${fmtElevation(row.elev)}\nincline: ${row.incline.toFixed(1)}%`;
+}
+function formatLongDate(d){
+  try{
+    return new Intl.DateTimeFormat('en-US', {
+      weekday:'long', month:'long', day:'numeric', year:'numeric'
+    }).format(d);
+  }catch{ return d.toISOString().slice(0,10); }
+}
+function sameYMD(a,b){
+  return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
 }
 
 /* ------------------------ Start ------------------------ */
 (async function start(){
   load();
+  migrate();             // ensure old data shows correctly
   await loadConfig();
   initSettings();
   renderDaily();
