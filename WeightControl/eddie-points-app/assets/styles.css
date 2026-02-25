@@ -100,3 +100,8 @@ th{position:sticky; top:0; background:var(--card); z-index:1}
 /* Dialog (login) */
 dialog::backdrop{ background: rgba(0,0,0,0.35); }
 dialog[open]{ border:none; padding:0; background:transparent; }
+
+/* Limit table height so lists don't grow forever; allow scroll inside the card */
+.table-scroll{
+  max-height: 460px; /* tweak if you want taller/shorter */
+}

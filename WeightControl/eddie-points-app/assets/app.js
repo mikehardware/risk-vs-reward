@@ -162,25 +162,19 @@ function renderDaily(){
     const dateStrLong = formatLongDate(row.date);
     const ma = ma20[i];
 
-    // Lbs./Week (we'll keep MA change over 7 days)
-    const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
+    // ---- MA-based stats ----
+const maPrev = (i>0) ? ma20[i-1] : null;
 
-    // Calories per Day (your formula)
-    // -(start - current) * 3500 / (daysFromStart - 1); 0 if same day or missing start
-    let calsPerDay = null;
-    if (startDate && startWeightForCalc!=null){
-      const daysElapsed = Math.round((row.date - startDate) / 86400000);
-      if (daysElapsed <= 0){
-        calsPerDay = 0;
-      } else {
-        calsPerDay = -((startWeightForCalc - w) * 3500) / (daysElapsed);
-      }
-    }
+// Lbs./Week (2 dp): MA change over 7 days
+const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
 
-    // Lbs. (+/-) = current - max_so_far (up to this date)
-    runMax = Math.max(runMax, w);
-    const lbsPlusMinus = w - runMax; // 0 at first; ≤ 0 thereafter when below peak
+// Calories/day (0 dp): -(MA_today - MA_yesterday) * 3500
+const calsPerDay = (maPrev!=null) ? (-(ma - maPrev) * 3500) : 0;
 
+// Lbs. (+/-) (2 dp): MA_today - max(MA_so_far)
+runMax = Math.max(runMax, ma);
+const lbsPlusMinus = ma - runMax;
+   
     // BMI (3 decimals)
     const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
     const bmiFmt = isFinite(bmiVal) ? bmiVal.toFixed(3) : '';
@@ -226,7 +220,7 @@ function renderDaily(){
       <td>${fmtNumber(ma,2)}</td>          <!-- 2 decimals for Moving Average -->
       <td>${fmtNumber(calsPerDay,0)}</td>
       <td>${fmtNumber(lbsWeek,2)}</td>
-      <td>${fmtSigned(lbsPlusMinus,1)}</td>
+      <td>${fmtSigned(lbsPlusMinus,2)}</td>
       <td>${bmiFmt}</td>
       <td>${fmtNumber(pctChange,2,' %')}</td>
       <td>${fmtNumber(pctToGoal,2,' %')}</td>
@@ -249,6 +243,10 @@ function renderDaily(){
     if (btn.classList.contains('edit')) onEditDaily(id);
     if (btn.classList.contains('delete')) onDeleteDaily(id);
   };
+
+  // Keep newest (bottom) in view
+  const dailyScroll = document.querySelector('#section-daily .table-scroll');
+  if (dailyScroll) dailyScroll.scrollTop = dailyScroll.scrollHeight;  
 
   // chart (straight lines configured in charts.js)
   if (weightChartRef) { weightChartRef.destroy(); weightChartRef=null; }
@@ -345,7 +343,7 @@ function renderWalks(){
       <td class="detail-col ${showDetails?'':'hidden'}">${elev.toFixed(3)}</td>
       <td>${DB.settings.gender}</td>
       <td class="detail-col ${showDetails?'':'hidden'}">${g.toFixed(2)}</td>
-      <td><strong>${final.toFixed(2)}</strong></td>
+      <td><strong>${final.toFixed(4)}</strong></td>
       <td>${esc(row.notes||'')}</td>
       <td>
         <button class="icon-btn edit" data-id="${row.id}">✏️</button>
@@ -363,6 +361,9 @@ function renderWalks(){
     if (btn.classList.contains('edit')) onEditWalk(id);
     if (btn.classList.contains('delete')) onDeleteWalk(id);
   };
+
+  const walksScroll = document.querySelector('#section-points .table-scroll');
+  if (walksScroll) walksScroll.scrollTop = walksScroll.scrollHeight;
 
   const {labels, values} = weeklyTotals();
   if (pointsChartRef){ pointsChartRef.destroy(); pointsChartRef=null; }
@@ -494,16 +495,13 @@ $('#export-daily').addEventListener('click', ()=>{
     const w = row.weight;
     const ma = ma20[i];
 
-    const lbsWeek = (i>=7) ? (ma20[i]-ma20[i-7]) : null;
+    const maPrev = (i>0) ? ma20[i-1] : null;
+const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
+const calsPerDay = (maPrev!=null) ? (-(ma - maPrev) * 3500) : 0;
 
-    let calsPerDay = null;
-    if (startDate && startWeightForCalc!=null){
-      const daysElapsed = Math.round((row.date - startDate) / 86400000);
-      calsPerDay = (daysElapsed<=0) ? 0 : -((startWeightForCalc - w) * 3500) / (daysElapsed);
-    }
-
-    runMax = Math.max(runMax, w);
-    const lbsPlusMinus = w - runMax;
+// running max for MA
+runMax = Math.max(runMax, ma);
+const lbsPlusMinus = ma - runMax;
 
     const bmi = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
     const pctChange = (DB.settings.startWeight!=null)? ((w-DB.settings.startWeight)/DB.settings.startWeight*100) : null;
@@ -531,7 +529,7 @@ $('#export-daily').addEventListener('click', ()=>{
       fmtNumber(ma,2,false,true),
       fmtNumber(calsPerDay,0,false,true),
       fmtNumber(lbsWeek,2,false,true),
-      fmtSigned(lbsPlusMinus,1,false,true),
+      fmtSigned(lbsPlusMinus,2,false,true),
       isFinite(bmi)? bmi.toFixed(3):'',
       fmtNumber(pctChange,2,' %',true),
       fmtNumber(pctToGoal,2,' %',true),
@@ -546,7 +544,7 @@ $('#export-daily').addEventListener('click', ()=>{
 $('#export-walks').addEventListener('click', ()=>{
   const rows = [['Date','Distance (mi)','Minutes','Seconds','Incline %','Elevation m','Final Points','Notes']];
   DB.walks.forEach(w=>{
-    rows.push([w.dateStr, w.dist, w.minutes, w.seconds, w.incline, w.elev, w.calc.final.toFixed(2), w.notes||'']);
+    rows.push([w.dateStr, w.dist, w.minutes, Number(w.seconds).toFixed(2), w.incline, w.elev, w.calc.final.toFixed(4), w.notes||'']);
   });
   downloadFile('walks.csv', toCSV(rows), 'text/csv');
 });
@@ -655,9 +653,14 @@ function weeklyTotals(){
   return { labels: entries.map(e=>e[0]), values: entries.map(e=> Number(e[1].toFixed(2))) };
 }
 function parseMmSs(s){
-  const m = s.match(/^(\d{1,3}):(\d{2})$/);
+  // Supports mm:ss or mm:ss.hh (hundredths)
+  const m = s.match(/^(\d{1,3}):(\d{2})(?:\.(\d{1,2}))?$/);
   if (!m) return [0,0];
-  return [Number(m[1]), Number(m[2])];
+  const mm = Number(m[1]);
+  const ss = Number(m[2]);
+  const hh = m[3] ? Number(m[3]) : 0; // hundredths
+  const seconds = ss + (hh / 100);
+  return [mm, seconds];
 }
 function parseCSV(txt){
   return txt.split(/\r?\n/).filter(Boolean).map(line=> line.split(',').map(x=>x.trim()));
@@ -695,7 +698,13 @@ function importRows(rows, type){
     });
   }
 }
-function fmtTime(m,s){ return `${String(m)}:${String(s).padStart(2,'0')}`; }
+function fmtTime(m,s){
+  // Render as mm:ss.hh (always show 2 hundredths)
+  const sec = Number(s||0);
+  const whole = Math.floor(sec);
+  const hund = Math.round((sec - whole) * 100);
+  return `${String(m)}:${String(whole).padStart(2,'0')}.${String(hund).padStart(2,'0')}`;
+}
 function fmtWeight(w){
   return DB.settings.units==='metric'
     ? `${(w).toFixed(1)} kg`
