@@ -221,10 +221,11 @@ function renderDaily(){
 
     // % Change (from start): highlight on each additional 0.5% (by magnitude)
     const pctChange = (DB.settings.startWeight!=null)
-      ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
+      ? ((ma - DB.settings.startWeight) / DB.settings.startWeight * 100)
       : null;
+
     const prevPctChange = (i>0 && DB.settings.startWeight!=null)
-      ? ((DB.daily[i-1].weight - DB.settings.startWeight) / DB.settings.startWeight * 100)
+      ? ((ma20[i-1] - DB.settings.startWeight) / DB.settings.startWeight * 100)
       : null;
     const hlPctChange = (prevPctChange!=null) &&
       (Math.floor(Math.abs(prevPctChange) * 2) < Math.floor(Math.abs(pctChange) * 2));
@@ -237,7 +238,7 @@ function renderDaily(){
     if (DB.settings.startWeight!=null && goalWeight!=null){
       const start = DB.settings.startWeight;
       const span  = (start - goalWeight);
-      const progressed = (start - w);
+      const progressed = (start - ma);
       if (span !== 0){ pctToGoal = (progressed / span) * 100; }
 
       // Goal Date: weeks = |current - goal| / |Lbs./Week|
@@ -253,7 +254,7 @@ function renderDaily(){
     // Highlight +1% steps toward goal
     const prevPctToGoal = (i>0 && DB.settings.startWeight!=null && goalWeight!=null) ? (()=>{
       const start = DB.settings.startWeight; const span = (start - goalWeight);
-      const progressedPrev = (start - DB.daily[i-1].weight);
+      const progressedPrev = (start - ma20[i-1]);
       return (span!==0) ? (progressedPrev / span) * 100 : null;
     })() : null;
     const hlPctToGoal = (prevPctToGoal!=null && pctToGoal!=null) &&
