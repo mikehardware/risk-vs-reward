@@ -152,7 +152,8 @@ let weightChartRef = null;
 let editingDailyId = null;
 
 function renderDaily(){
-  const tbody = $('#daily-table tbody'); tbody.innerHTML = '';
+  const tbody = $('#daily-table tbody');
+  tbody.innerHTML = '';
 
   // Always sort by date ascending
   DB.daily.sort((a,b)=> a.date - b.date);
@@ -161,7 +162,7 @@ function renderDaily(){
   const ma20 = [];
   const weeklyAvgMap = new Map();
 
-  // Build 20-day MA progressively
+  // Build 20-day MA progressively (expanding until 20)
   DB.daily.forEach((row, i)=>{
     weights.push(row.weight);
     const window = Math.min(20, i+1);
@@ -170,7 +171,7 @@ function renderDaily(){
     ma20.push(avg);
   });
 
-  // Weekly averages per week
+  // Weekly averages per week (group by week start)
   DB.daily.forEach(r=>{
     const ws = weekStart(r.date, DB.settings.weekStart);
     const key = ws.toISOString().slice(0,10);
@@ -179,12 +180,7 @@ function renderDaily(){
     weeklyAvgMap.set(key, arr);
   });
 
-  // Prepare globals for formulas depending on "start"
-  const firstEntry = DB.daily[0];
-  const startDate = firstEntry?.date ?? null;
-  const startWeightForCalc = DB.settings.startWeight ?? firstEntry?.weight ?? null;
-
-  // Running max for lbs (+/-)
+  // Running max of MA for Lbs.(+/-) (use O(n) streaming update)
   let runMax = -Infinity;
 
   DB.daily.forEach((row, i)=>{
@@ -192,72 +188,84 @@ function renderDaily(){
     const dateStrLong = formatLongDate(row.date);
     const ma = ma20[i];
 
-
     // ---- MA-based stats ----
     const maPrev = (i>0) ? ma20[i-1] : null;
 
-    // Lbs./Week (2 dp): MA change over 7 days (neg when losing)
+    // Lbs./Week (neg when losing): MA change over 7 days
     const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
 
-    // Internal Calories/day (unchanged): positive when losing per previous calc
+    // Internal Calories/day (unchanged): positive when losing (old convention)
     const calsPerDay = (maPrev!=null) ? (-(ma - maPrev) * 3500) : 0;
-
     // Display Calories/day: negative when losing, positive when gaining
     const calsDisplay = -calsPerDay;
 
-    // --- Milestones (Excel-like) ---
+    // --- Excel-like milestones ---
 
-    // Moving Average crosses down any new 0.5-lb step
+    // MA crosses down any new 0.5 step (in current weight units)
     const hlMA = (maPrev!=null) && (Math.floor(maPrev * 2) > Math.floor(ma * 2));
 
-    // To detect Lbs.(+/-) milestones on MA: compare loss magnitude vs prior row
-    // Lbs.(+/-) is MA_today - MAX_so_far; we want milestones when loss grows by 0.5
-    const prevRunMax = (i>0) ? Math.max(...ma20.slice(0, i)) : ma; // max MA before today
-    const prevLossMag = (maPrev!=null) ? Math.max(0, prevRunMax - maPrev) : 0;
+    // Previous max MA (use running max; no slice/Math.max(...))
+    const prevRunMax = (i > 0) ? runMax : ma;
     const currRunMax = Math.max(prevRunMax, ma);
+
+    // Loss magnitude vs max MA so far
+    const prevLossMag = (maPrev!=null) ? Math.max(0, prevRunMax - maPrev) : 0;
     const currLossMag = Math.max(0, currRunMax - ma);
-    // Crossed a new 0.5-lb or 1.0-lb step in loss magnitude?
+    // Crossed a new 0.5 step in loss magnitude?
     const hlLbsPM = Math.floor(currLossMag * 2) > Math.floor(prevLossMag * 2);
 
     // BMI (3 dp): highlight on every 0.1 downward
-    const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
+    const bmiVal  = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
     const bmiPrev = (i>0) ? Calc.U.bmi(DB.daily[i-1].weight, DB.settings.height, DB.settings.units) : null;
-    const hlBMI = (bmiPrev!=null) && (Math.floor(bmiPrev * 10) > Math.floor(bmiVal * 10));
+    const hlBMI   = (bmiPrev!=null) && (Math.floor(bmiPrev * 10) > Math.floor(bmiVal * 10));
 
-    // % Change (from start): highlight on each 0.5% additional change (magnitude)
+    // % Change (from start): highlight on each additional 0.5% (by magnitude)
     const pctChange = (DB.settings.startWeight!=null)
-     ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
-     : null;
+      ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
+      : null;
     const prevPctChange = (i>0 && DB.settings.startWeight!=null)
-     ? ((DB.daily[i-1].weight - DB.settings.startWeight) / DB.settings.startWeight * 100)
-     : null;
+      ? ((DB.daily[i-1].weight - DB.settings.startWeight) / DB.settings.startWeight * 100)
+      : null;
     const hlPctChange = (prevPctChange!=null) &&
-     (Math.floor(Math.abs(prevPctChange) * 2) < Math.floor(Math.abs(pctChange) * 2));
+      (Math.floor(Math.abs(prevPctChange) * 2) < Math.floor(Math.abs(pctChange) * 2));
 
-    // % to Goal: highlight at each +1%
+    // % to Goal (current mode) & Goal Date (via MA-based Lbs./Week)
     const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
     let pctToGoal = null;
+    let goalDateStr = '';     // <-- ensure defined before template
+
     if (DB.settings.startWeight!=null && goalWeight!=null){
-     const start = DB.settings.startWeight;
-     const span = (start - goalWeight);
-     const progressed = (start - w);
-     if (span !== 0){ pctToGoal = (progressed / span) * 100; }
+      const start = DB.settings.startWeight;
+      const span  = (start - goalWeight);
+      const progressed = (start - w);
+      if (span !== 0){ pctToGoal = (progressed / span) * 100; }
+
+      // Goal Date: weeks = |current - goal| / |Lbs./Week|
+      if (lbsWeek != null && Math.abs(lbsWeek) > 1e-6){
+        const remaining = Math.abs(w - goalWeight);
+        const weeks = remaining / Math.abs(lbsWeek);
+        const target = new Date(row.date);
+        target.setDate(target.getDate() + Math.round(weeks * 7));
+        goalDateStr = formatLongDate(target);
+      }
     }
+
+    // Highlight +1% steps toward goal
     const prevPctToGoal = (i>0 && DB.settings.startWeight!=null && goalWeight!=null) ? (()=>{
-     const start = DB.settings.startWeight; const span = (start - goalWeight);
-     const progressedPrev = (start - DB.daily[i-1].weight);
-     return (span!==0) ? (progressedPrev / span) * 100 : null;
+      const start = DB.settings.startWeight; const span = (start - goalWeight);
+      const progressedPrev = (start - DB.daily[i-1].weight);
+      return (span!==0) ? (progressedPrev / span) * 100 : null;
     })() : null;
     const hlPctToGoal = (prevPctToGoal!=null && pctToGoal!=null) &&
-     (Math.floor(prevPctToGoal) < Math.floor(pctToGoal));
+      (Math.floor(prevPctToGoal) < Math.floor(pctToGoal));
 
     // Healthy day highlights:
-    // Calories/day: -1000 .. -500 (deficit, with your display convention)
+    // Calories/day (display): -1000 .. -500 (healthy deficit)
     const hlCals = (calsDisplay <= -500 && calsDisplay >= -1000);
     // Lbs./Week: loss magnitude between 1.0 and 2.0
     const hlLbsWeek = (lbsWeek!=null) && ((-lbsWeek) >= 1.0) && ((-lbsWeek) <= 2.0);
 
-    // Update running max for downstream logic that uses current day's max
+    // Update running max (for next iteration)
     runMax = currRunMax;
 
     // Weekly Avg. Weight only on last day of week
@@ -271,30 +279,30 @@ function renderDaily(){
       weeklyAvg = arr.length ? (arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1) : '';
     }
 
+    // Row HTML
     const tr = document.createElement('tr');
-tr.innerHTML = `
-  <td>${dateStrLong}</td>
-  <td>${fmtWeight(w)}</td>
-  <td class="${hlMA ? 'hl-yellow' : ''}">${fmtNumber(ma,2)}</td>
-  <td class="${hlCals ? 'hl-yellow' : ''}">${fmtNumber(calsDisplay,0)}</td>
-  <td class="${hlLbsWeek ? 'hl-yellow' : ''}">${fmtNumber(lbsWeek,2)}</td>
-  <td class="${hlLbsPM ? 'hl-yellow' : ''}">${fmtSigned(ma - runMax,2)}</td>
-  <td class="${hlBMI ? 'hl-yellow' : ''}">${isFinite(bmiVal)? bmiVal.toFixed(3):''}</td>
-  <td class="${hlPctChange ? 'hl-yellow' : ''}">${fmtNumber(pctChange,2,' %')}</td>
-  <td class="${hlPctToGoal ? 'hl-yellow' : ''}">${fmtNumber(pctToGoal,2,' %')}</td>
-  <td>${goalDateStr}</td>
-  <td>${weeklyAvg ? fmtWeightRaw(weeklyAvg) : ''}</td>
-  <td>${esc(row.notes||'')}</td>
-  <td>
-    <button class="icon-btn edit" data-id="${row.id}">✏️</button>
-    <button class="icon-btn danger delete" data-id="${row.id}">🗑</button>
-  </td>
-`;
-
+    tr.innerHTML = `
+      <td>${dateStrLong}</td>
+      <td>${fmtWeight(w)}</td>
+      <td class="${hlMA ? 'hl-yellow' : ''}">${fmtNumber(ma,2)}</td>
+      <td class="${hlCals ? 'hl-yellow' : ''}">${fmtNumber(calsDisplay,0)}</td>
+      <td class="${hlLbsWeek ? 'hl-yellow' : ''}">${fmtNumber(lbsWeek,2)}</td>
+      <td class="${hlLbsPM ? 'hl-yellow' : ''}">${fmtSigned(ma - runMax,2)}</td>
+      <td class="${hlBMI ? 'hl-yellow' : ''}">${isFinite(bmiVal)? bmiVal.toFixed(3):''}</td>
+      <td class="${hlPctChange ? 'hl-yellow' : ''}">${fmtNumber(pctChange,2,' %')}</td>
+      <td class="${hlPctToGoal ? 'hl-yellow' : ''}">${fmtNumber(pctToGoal,2,' %')}</td>
+      <td>${goalDateStr}</td>
+      <td>${weeklyAvg ? fmtWeightRaw(weeklyAvg) : ''}</td>
+      <td>${esc(row.notes||'')}</td>
+      <td>
+        <button class="icon-btn edit" data-id="${row.id}">✏️</button>
+        <button class="icon-btn danger delete" data-id="${row.id}">🗑</button>
+      </td>
+    `;
     tbody.appendChild(tr);
   });
 
-  // table action handlers (delegated)
+  // Table action handlers (delegated)
   tbody.onclick = (e)=>{
     const btn = e.target.closest('button');
     if (!btn) return;
@@ -305,10 +313,10 @@ tr.innerHTML = `
 
   // Keep newest (bottom) in view
   const dailyScroll = document.querySelector('#section-daily .table-scroll');
-  if (dailyScroll) dailyScroll.scrollTop = dailyScroll.scrollHeight;  
+  if (dailyScroll) dailyScroll.scrollTop = dailyScroll.scrollHeight;
 
-  // chart (straight lines configured in charts.js)
-  if (weightChartRef) { weightChartRef.destroy(); weightChartRef=null; }
+  // Chart (straight lines configured in charts.js)
+  if (weightChartRef) { weightChartRef.destroy(); weightChartRef = null; }
   if ($('#daily-chart')) {
     weightChartRef = weightChart($('#daily-chart'), DB.daily);
   }
