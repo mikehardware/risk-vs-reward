@@ -105,3 +105,20 @@ dialog[open]{ border:none; padding:0; background:transparent; }
 .table-scroll{
   max-height: 460px; /* tweak if you want taller/shorter */
 }
+
+/* Motivation pill under the weekly chart */
+.status-pill{
+  display:inline-block; margin:6px 0 10px; padding:6px 10px; border-radius:999px;
+  font-size:12px; font-weight:600; background:#f1f5f9; color:#0f172a; border:1px solid var(--border);
+}
+.status-shaping   { background:#fff7ed; color:#9a3412; border-color:#fed7aa; } /* warm light */
+.status-improving { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; } /* blue */
+.status-halfway   { background:#fefce8; color:#854d0e; border-color:#fde68a; } /* amber */
+.status-good      { background:#ecfdf5; color:#065f46; border-color:#a7f3d0; } /* green */
+.status-athletic  { background:#f5f3ff; color:#5b21b6; border-color:#ddd6fe; } /* indigo */
+
+/* Excel-like highlight (pale yellow cell tint + bolder text) */
+.hl-yellow {
+  background: #fff7cc !important; /* pale yellow */
+  font-weight: 600;
+}
