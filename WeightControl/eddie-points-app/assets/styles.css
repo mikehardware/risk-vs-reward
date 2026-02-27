@@ -122,3 +122,13 @@ dialog[open]{ border:none; padding:0; background:transparent; }
   background: #fff7cc !important; /* pale yellow */
   font-weight: 600;
 }
+
+/* Strong, Excel-like highlight that wins against table styles */
+#daily-table td.hl-yellow,
+#points-table td.hl-yellow,
+td.hl-yellow {
+  background: #fff7cc !important; /* pale yellow */
+  color: #0f172a;                 /* readable on yellow */
+  font-weight: 700;
+  outline: 1px solid #fde68a;     /* subtle edge, helps in dark mode */
+}

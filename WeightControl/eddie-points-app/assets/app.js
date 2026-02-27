@@ -300,6 +300,14 @@ function renderDaily(){
       </td>
     `;
     tbody.appendChild(tr);
+
+    // TEMP: dev sanity—force tint on the first row's MA cell once per render.
+    if (i === 0 && !window.__hlTest) {
+      const firstRowMA = tr.children[2]; // 0:date,1:weight,2:MA
+      if (firstRowMA) firstRowMA.classList.add('hl-yellow');
+      window.__hlTest = true;
+}
+
   });
 
   // Table action handlers (delegated)
