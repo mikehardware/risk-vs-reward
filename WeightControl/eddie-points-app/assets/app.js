@@ -194,72 +194,71 @@ function renderDaily(){
 
 
     // ---- MA-based stats ----
-const maPrev = (i>0) ? ma20[i-1] : null;
+    const maPrev = (i>0) ? ma20[i-1] : null;
 
-// Lbs./Week (2 dp): MA change over 7 days (neg when losing)
-const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
+    // Lbs./Week (2 dp): MA change over 7 days (neg when losing)
+    const lbsWeek = (i>=7) ? (ma20[i] - ma20[i-7]) : null;
 
-// Internal Calories/day (unchanged): positive when losing per previous calc
-const calsPerDay = (maPrev!=null) ? (-(ma - maPrev) * 3500) : 0;
+    // Internal Calories/day (unchanged): positive when losing per previous calc
+    const calsPerDay = (maPrev!=null) ? (-(ma - maPrev) * 3500) : 0;
 
-// Display Calories/day: negative when losing, positive when gaining
-const calsDisplay = -calsPerDay;
+    // Display Calories/day: negative when losing, positive when gaining
+    const calsDisplay = -calsPerDay;
 
-// --- Milestones (Excel-like) ---
+    // --- Milestones (Excel-like) ---
 
-// Moving Average crosses down any new 0.5-lb step
-const hlMA = (maPrev!=null) && (Math.floor(maPrev * 2) > Math.floor(ma * 2));
+    // Moving Average crosses down any new 0.5-lb step
+    const hlMA = (maPrev!=null) && (Math.floor(maPrev * 2) > Math.floor(ma * 2));
 
-// To detect Lbs.(+/-) milestones on MA: compare loss magnitude vs prior row
-// Lbs.(+/-) is MA_today - MAX_so_far; we want milestones when loss grows by 0.5
-const prevRunMax = (i>0) ? Math.max(...ma20.slice(0, i)) : ma; // max MA before today
-const prevLossMag = (maPrev!=null) ? Math.max(0, prevRunMax - maPrev) : 0;
-const currRunMax = Math.max(prevRunMax, ma);
-const currLossMag = Math.max(0, currRunMax - ma);
-// Crossed a new 0.5-lb or 1.0-lb step in loss magnitude?
-const hlLbsPM = Math.floor(currLossMag * 2) > Math.floor(prevLossMag * 2);
+    // To detect Lbs.(+/-) milestones on MA: compare loss magnitude vs prior row
+    // Lbs.(+/-) is MA_today - MAX_so_far; we want milestones when loss grows by 0.5
+    const prevRunMax = (i>0) ? Math.max(...ma20.slice(0, i)) : ma; // max MA before today
+    const prevLossMag = (maPrev!=null) ? Math.max(0, prevRunMax - maPrev) : 0;
+    const currRunMax = Math.max(prevRunMax, ma);
+    const currLossMag = Math.max(0, currRunMax - ma);
+    // Crossed a new 0.5-lb or 1.0-lb step in loss magnitude?
+    const hlLbsPM = Math.floor(currLossMag * 2) > Math.floor(prevLossMag * 2);
 
-// BMI (3 dp): highlight on every 0.1 downward
-const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
-const bmiPrev = (i>0) ? Calc.U.bmi(DB.daily[i-1].weight, DB.settings.height, DB.settings.units) : null;
-const hlBMI = (bmiPrev!=null) && (Math.floor(bmiPrev * 10) > Math.floor(bmiVal * 10));
+    // BMI (3 dp): highlight on every 0.1 downward
+    const bmiVal = Calc.U.bmi(w, DB.settings.height, DB.settings.units);
+    const bmiPrev = (i>0) ? Calc.U.bmi(DB.daily[i-1].weight, DB.settings.height, DB.settings.units) : null;
+    const hlBMI = (bmiPrev!=null) && (Math.floor(bmiPrev * 10) > Math.floor(bmiVal * 10));
 
-// % Change (from start): highlight on each 0.5% additional change (magnitude)
-const pctChange = (DB.settings.startWeight!=null)
-  ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
-  : null;
-const prevPctChange = (i>0 && DB.settings.startWeight!=null)
-  ? ((DB.daily[i-1].weight - DB.settings.startWeight) / DB.settings.startWeight * 100)
-  : null;
-const hlPctChange = (prevPctChange!=null) &&
-  (Math.floor(Math.abs(prevPctChange) * 2) < Math.floor(Math.abs(pctChange) * 2));
+    // % Change (from start): highlight on each 0.5% additional change (magnitude)
+    const pctChange = (DB.settings.startWeight!=null)
+     ? ((w - DB.settings.startWeight) / DB.settings.startWeight * 100)
+     : null;
+    const prevPctChange = (i>0 && DB.settings.startWeight!=null)
+     ? ((DB.daily[i-1].weight - DB.settings.startWeight) / DB.settings.startWeight * 100)
+     : null;
+    const hlPctChange = (prevPctChange!=null) &&
+     (Math.floor(Math.abs(prevPctChange) * 2) < Math.floor(Math.abs(pctChange) * 2));
 
-// % to Goal: highlight at each +1%
-const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
-let pctToGoal = null;
-if (DB.settings.startWeight!=null && goalWeight!=null){
-  const start = DB.settings.startWeight;
-  const span  = (start - goalWeight);
-  const progressed = (start - w);
-  if (span !== 0){ pctToGoal = (progressed / span) * 100; }
-}
-const prevPctToGoal = (i>0 && DB.settings.startWeight!=null && goalWeight!=null) ? (()=>{
-  const start = DB.settings.startWeight; const span = (start - goalWeight);
-  const progressedPrev = (start - DB.daily[i-1].weight);
-  return (span!==0) ? (progressedPrev / span) * 100 : null;
-})() : null;
-const hlPctToGoal = (prevPctToGoal!=null && pctToGoal!=null) &&
-  (Math.floor(prevPctToGoal) < Math.floor(pctToGoal));
+    // % to Goal: highlight at each +1%
+    const goalWeight = (DB.settings.goalMode==='short') ? DB.settings.goalShort : DB.settings.goalLong;
+    let pctToGoal = null;
+    if (DB.settings.startWeight!=null && goalWeight!=null){
+     const start = DB.settings.startWeight;
+     const span = (start - goalWeight);
+     const progressed = (start - w);
+     if (span !== 0){ pctToGoal = (progressed / span) * 100; }
+    }
+    const prevPctToGoal = (i>0 && DB.settings.startWeight!=null && goalWeight!=null) ? (()=>{
+     const start = DB.settings.startWeight; const span = (start - goalWeight);
+     const progressedPrev = (start - DB.daily[i-1].weight);
+     return (span!==0) ? (progressedPrev / span) * 100 : null;
+    })() : null;
+    const hlPctToGoal = (prevPctToGoal!=null && pctToGoal!=null) &&
+     (Math.floor(prevPctToGoal) < Math.floor(pctToGoal));
 
-// Healthy day highlights:
-// Calories/day: -1000 .. -500 (deficit, with your display convention)
-const hlCals = (calsDisplay <= -500 && calsDisplay >= -1000);
-// Lbs./Week: loss magnitude between 1.0 and 2.0
-const hlLbsWeek = (lbsWeek!=null) && ((-lbsWeek) >= 1.0) && ((-lbsWeek) <= 2.0);
+    // Healthy day highlights:
+    // Calories/day: -1000 .. -500 (deficit, with your display convention)
+    const hlCals = (calsDisplay <= -500 && calsDisplay >= -1000);
+    // Lbs./Week: loss magnitude between 1.0 and 2.0
+    const hlLbsWeek = (lbsWeek!=null) && ((-lbsWeek) >= 1.0) && ((-lbsWeek) <= 2.0);
 
-// Update running max for downstream logic that uses current day's max
-runMax = currRunMax;
-}
+    // Update running max for downstream logic that uses current day's max
+    runMax = currRunMax;
 
     // Weekly Avg. Weight only on last day of week
     const ws = weekStart(row.date, DB.settings.weekStart);
