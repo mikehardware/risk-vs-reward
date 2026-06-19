@@ -20,53 +20,7 @@
      <h1 class="game-name">
       <span class="risk">RISK</span> vs. <span class="reward">REWARD</span>
     </h1>
-    <div class="container">
-    <p class="game-description">
-      <li>It's not just about knowing the answer—it's about knowing how much to trust yourself.</li>
-      <li>  </li>
-      <li>  </li> 
-      <li>RISK vs. REWARD is a high-stakes trivia game where every answer becomes a decision. After seeing each question and its four possible answers, you'll use the Risk/Reward Slider to decide how much confidence to place behind your choice. Every decision affects both your current bankroll and your path to the $1,000,000 top prize.</li>
-    </p>
-
-    <h2>How the Game Works</h2>
-    <ol>
-      <li>Select one of the sets of questions for your game by using the "Select Question Set" pulldown below.</li>
-      <li>Start by clicking the "Start Playing RISK vs. REWARD" button below to begin.</li>      
-      <li>Select a "Question Category" for your question. The question and possible answers will appear. Read the question and possible answers carefully.</li>
-      <li>Move the RISK vs. REWARD Slider to decide how much confidence to place behind your answer. As the slider moves, you'll instantly see your potential gain if correct, your potential loss if wrong, and how the decision affects your best- and worst-case paths through the rest of the game.</li>
-      <li>Use the arrow keys for finer slider control. (Up/Right increases values, Down/Left decreases values.)</li>
-      <li>Select your answer by clicking on the circle next to the answer you want to choose.</li>
-      <li>Select the "Lock in Answer" button to reveal the results.</li>
-      <li>You have 120 seconds to adjust the slider, choose your answer, and lock everything in before time expires. If the timer reaches zero, your current selections are automatically used.</li>
-      <li>After seeing the results, you can "Go to Next Question" or "Use the Do-Over" (available for the first six questions to try again).</li>
-      <li>After Question 12, your final total is revealed. Did your strategy pay off—or did caution or overconfidence get in the way? (Sorry, this is just for fun... no real prizes!)</li>
-      <li>Ready for another round? Click 'Start New Game' to return here and play again!</li>
-    </ol>
-
-    <!-- Set Selection -->
-    <label for="question-set">Select Question Set:</label>
-    <select id="question-set">
-      <option value="Set 1">Set 1 Easier</option>
-      <option value="Set 2">Set 2 Easier</option>
-      <option value="Set 3">Set 3 Easier</option>
-      <option value="Set 4">Set 4 Music Themed</option>
-      <option value="Set 5">Set 5 Pop Culture Themed</option>
-      <option value="Set 6">Set 6 Harder</option>
-      <option value="Set 7">Set 7 Harder</option>
-      <option value="Set 8">Set 8 Harder</option>
-      <option value="Set 9">Set 9 Harder</option>
-      <option value="Set 10">Set 10 Harder</option>
-    </select>
-
-    <div>
-      <button id="start-game" onclick="gtag('event', 'start_game');">
-        Start Playing RISK vs. REWARD
-      </button>
-      <button id="view-pitch" onclick="gtag('event', 'view_pitch_info');">
-        View the Pitch
-      </button>
-    </div>
-  </div>
+<div class="container"> <p class="tagline"> It's not just about knowing the answer—it's about knowing how much to trust yourself. </p> <p class="game-description"> RISK vs. REWARD is a high-stakes trivia game where every answer becomes a decision. After seeing a question and its four possible answers, you'll use the Risk/Reward Slider to decide how much confidence to place behind your choice. Every decision affects both your bankroll and your path to the $1,000,000 top prize. </p> <h2>How the Game Works</h2> <ol class="instructions"> <li>Select one of the Question Sets below.</li> <li>Click <strong>"Start Playing RISK vs. REWARD"</strong> to begin.</li> <li> Choose a Question Category. A question and four possible answers will appear. Read them carefully. </li> <li> Move the <strong>RISK vs. REWARD Slider</strong> to decide how much confidence to place behind your answer. <br><br> As the slider moves, you'll instantly see: <ul> <li>Your potential gain if correct</li> <li>Your potential loss if wrong</li> <li>Your highest possible finish</li> <li>Your lowest possible finish</li> </ul> </li> <li> Use the arrow keys for finer slider control. (Up/Right increases values. Down/Left decreases values.) </li> <li> Select your answer by clicking the circle next to your choice. </li> <li> Click <strong>"Lock in Answer"</strong> to reveal the results. </li> <li> You have 120 seconds to adjust the slider, choose an answer, and lock everything in before time expires. If time reaches zero, your current selections are automatically used. </li> <li> After seeing the results, choose either <strong>"Go to Next Question"</strong> or <strong>"Use the Do-Over"</strong>. The Do-Over is available during the first six questions. </li> <li> After Question 12, your final total is revealed. Did your strategy pay off—or did caution or overconfidence get in the way? <em>(Sorry, this is just for fun... no real prizes!)</em> </li> <li> Ready for another round? Click <strong>"Start New Game"</strong> to return here and play again. </li> </ol> <label for="question-set"> <strong>Select Question Set:</strong> </label> <select id="question-set"> <option value="Set 1">Set 1 - Easier</option> <option value="Set 2">Set 2 - Easier</option> <option value="Set 3">Set 3 - Easier</option> <option value="Set 4">Set 4 - Music Themed</option> <option value="Set 5">Set 5 - Pop Culture Themed</option> <option value="Set 6">Set 6 - Harder</option> <option value="Set 7">Set 7 - Harder</option> <option value="Set 8">Set 8 - Harder</option> <option value="Set 9">Set 9 - Harder</option> <option value="Set 10">Set 10 - Harder</option> </select> <div class="button-area"> <button id="start-game" onclick="gtag('event', 'start_game');"> Start Playing RISK vs. REWARD </button> <button id="view-pitch" onclick="gtag('event', 'view_pitch_info');"> View the Pitch </button> </div> </div>
 
   <script src="/js/gameInstructions.js"></script>
 
