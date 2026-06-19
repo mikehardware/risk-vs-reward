@@ -500,3 +500,5 @@ nav a, .dropbtn {
 .category-btn:hover {
   background-color: #d0d0d0;
 }
+
+.tagline { text-align: center; font-size: 1.4rem; font-weight: bold; margin: 25px 0 20px 0; } .game-description { width: 85%; margin: 0 auto 30px auto; text-align: center; line-height: 1.5; font-size: 1.1rem; } .instructions { line-height: 1.5; } .instructions li { margin-bottom: 12px; } .button-area { margin-top: 25px; } .button-area button { display: block; margin: 25px auto; }
