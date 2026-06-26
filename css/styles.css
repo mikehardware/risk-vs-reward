@@ -229,7 +229,7 @@ nav a:hover {
 
 
 #pitch-content {
-  margin-top: 140px; /* Increased from 100px to ensure enough space */
+  margin-top: 200px; /* Increased from 100px to ensure enough space */
   padding-top: 20px; /* Additional spacing for fine-tuning */
   max-width: 900px;
   margin-left: auto;
@@ -285,7 +285,7 @@ a {
 }
 
 html {
-  scroll-padding-top: 210px; /* Matches the header height */
+  scroll-padding-top: 190px; /* Matches the header height */
 }
 
 .container {
