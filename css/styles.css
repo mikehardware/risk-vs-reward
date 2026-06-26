@@ -285,7 +285,7 @@ a {
 }
 
 html {
-  scroll-padding-top: 180px; /* Matches the header height */
+  scroll-padding-top: 210px; /* Matches the header height */
 }
 
 .container {
